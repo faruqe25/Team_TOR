@@ -15,7 +15,7 @@ namespace RestaurantManagementSystem.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.D = "s f i";
+           
             return View();
         }
         
