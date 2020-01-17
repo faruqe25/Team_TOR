@@ -14,7 +14,7 @@ namespace RestaurantManagementSystem.Controllers
         
 
         public IActionResult Index()
-        {
+        { ///Test bal
            
             return View();
         }
