@@ -10,11 +10,8 @@ namespace RestaurantManagementSystem.Controllers
 
         public IActionResult Index()
         {
-<<<<<<< HEAD
-=======
-      
->>>>>>> bd34477c798fcb0279a9c39320b42c5ebf0822ae
-            return View();
+
+         return View();
         }
         
 
