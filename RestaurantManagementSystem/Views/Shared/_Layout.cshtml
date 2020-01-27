@@ -1,167 +1,173 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-
-
- <meta charset="utf-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@ViewData["Title"] - Resturant Management System</title>
-
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
     <environment include="Development">
-        
-         <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css" >
-        
-         <link rel="stylesheet" href="Assets/css/all.css" >
-         
-
- 
-
-  <link rel="stylesheet" href="~/Assets/css/style.css">
- 
-       
-
+        <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/Assets/css/all.css">
+        <link rel="stylesheet" href="~/Assets/css/style.css">
     </environment>
-  
-
-
-
-  
-
 </head>
 
 <body>
-  <div id="app">
+<div id="app">
     <div class="main-wrapper">
-      <div class="navbar-bg" style="height: 73px;"></div>
-      <nav class="navbar navbar-expand-lg main-navbar">
-        <form class="form-inline mr-auto">
-          <ul class="navbar-nav mr-3">
-            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
-            
-          </ul>
-        </form>
-        <ul class="navbar-nav navbar-right">
-          
-          <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="~/Assets/img/avatar-1.png" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div></a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <div class="dropdown-title">Logged in 5 min ago</div>
-              <a href="features-profile.html" class="dropdown-item has-icon">
-                <i class="far fa-user"></i> Profile
-              </a>
-              <a href="features-activities.html" class="dropdown-item has-icon">
-                <i class="fas fa-bolt"></i> Activities
-              </a>
-              <a href="features-settings.html" class="dropdown-item has-icon">
-                <i class="fas fa-cog"></i> Settings
-              </a>
-              <div class="dropdown-divider"></div>
-              <a href="#" class="dropdown-item has-icon text-danger">
-                <i class="fas fa-sign-out-alt"></i> Logout
-              </a>
-            </div>
-          </li>
-        </ul>
-      </nav>
-      <div class="main-sidebar">
-        <aside id="sidebar-wrapper">
-          <div class="sidebar-brand">
-            <a href="index.html">RMS Admin</a>
-          </div>
-          <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">RMS</a>
-          </div>
-          <ul class="sidebar-menu">
-              <li class="menu-header">Dashboard</li>
-              <li class="nav-item dropdown active">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-                <ul class="dropdown-menu">
-                  <li><a class="nav-link" href="index-0.html">General Dashboard</a></li>
-                  <li class="active"><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li>
+        <div class="navbar-bg" style="height: 73px;"></div>
+        <nav class="navbar navbar-expand-lg main-navbar">
+            <form class="form-inline mr-auto">
+                <ul class="navbar-nav mr-3">
+                    <li>
+                        <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg">
+                            <i class="fas fa-bars"></i>
+                        </a>
+                    </li>
+
                 </ul>
-              </li>
-              <li class="menu-header">Starter</li>
-              <li class="nav-item dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Layout</span></a>
-                <ul class="dropdown-menu">
-                  <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
-                  <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
-                  <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
-                </ul>
-              </li>
-              <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>
-              <li class="nav-item dropdown">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>
-                <ul class="dropdown-menu">
-                  <li><a class="nav-link" href="bootstrap-alert.html">Alert</a></li>
-                  <li><a class="nav-link" href="bootstrap-badge.html">Badge</a></li>
-                  <li><a class="nav-link" href="bootstrap-breadcrumb.html">Breadcrumb</a></li>
-                  <li><a class="nav-link" href="bootstrap-buttons.html">Buttons</a></li>
-                  <li><a class="nav-link" href="bootstrap-card.html">Card</a></li>
-                 
-                  <li><a class="nav-link" href="bootstrap-typography.html">Typography</a></li>
-                </ul>
-              </li>
-              
-             
+            </form>
+            <ul class="navbar-nav navbar-right">
+
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                        <img alt="image" src="~/Assets/img/avatar-1.png" class="rounded-circle mr-1">
+                        <div class="d-sm-none d-lg-inline-block">Hi,Avro</div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-title">Logged in 5 min ago</div>
+                        <a href="features-profile.html" class="dropdown-item has-icon">
+                            <i class="far fa-user"></i> Profile
+                        </a>
+                        <a href="features-activities.html" class="dropdown-item has-icon">
+                            <i class="fas fa-bolt"></i> Activities
+                        </a>
+                        <a href="features-settings.html" class="dropdown-item has-icon">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item has-icon text-danger">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </li>
             </ul>
+        </nav>
+        <div class="main-sidebar">
+            <aside id="sidebar-wrapper">
+                <div class="sidebar-brand">
+                    <a href="index.html">RMS Admin</a>
+                </div>
+                <div class="sidebar-brand sidebar-brand-sm">
+                    <a href="index.html">RMS</a>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="menu-header">Dashboard</li>
+                    <li class="nav-item dropdown active">
+                        <a href="#" class="nav-link has-dropdown">
+                            <i class="fas fa-fire"></i><span>Dashboard</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="nav-link" href="index-0.html">General Dashboard</a>
+                            </li>
+                            <li class="active">
+                                <a class="nav-link" href="index.html">Ecommerce Dashboard</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-header">Starter</li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+                            <i class="fas fa-columns"></i> <span>Layout</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="nav-link" href="layout-default.html">Default Layout</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="layout-top-navigation.html">Top Navigation</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="blank.html">
+                            <i class="far fa-square"></i> <span>Blank Page</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link has-dropdown">
+                            <i class="fas fa-th"></i> <span>Bootstrap</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="nav-link" href="bootstrap-alert.html">Alert</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="bootstrap-badge.html">Badge</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="bootstrap-breadcrumb.html">Breadcrumb</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="bootstrap-buttons.html">Buttons</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="bootstrap-card.html">Card</a>
+                            </li>
 
-            <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-              <a href="" class="btn btn-primary btn-lg btn-block btn-icon-split">
-                <i class="fas fa-rocket"></i> Documentation
-              </a>
-            </div>
-        </aside>
-      </div>
+                            <li>
+                                <a class="nav-link" href="bootstrap-typography.html">Typography</a>
+                            </li>
+                        </ul>
+                    </li>
 
-      <!-- Main Content -->
-      <div class="main-content">
-        <section class="section">
-         
-        
-   @RenderBody()
- 
-         
-        </section>
-      </div>
-      <footer class="main-footer">
-        <div class="footer-right">
-          Copyright &copy; 2020 <div class="bullet"></div> Developed By Team Dawn
+
+                </ul>
+
+                <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
+                    <a href="" class="btn btn-primary btn-lg btn-block btn-icon-split">
+                        <i class="fas fa-rocket"></i> Documentation
+                    </a>
+                </div>
+            </aside>
         </div>
-       
-      </footer>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <section class="section">
+
+
+                @RenderBody()
+
+
+            </section>
+        </div>
+        <footer class="main-footer">
+            <div class="footer-right">
+                Copyright &copy; 2020
+                <div class="bullet"></div> Developed By Team Dawn
+            </div>
+
+        </footer>
     </div>
-  </div>
+</div>
 
-  <!-- General JS Scripts -->
- 
-
-
-    <environment include="Development">
-    
-            <script src="~/Assets/AJAX/ajaxjQueryjquery1.11.3.min.js"></script>
-            <script src="~/Assets/AJAX/ajaxjqueryvalidate1.14.0jquery.validate.min.js"></script>
-            <script src="~/Assets/AJAX/jquery.validate.unobtrusive.min.js"></script>
-           
-       
- <script src="~/Assets/js/jQuery.min.js" ></script>
- 
-  <script src="~/Assets/js/bootstrap.min.js" ></script>
-  <script src="~/Assets/js/NiceScroll.min.js"></script>
- 
-  
-  <script src="~/Assets/js/scripts.js"></script>
-
- 
- 
-
-    </environment>
+<!-- General JS Scripts -->
 
 
-   @RenderSection("Scripts", required: false)
-
- 
+<environment include="Development">
+    <script src="~/Assets/AJAX/ajaxjQueryjquery1.11.3.min.js"></script>
+    <script src="~/Assets/AJAX/ajaxjqueryvalidate1.14.0jquery.validate.min.js"></script>
+    <script src="~/Assets/AJAX/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Assets/js/jQuery.min.js"></script>
+    <script src="~/Assets/js/bootstrap.min.js"></script>
+    <script src="~/Assets/js/NiceScroll.min.js"></script>
+    <script src="~/Assets/js/scripts.js"></script>
+</environment>
+@RenderSection("Scripts", required: false)
 </body>
 </html>
