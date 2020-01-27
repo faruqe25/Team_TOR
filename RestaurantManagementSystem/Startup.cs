@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RestaurantManagementSystem.Database;
 
 namespace RestaurantManagementSystem
 {
@@ -24,11 +26,17 @@ namespace RestaurantManagementSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            
+            services.AddDbContext<DatabaseContext>(Options => 
+            Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -46,11 +54,20 @@ namespace RestaurantManagementSystem
 
             app.UseAuthorization();
 
+           
             app.UseEndpoints(endpoints =>
             {
+               
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapAreaControllerRoute(
+                     name: "areas",
+                     areaName: "areas",
+                     pattern: "{area:exists}/{controller=Home}/"+
+                                "{action=Index}/{id?}"
+               );
+
             });
         }
     }
