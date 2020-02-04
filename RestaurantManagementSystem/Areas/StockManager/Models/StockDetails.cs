@@ -11,10 +11,9 @@ namespace RestaurantManagementSystem.Areas.StockManager.Models
         [Key]
         public int StockDetailsId { get; set; }
         public int Quantity { get; set; }
+
         public DateTime StockInDate { get; set; }
-        public DateTime StockOutDate { get; set; }
         public DateTime AvailableStock { get; set; }
-        public int ProvideableProductId { get; set; }  
-        public int EmployeeId { get; set; }
+        public int IngredientId { get; set; }
     }
 }
