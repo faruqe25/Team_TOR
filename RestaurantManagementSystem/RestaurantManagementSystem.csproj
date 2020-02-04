@@ -23,7 +23,6 @@
     <Folder Include="Areas\Customer\Views\" />
     <Folder Include="Areas\Manager\Controllers\" />
     <Folder Include="Areas\Manager\Data\" />
-    <Folder Include="Areas\Manager\Models\" />
     <Folder Include="Areas\Manager\Views\" />
     <Folder Include="Areas\Staff\Controllers\" />
     <Folder Include="Areas\Staff\Data\" />
@@ -33,7 +32,6 @@
     <Folder Include="Areas\StockManager\Views\" />
     <Folder Include="Areas\Supplier\Controllers\" />
     <Folder Include="Areas\Supplier\Data\" />
-    <Folder Include="Areas\Supplier\Models\" />
     <Folder Include="Areas\Supplier\Views\" />
   </ItemGroup>
 
