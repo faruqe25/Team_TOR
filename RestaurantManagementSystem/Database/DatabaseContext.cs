@@ -3,6 +3,7 @@ using RestaurantManagementSystem.Areas.Chef.Models;
 using RestaurantManagementSystem.Areas.Customer.Models;
 using RestaurantManagementSystem.Areas.Staff.Models;
 using RestaurantManagementSystem.Areas.StockManager.Models;
+using RestaurantManagementSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,16 @@ namespace RestaurantManagementSystem.Database
         public DatabaseContext(DbContextOptions<DatabaseContext>options):base(options)
         {
 
+
         }
-        public DbSet<Customers> customers { get; set; }
-        public DbSet<AttendanceRecord> attendanceRecords { get; set; } 
-        public DbSet<SMS> sms { get; set; }  
-        public DbSet<StockDetails> stockDetails { get; set; }   
-        public DbSet<Order> orders { get; set; }    
+
+       
+        public DbSet<Customers> Customers { get; set; }
+        public DbSet<AttendanceRecord> AttendanceRecords { get; set; } 
+        public DbSet<SMS> Smses { get; set; }  
+        public DbSet<StockDetails> StockDetails { get; set; }   
+        public DbSet<Order> Orders { get; set; }    
+       
+            
     }
 }
