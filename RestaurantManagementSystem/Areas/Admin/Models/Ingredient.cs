@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagementSystem.Areas.Admin.Models
 {
-    public class RequiredMaterial
+    public class Ingredient
     {
         [Key]
-        public int RequiredMaterialId { get; set; }
-        public string RequiredMaterialName { get; set; }
         public int IngredientId { get; set; }
-        public int FoodItemId { get; set; }
-        public int QuantityInGram { get; set; } 
+        public int IngredientName { get; set; }
 
     }
 }

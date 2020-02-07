@@ -8,11 +8,12 @@ namespace RestaurantManagementSystem.Areas.Admin.Models
 {
     public class Table
     {
-        [Key]
+       
+      [Key]
         public int TableId { get; set; }
         public string TableNumber { get; set; }
-        public int Capacity { get; set; }
-        public double BookingPrice { get; set; }
+        public int TableCapacity { get; set; }
+        public int BookingPrice { get; set; }
         public Boolean BookedStatus { get; set; }
     }
 }

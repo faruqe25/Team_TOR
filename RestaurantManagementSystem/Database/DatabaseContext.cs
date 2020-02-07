@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RestaurantManagementSystem.Areas.Chef.Models;
+using RestaurantManagementSystem.Areas.Admin.Models;
 using RestaurantManagementSystem.Areas.Customer.Models;
-using RestaurantManagementSystem.Areas.Staff.Models;
+using RestaurantManagementSystem.Areas.Manager.Models;
 using RestaurantManagementSystem.Areas.StockManager.Models;
 using System;
 using System.Collections.Generic;
@@ -16,10 +16,16 @@ namespace RestaurantManagementSystem.Database
         {
 
         }
-        public DbSet<Customers> customers { get; set; }
-        public DbSet<AttendanceRecord> attendanceRecords { get; set; } 
-        public DbSet<SMS> sms { get; set; }  
+        public DbSet<Customers> Customers { get; set; }
+        public DbSet<FoodItem> FoodItems { get; set; }
+        public DbSet<Ingredient> Ingredient { get; set; }
+        public DbSet<MealHour> MealHour { get; set; }
+        public DbSet<Offer> Offer { get; set; }         
+        public DbSet<RequiredMaterial> RequiredMaterial { get; set; }         
+        public DbSet<Table> Table { get; set; }         
         public DbSet<StockDetails> stockDetails { get; set; }   
-        public DbSet<Order> orders { get; set; }    
+        public DbSet<CustomerOrderDetails> CustomerOrderDetails { get; set; }   
+        public DbSet<CustomerOrderedTable> CustomerOrderedTable { get; set; }   
+            
     }
 }
