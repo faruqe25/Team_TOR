@@ -15,7 +15,7 @@
 <body>
 <div id="app">
     <div class="main-wrapper">
-        <div class="navbar-bg" style="height: 73px;"></div>
+        <div class="navbar-bg" style="height: 73px;background-color:#ff9f1a"></div>
         <nav class="navbar navbar-expand-lg main-navbar">
             <form class="form-inline mr-auto">
                 <ul class="navbar-nav mr-3">
@@ -24,11 +24,10 @@
                             <i class="fas fa-bars"></i>
                         </a>
                     </li>
-
                 </ul>
             </form>
+            
             <ul class="navbar-nav navbar-right">
-
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                         <img alt="image" src="~/Assets/img/avatar-1.png" class="rounded-circle mr-1">
@@ -56,10 +55,10 @@
         <div class="main-sidebar">
             <aside id="sidebar-wrapper">
                 <div class="sidebar-brand">
-                    <a href="index.html">RMS Admin</a>
+                    <a href="#">RMS Admin</a> 
                 </div>
                 <div class="sidebar-brand sidebar-brand-sm">
-                    <a href="index.html">RMS</a>
+                    <a href="#">RMS</a>
                 </div>
                 <ul class="sidebar-menu">
                     <li class="menu-header">Dashboard</li>
@@ -67,74 +66,87 @@
                         <a href="#" class="nav-link has-dropdown">
                             <i class="fas fa-fire"></i><span>Dashboard</span>
                         </a>
-                        @*<ul class="dropdown-menu">
-                <li>
-                    <a class="nav-link" href="index-0.html">General Dashboard</a>
-                </li>
-                <li class="active">
-                    <a class="nav-link" href="index.html">Ecommerce Dashboard</a>
-                </li>
-            </ul>*@
                     </li>
-                    <li class="menu-header">Starter</li>
+                    <li class="menu-header">Admin Activities</li>
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="fas fa-columns"></i> <span>Manage Employee</span>
+                        <a href="#" class="nav-link has-dropdown">
+                            <i class="fas fa-utensils"></i> <span>Manage Menu</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="nav-link" href="layout-default.html">Add New Employee</a>
+                                <a class="nav-link" href="#">Set Meal Hour</a>
                             </li>
                             <li>
-                                <a class="nav-link" href="layout-transparent.html">List of Employee</a>
+                                <a class="nav-link" href="#">Meal Hour Info</a>
                             </li>
-
+                            <li>
+                                <a class="nav-link" href="#">Add Food Item</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="#">Food Item List</a>
+                            </li>
                         </ul>
                     </li>
+                   
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                             <i class="fas fa-columns"></i> <span>Manage Food</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
+
                                 <a class="nav-link" href="layout-default.html">Add New Food</a>
                             </li>
                             <li>
                                 <a class="nav-link" href="layout-transparent.html">List of Food</a>
+
+                                <a class="nav-link" href="#">Add Food Ingrediant</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="#">Food Ingrediant List</a>
+
                             </li>
 
                         </ul>
                     </li>
-                    <li>
-                        <a class="nav-link" href="blank.html">
-                            <i class="far fa-square"></i> <span>Manage Table</span>
-                        </a>
-                    </li>
 
-                    @*Erin Working Branch Start*@
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link has-dropdown">
-                            <i class="fas fa-th"></i> <span>Manage Supplier</span>
+                            <i class="fas fa-th"></i> <span>Sales Records</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="nav-link" href="bootstrap-alert.html">Add New Supplier</a>
+                                <a class="nav-link" href="#">Monitor Sales</a>
                             </li>
                             <li>
-                                <a class="nav-link" href="bootstrap-badge.html">Supplier List</a>
+                                <a class="nav-link" href="#">Total Sales</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link has-dropdown">
+                            <i class="fas fa-th"></i> <span>Manager Offers</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="nav-link" href="#">Add New Offer</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="#">Offer List</a>
+
                             </li>
                            
                         </ul>
                     </li>
-                    @*Erin Working Branch End*@
-
 
 
                 </ul>
 
                 <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
                     <a href="" class="btn btn-primary btn-lg btn-block btn-icon-split">
-                        <i class="fas fa-rocket"></i> Documentation
+
+                        <i class="fas fa-calendar" aria-hidden="true"></i> Date : @DateTime.Now.ToShortDateString()
+
                     </a>
                 </div>
             </aside>
