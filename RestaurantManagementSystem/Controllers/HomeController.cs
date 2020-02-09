@@ -1,12 +1,17 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantManagementSystem.Database;
 using RestaurantManagementSystem.Models;
 
 namespace RestaurantManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-         
+        public readonly DatabaseContext _context;
+        public HomeController(DatabaseContext context)
+        {
+            _context = context;
+        }
 
         public IActionResult Index()
         {

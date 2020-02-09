@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,6 +20,7 @@ namespace RestaurantManagementSystem
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -27,6 +30,7 @@ namespace RestaurantManagementSystem
         {
             services.AddControllersWithViews();
             
+            
             services.AddDbContext<DatabaseContext>(Options => 
             Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -35,8 +39,18 @@ namespace RestaurantManagementSystem
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        {  // The code is used to generate the database on startup
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.
+                    GetRequiredService<DatabaseContext>();
+                context.Database.EnsureCreated();
+                
+            }
+            ////Ending of code
             
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
