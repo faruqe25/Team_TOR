@@ -10,6 +10,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Models
     {
         [Key]
         public int MealHourId { get; set; }
+        public int MealHourTitle { get; set; }
         public int Title { get; set; } 
     }
 }
