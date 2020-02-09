@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 namespace RestaurantManagementSystem.Areas.Admin.Models
 {
     public class Table
-    {   [Key]
+    {
+       
+      [Key]
         public int TableId { get; set; }
         public string TableNumber { get; set; }
         public int TableCapacity { get; set; }
