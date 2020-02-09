@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestaurantManagementSystem.Areas.StockManager.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,9 +9,14 @@ namespace RestaurantManagementSystem.Areas.Admin.Models
 {
     public class Ingredient
     {
+        public Ingredient()
+        {
+            StockDetails = new HashSet<StockDetails>();
+        }
         [Key]
         public int IngredientId { get; set; }
         public int IngredientName { get; set; }
+        public virtual ICollection<StockDetails> StockDetails { get; set; }
 
     }
 }
