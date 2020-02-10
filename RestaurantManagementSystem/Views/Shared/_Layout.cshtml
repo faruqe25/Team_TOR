@@ -26,7 +26,6 @@
                     </li>
                 </ul>
             </form>
-            
             <ul class="navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
@@ -74,20 +73,23 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="nav-link" asp-area="Admin" asp-controller="Home"asp-action="SetMealHour">Set Meal Hour</a>
+                                <a class="nav-link" asp-area="Admin" asp-controller="Home"
+                                   asp-action="SetMealHour">Set Meal Hour</a>
                             </li>
                             <li>
-                                <a class="nav-link" href="#">Meal Hour Info</a>
+                                <a class="nav-link" asp-area="Admin" asp-controller="Home"
+                                   asp-action="MealHourInfo">Meal Hour Info</a>
                             </li>
                             <li>
-                                <a class="nav-link" href="#">Add Food Item</a>
+                                <a class="nav-link" asp-area="Admin" asp-controller="Home"
+                                   asp-action="AddFoodItem">Add Food Item</a>
                             </li>
                             <li>
-                                <a class="nav-link" href="#">Food Item List</a>
+                                <a class="nav-link" asp-area="Admin" asp-controller="Home"
+                                   asp-action="FoodItemList">Food Item List</a>
                             </li>
                         </ul>
                     </li>
-                   
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                             <i class="fas fa-columns"></i> <span>Manage Food</span>
@@ -109,7 +111,6 @@
 
                         </ul>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link has-dropdown">
                             <i class="fas fa-th"></i> <span>Sales Records</span>
@@ -133,20 +134,13 @@
                             </li>
                             <li>
                                 <a class="nav-link" href="#">Offer List</a>
-
                             </li>
-                           
                         </ul>
                     </li>
-
-
                 </ul>
-
                 <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
                     <a href="" class="btn btn-primary btn-lg btn-block btn-icon-split">
-
                         <i class="fas fa-calendar" aria-hidden="true"></i> Date : @DateTime.Now.ToShortDateString()
-
                     </a>
                 </div>
             </aside>

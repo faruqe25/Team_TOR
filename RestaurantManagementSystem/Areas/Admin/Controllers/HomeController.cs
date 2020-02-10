@@ -14,5 +14,31 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         {
             return View();
         }
+        public IActionResult SetMealHour()
+        {
+            return View();
+        }
+        //[HttpPost]
+        //public IActionResult SetMealHour()
+        //{
+        //    return View();
+        //}
+        public IActionResult MealHourInfo()
+        {
+            return View();
+        }
+        public IActionResult AddFoodItem()
+        {
+            return View();
+        }
+        //[HttpPost]
+        //public IActionResult AddFoodItem()
+        //{
+        //    return View();
+        //}
+        public IActionResult FoodItemList()
+        {
+            return View();
+        }
     }
 }
