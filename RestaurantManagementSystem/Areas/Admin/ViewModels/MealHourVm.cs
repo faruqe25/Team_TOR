@@ -4,12 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RestaurantManagementSystem.Areas.Admin.Models
+namespace RestaurantManagementSystem.Areas.Admin.ViewModels
 {
-    public class MealHour
+    public class MealHourVm 
     {
-        [Key]
+        public int Serial { get; set; } 
         public int MealHourId { get; set; }
+        [Required]
         public string MealHourTitle { get; set; }
         
     }
