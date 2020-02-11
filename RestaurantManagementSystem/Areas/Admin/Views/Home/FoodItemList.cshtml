@@ -1,4 +1,4 @@
-﻿
+﻿@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.FoodItemVm>
 @{
     ViewData["Title"] = "FoodItemList";
 }
@@ -18,11 +18,13 @@
     }
 </style>
 <div class="row mt-5">
-    <div class="col-12 col-sm-12 col-md-12 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2" id="cols">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1" id="cols">
         <h1>Food Item List</h1>
         <table class="table">
             <thead>
                 <tr>
+                    <th>Serial</th>
+                    <th>Meal Hour</th>
                     <th>Food Item</th>
                     <th>Price (BDT)</th>
                     <th>Description</th>
@@ -30,15 +32,27 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Abc</td>
-                    <td>100</td>
-                    <td>cbdshhb bcdwjh</td>
-                    <td>
-                        <i class="fas fa-pencil-alt" style="color:forestgreen"></i>&nbsp;&nbsp;&nbsp;
-                        <i class="fas fa-trash" style="color:red"></i>
-                    </td>
-                </tr>
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>@item.Serial</td>
+                        <td>@item.MealHourName</td>
+                        <td>@item.FoodName</td>
+                        <td>@item.Price</td>
+                        <td>@item.Description</td>
+                        <td>
+                            <a asp-action="UpdateFoodItem" asp-controller="Home" asp-area="Admin"
+                               asp-route-id="@item.FoodItemId">
+                                <i class="fas fa-pencil-alt"
+                                   style="color:forestgreen"></i>
+                            </a> &nbsp;&nbsp;&nbsp;
+                            <a asp-action="DeleteFoodItem" asp-controller="Home"
+                               asp-area="Admin" asp-route-id="@item.FoodItemId"><i class="fas fa-trash" style="color:red"></i></a>
+
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

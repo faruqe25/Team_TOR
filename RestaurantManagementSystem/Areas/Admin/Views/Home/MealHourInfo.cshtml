@@ -1,4 +1,4 @@
-﻿
+﻿@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.MealHourVm>
 @{
     ViewData["Title"] = "MealHourInfo";
 }
@@ -17,23 +17,32 @@
     }
 </style>
 <div class="row mt-5">
-    <div class="col-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 col-xl-6 offset-xl-3"id="cols">
+    <div class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-10 col-xl-10 offset-xl-1"id="cols">
     <h1>Meal Hour Info</h1>
     <table class="table">
         <thead>
             <tr>
+                <th>Serial</th>
                 <th>Meal Hour Title</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Breakfast</td>
-                <td>
-                    <i class="fas fa-pencil-alt" style="color:forestgreen"></i>&nbsp;&nbsp;&nbsp;
-                    <i class="fas fa-trash" style="color:red"></i>
-                </td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Serial</td>
+                    <td>@item.MealHourTitle</td>
+                    <td>
+                       <a asp-action="UpdateMealHour" asp-controller="Home" asp-area="Admin" 
+                          asp-route-id="@item.MealHourId"><i class="fas fa-pencil-alt"
+                                                             style="color:forestgreen"></i></a> &nbsp;&nbsp;&nbsp;
+                       <a asp-action="DeleteMealHour" asp-controller="Home" asp-area="Admin" asp-route-id="@item.MealHourId"><i class="fas fa-trash" style="color:red"></i></a>
+                        
+                    </td>
+                </tr>
+            }
+
         </tbody>
     </table>
 </div>
