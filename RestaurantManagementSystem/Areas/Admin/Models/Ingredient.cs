@@ -15,7 +15,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Models
         }
         [Key]
         public int IngredientId { get; set; }
-        public int IngredientName { get; set; }
+        public string IngredientName { get; set; }
         public virtual ICollection<StockDetails> StockDetails { get; set; }
 
     }

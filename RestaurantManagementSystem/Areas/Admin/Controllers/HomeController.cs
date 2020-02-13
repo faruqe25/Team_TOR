@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using RestaurantManagementSystem.Areas.Admin.Models;
 using RestaurantManagementSystem.Areas.Admin.ViewModels;
 using RestaurantManagementSystem.Database;
+using X.PagedList;
 
 namespace RestaurantManagementSystem.Areas.Admin.Controllers
 {
@@ -182,5 +183,79 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             _context.SaveChanges();
             return RedirectToAction("FoodItemList");
         }
+        public IActionResult AddIngredient() { 
+                
+            
+        return View(); 
+        }
+        [HttpPost]
+        public IActionResult AddIngredient(IngredientVm a)
+        {
+            Ingredient s = new Ingredient() {
+            IngredientId=a.IngredientId,
+            IngredientName=a.IngredientName,
+            };
+            _context.Ingredient.Add(s);
+            _context.SaveChanges();
+            ModelState.Clear();
+            return View();
+        }
+        public IActionResult IngredientList(int Page=1)
+        {
+            var li = _context.Ingredient.AsNoTracking().ToList();
+            var se = new List<IngredientVm>();
+            int c = 1;
+            foreach (var item in li)
+            {
+                IngredientVm s = new IngredientVm()
+                {
+                    IngredientId = item.IngredientId,
+                    IngredientName = item.IngredientName,
+                    Serial=c,
+                };
+                se.Add(s);
+                c++;
+            }
+            var list = se.ToPagedList(Page, 4);
+            return View(list);
+        }
+      
+        public IActionResult UpdateIngredient(int id )
+        {
+            var a = _context.Ingredient.AsNoTracking()
+                .Where(k => k.IngredientId == id).FirstOrDefault();
+            IngredientVm s = new IngredientVm()
+            {
+                IngredientId = a.IngredientId,
+                IngredientName = a.IngredientName,
+            };
+            
+            return View(s);
+        }
+        [HttpPost]
+        public IActionResult UpdateIngredient(IngredientVm st)
+        {
+            
+            Ingredient s = new Ingredient()
+            {
+                IngredientId = st.IngredientId,
+                IngredientName = st.IngredientName,
+            };
+            _context.Ingredient.Update(s);
+            _context.SaveChanges();
+            return RedirectToAction("IngredientList");
+        }
+        public IActionResult DeleteIngredient(int id)
+        {
+            var a = _context.Ingredient.AsNoTracking()
+                .Where(k => k.IngredientId == id).FirstOrDefault();
+            _context.Ingredient.Remove(a);
+            _context.SaveChanges();
+
+            return RedirectToAction("IngredientList");
+        }
+      
+
+
     }
 }
