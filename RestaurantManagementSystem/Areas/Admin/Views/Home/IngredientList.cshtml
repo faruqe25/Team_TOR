@@ -1,16 +1,9 @@
 ﻿@model X.PagedList.IPagedList<RestaurantManagementSystem.Areas.Admin.ViewModels.IngredientVm>
 @using X.PagedList.Mvc.Core
 @using X.PagedList
-
-
-
 @{
     ViewData["Title"] = "IngredientList";
 }
-
-
-
-
 <style>
     #cols {
         background-color: ghostwhite;
@@ -29,7 +22,7 @@
 </style>
 <div class="row mt-5">
     <div class="col-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1" id="cols">
-        <h1>Ingredient Item List</h1>
+        <h1>Ingredient List</h1>
         <table class="table">
             <thead>
                 <tr>
@@ -41,7 +34,6 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-
                     <tr>
                         <td>@item.Serial</td>
                         <td>@item.IngredientName</td>
@@ -52,8 +44,8 @@
                                    style="color:forestgreen"></i>
                             </a> &nbsp;&nbsp;&nbsp;
                             <a asp-action="DeleteIngredient" asp-controller="Home"
-                               asp-area="Admin" asp-route-id="@item.IngredientId"><i class="fas fa-trash" style="color:red"></i></a>
-
+                               asp-area="Admin" asp-route-id="@item.IngredientId">
+                            <i class="fas fa-trash" style="color:red"></i></a>
                         </td>
                     </tr>
                 }
