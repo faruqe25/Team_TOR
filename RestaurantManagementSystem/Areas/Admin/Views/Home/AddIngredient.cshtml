@@ -25,11 +25,11 @@
 </style>
 <form class="row mt-5" asp-area="Admin" asp-controller="Home"
       asp-action="AddIngredient" method="post">
-    <div class="col-7 col-sm-6 offset-sm-3 col-md-8 offset-md-2 col-lg-8 col-xl-8 offset-2" id="formdiv">
-        <h1>Add Ingredient Name</h1>
+    <div class="col-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 col-xl-8 offset-xl-2" id="formdiv">
+        <h1>Add Raw Ingredient</h1>
         <div class="form-group">
             <label>Enter Ingredient Name </label>
-            <input class="form-control" placeholder="Ingredient Hour" asp-for="IngredientName" />
+            <input class="form-control" placeholder="Ingredient" asp-for="IngredientName" />
             <span asp-validation-for="IngredientName" class="text-danger"></span>
         </div>
 

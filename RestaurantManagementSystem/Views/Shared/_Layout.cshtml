@@ -97,15 +97,19 @@
                         <ul class="dropdown-menu">
                             <li>
 
-                                <a class="nav-link" asp-controller="Home" asp-area="Admin" asp-action="AddIngredient">Add New Ingredient</a>
+                                <a class="nav-link" asp-controller="Home" asp-area="Admin" 
+                                   asp-action="AddIngredient">Add Raw Ingredient</a>
                             </li>
                             <li>
-                                <a class="nav-link" asp-controller="Home" asp-area="Admin" asp-action="IngredientList">List of Ingredient</a>
+                                <a class="nav-link" asp-controller="Home" asp-area="Admin" 
+                                   asp-action="IngredientList">List of Raw Ingredient</a>
 
-                                <a class="nav-link" href="#">Add Food Ingrediant</a>
+                                <a class="nav-link" asp-area="Admin"asp-controller="Home"
+                                   asp-action="SetFoodRecipe">Set Food Recipe</a>
                             </li>
                             <li>
-                                <a class="nav-link" href="#">Food Ingrediant List</a>
+                                <a class="nav-link"asp-area="Admin"asp-controller="Home"
+                                   asp-action="FoodRecipeDetails">Food Recipe Details</a>
 
                             </li>
 

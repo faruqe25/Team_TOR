@@ -254,7 +254,10 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
 
             return RedirectToAction("IngredientList");
         }
-      
+      public IActionResult FoodRecipeDetails()
+        {
+            return View();
+        }
 
 
     }
