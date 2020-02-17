@@ -254,9 +254,91 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
 
             return RedirectToAction("IngredientList");
         }
-      public IActionResult FoodRecipeDetails()
+
+        public JsonResult GetIngredients() 
         {
+            var ingre = _context.Ingredient.AsNoTracking().ToList();
+            var slist = new SelectList(ingre, "IngredientId", "IngredientName");
+
+            return Json(slist);
+        }
+
+        public IActionResult SetFoodRecipe() 
+        {
+            var raw = _context.FoodItems.AsNoTracking().ToList();
+            ViewBag.RawItem = new SelectList(raw, "FoodItemId", "FoodName");
             return View();
+        }
+        [HttpPost]
+        public IActionResult SetFoodRecipe(RequiredMaterialVm Rl)
+        {
+            var raw = _context.FoodItems.AsNoTracking().ToList();
+            ViewBag.RawItem = new SelectList(raw, "FoodItemId", "FoodName");
+
+            RequiredMaterial a = new RequiredMaterial();
+            foreach (var item in Rl.MaterialVms)
+            {
+                a.RequiredMaterialId = 0;
+                a.FoodItemId = Rl.FoodItemId;
+                a.IngredientId = item.IngredientId;
+                a.QuantityInGram = item.QuantityInGram;
+                _context.RequiredMaterial.Add(a);
+                _context.SaveChanges();
+            }
+           
+            ModelState.Clear();
+            return View();
+        }
+        public IActionResult FoodRecipeDetails()
+        {
+            var res =from ls in _context.RequiredMaterial
+                .AsNoTracking().Include(s => s.FoodItem).
+                Include(s=>s.Ingredient)
+                group ls by ls.FoodItemId into p
+                     let temp = (
+                            from val in p
+                            select new
+                            {
+                                Price=val.FoodItem.Price,
+                                FoodItemId=val.FoodItem.FoodItemId,
+                                FoodName=val.FoodItem.FoodName,
+                                IngredientName=val.Ingredient.IngredientName,
+                                Quantity=val.QuantityInGram,
+                                IngredientId=val.IngredientId,
+                                RequiredMaterialId=val.RequiredMaterialId
+
+                            }
+                            )
+                     select temp;
+
+            var sent = new List<RequiredMaterialVm>();
+            
+            List<MaterialVm> prt = new List<MaterialVm>();
+            int c = 1;
+            foreach (var item in res)
+            {
+                var ass = new RequiredMaterialVm();
+                foreach (var it in item)
+                {
+                    
+                    ass.Price = it.Price;
+                    ass.FoodItemId = it.FoodItemId;
+                    ass.FoodItemNames = it.FoodName;
+                    MaterialVm t = new MaterialVm() {
+                    QuantityInGram=it.Quantity,
+                    IngredientName=it.IngredientName
+                    };
+                    ass.MaterialVms.Add(t);
+                    ass.Serial = c;
+                }
+                sent.Add(ass);
+                c++;
+                
+
+            }
+            
+
+            return View(sent);
         }
 
 

@@ -1,4 +1,4 @@
-﻿
+﻿@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.RequiredMaterialVm>
 @{
     ViewData["Title"] = "FoodRecipeDetails";
 }
@@ -29,40 +29,51 @@
                     <th>Ingredients</th>
                     <th>Quantity (gm)</th>
                     <th>Price (BDT)</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Pizza</td>
-                    <td>
-                        <table class="d-flex justify-content-center">
-                            <tr>
-                                <td>Tomato</td>
-                            </tr>
-                            <tr>
-                                <td>Potato</td>
-                            </tr>
-                            <tr>
-                                <td>Flour</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td>
-                        <table class="d-flex justify-content-center">
-                            <tr>
-                                <td>200</td>
-                            </tr>
-                            <tr>
-                                <td>200</td>
-                            </tr>
-                            <tr>
-                                <td>500</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td>1000</td>
-                </tr>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+
+                    <tr>
+                        <td>@Model[i].Serial</td>
+                        <td>@Model[i].FoodItemNames</td>
+                        <td>
+                            <table class="d-flex justify-content-center">
+
+                                @foreach (var p in Model[i].MaterialVms)
+                                {
+                                    <tr>
+                                        <td>@p.IngredientName</td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                        <td>
+                            <table class="d-flex justify-content-center">
+                                @foreach (var p in Model[i].MaterialVms)
+                                {
+                                    <tr>
+                                        <td>@p.QuantityInGram</td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                        <td>@Model[i].Price</td>
+                        <td>
+                            <a asp-action="UpdateFoodItem" asp-controller="Home" asp-area="Admin"
+                               asp-route-id="@Model[i].FoodItemId">
+                                <i class="fas fa-pencil-alt"
+                                   style="color:forestgreen"></i>
+                            </a> &nbsp;&nbsp;&nbsp;
+                            <a asp-action="DeleteFoodItem" asp-controller="Home"
+                               asp-area="Admin" asp-route-id="@Model[i].FoodItemId"><i class="fas fa-trash" style="color:red"></i></a>
+
+                        </td>
+                    </tr>
+                }
+
                 <tr>
                     <td>2</td>
                     <td>Burger</td>
@@ -98,26 +109,5 @@
         </table>
     </div>
    
-    @*<div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4"id="holder">
-        <div id="front">
-            <i class="fas fa-red-river"style="color:blue;font-size:30px;"></i>
-            <span>Burger</span>
-        </div>
-        <div id="back">
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <th>Ingredient</th>
-                        <th>Quantity (gm)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Tomato</td>
-                        <td>25</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>*@
+
 </div>
