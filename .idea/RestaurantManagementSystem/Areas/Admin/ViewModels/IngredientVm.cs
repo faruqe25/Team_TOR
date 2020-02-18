@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace RestaurantManagementSystem.Areas.Admin.ViewModels
 {
-    public class MaterialVm
+    public class IngredientVm
     {
-        [Required]
-        public int QuantityInGram { get; set; }
-        [Required]
+        public int Serial { get; set; } 
         public int IngredientId { get; set; }
+        [Required]
         public string IngredientName { get; set; }
     }
 }
