@@ -29,35 +29,35 @@
                 <thead>
                     <tr>
 
-                        <th class="col-sm-3">
+                        <th>
                             Food Item
                         </th>
-                        <th class="col-sm-3">Ingredients</th>
-                        <th class="col-sm-3">Quantity (gm)</th>
-                        <th class="col-sm-3">Action</th>
+                        <th>Ingredients</th>
+                        <th>Quantity (gm)</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     <tr>
-                        <td class="col-sm-3">
+                        <td>
                             <select asp-items="@ViewBag.RawItem" asp-for="FoodItemId" class="form-control">
                                 <option hidden disabled selected>  Food Item Name </option>"
                             </select>
                             <span asp-validation-for="FoodItemId" class="text-danger"></span>
                         </td>
-                        <td class="col-sm-3">
+                        <td>
                             <select id="MaterialsItem0" asp-for="MaterialVms[0].IngredientId" class="form-control"></select>
                             <span asp-validation-for="MaterialVms[0].IngredientId" class="text-danger"></span>
 
                         </td>
 
-                        <td class="col-sm-3">
-                            <input asp-for="MaterialVms[0].QuantityInGram" class="form-control" />
+                        <td>
+                            <input asp-for="MaterialVms[0].QuantityInGram" class="form-control"placeholder="Quantity(Gm)" />
                             <span asp-validation-for="MaterialVms[0].QuantityInGram" class="text-danger"></span>
                         </td>
 
-                        <td class="col-sm-3"><input type="button" class="btn  btn-success " id="addrow" value="Add Raw Item" /></td>
+                        <td><input type="button" class="btn  btn-success " id="addrow" value="Add Raw Item" /></td>
                     </tr>
                 </tbody>
                 <tfoot>

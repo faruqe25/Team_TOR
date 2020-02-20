@@ -1,0 +1,43 @@
+﻿@model RestaurantManagementSystem.Areas.StockManager.ViewModels.StockDetailsVm
+@{
+    ViewData["Title"] = "AddStock";
+}
+<style>
+    #formdiv {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+        padding: 4%;
+    }
+
+        #formdiv h1 {
+            text-align: center;
+            padding: 4%;
+        }
+
+        #formdiv button {
+            float: right;
+        }
+
+        #formdiv textarea {
+            height: 15vh;
+        }
+</style>
+<form class="row mt-5" asp-area="StockManager" asp-controller="Home"
+      asp-action="AddStock" method="post">
+    <div class="col-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 col-xl-8" id="formdiv">
+        <h1>Insert New Stock</h1>
+        <div class="form-group">
+            <label>Select Raw Ingredient</label>
+            <select asp-for="IngredientId"asp-items="@(new SelectList(ViewBag.IngredientList,"IngredientId","IngredientName"))"
+                    class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <label>Enter Quantity</label>
+            <input class="form-control" placeholder="Quantity" asp-for="Quantity" />
+        </div>
+        <button class="btn btn-dark">Add</button>
+    </div>
+</form>
+
+
