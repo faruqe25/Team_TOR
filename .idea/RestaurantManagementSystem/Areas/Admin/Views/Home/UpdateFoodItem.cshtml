@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewData["Title"] = "UpdateFoodItem";
+}
+
+<h1>UpdateFoodItem</h1>
+
+@model RestaurantManagementSystem.Areas.Admin.ViewModels.FoodItemVm
+
+<style>
+
+    #formdiv {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+        padding: 4%;
+    }
+
+        #formdiv h1 {
+            text-align: center;
+            padding: 4%;
+        }
+
+        #formdiv button {
+            float: right;
+        }
+
+        #formdiv textarea {
+            height: 15vh;
+        }
+</style>
+<form class="row mt-5" asp-area="Admin" asp-controller="Home"
+      asp-action="UpdatefoodItem" method="post">
+    <div class="col-12 col-sm-8 offset-sm-2 col-md-8 offset-md-2 col-lg-8 col-xl-8" id="formdiv">
+        <h1>Update Food Item</h1>
+        <div class="form-group">
+            <label>Enter Food Name</label>
+            <input class="form-control" placeholder="Food Item" asp-for="FoodName" />
+            <input type="hidden" asp-for="FoodItemId" />
+            <span asp-validation-for="FoodName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Set Price</label>
+            <input class="form-control" placeholder="Price" asp-for="Price" />
+        </div>
+        <div class="form-group">
+            <label>Enter Food Description</label>
+            <textarea class="form-control" rows="5" asp-for="Description" placeholder="Write about food here..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Select Meal Hour</label>
+            <select asp-items="@ViewBag.MealHour" class="form-control" asp-for="MealHourId"></select>
+        </div>
+        <button class="btn btn-dark">Update</button>
+    </div>
+</form>
+
+

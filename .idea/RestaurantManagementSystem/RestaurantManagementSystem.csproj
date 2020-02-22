@@ -28,7 +28,9 @@
     <Folder Include="Areas\Manager\Controllers\" />
     <Folder Include="Areas\Manager\Data\" />
     <Folder Include="Areas\Manager\Views\" />
+    <Folder Include="Areas\StockManager\Controllers\" />
     <Folder Include="Areas\StockManager\Data\" />
+    <Folder Include="Areas\StockManager\Views\" />
   </ItemGroup>
 
 
