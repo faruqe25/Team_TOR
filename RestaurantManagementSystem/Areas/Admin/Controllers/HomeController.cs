@@ -460,7 +460,82 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         //}
 
 
-
+        public IActionResult AddNewOffer()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddNewOffer(OfferVm offervm)
+        {
+            Offer offer = new Offer()
+            {
+                Coupon=offervm.Coupon,
+                Discount=offervm.Discount,
+                ValidatyStart=offervm.ValidatyStart,
+                ValidatyTo=offervm.ValidatyTo
+            };
+            _context.Offer.Add(offer);
+            _context.SaveChanges();
+            ModelState.Clear();
+            return View();
+        }
+        public IActionResult OfferDetails()
+        {
+            var offerdetails = _context.Offer.AsNoTracking().ToList();
+            var offerdetailslist = new List<OfferVm>();
+            int count = 1;
+            foreach (var item in offerdetails)
+            {
+                OfferVm offervm = new OfferVm()
+                {
+                    Serial = count,
+                    OfferId=item.OfferId,
+                    Coupon=item.Coupon,
+                    Discount=item.Discount,
+                    ValidatyStart_=item.ValidatyStart.ToShortDateString(),
+                    ValidatyTo_=item.ValidatyTo.ToShortDateString()
+                };
+                offerdetailslist.Add(offervm);
+                count++;
+            }
+            return View(offerdetailslist);
+        }
+        public IActionResult UpdateFoodOffer(int id)
+        {
+            var offer = _context.Offer.AsNoTracking().Where(q => q.OfferId == id).FirstOrDefault();
+            OfferVm offervm = new OfferVm()
+            {
+                OfferId=offer.OfferId,
+                Coupon=offer.Coupon,
+                Discount=offer.Discount,
+                ValidatyStart=offer.ValidatyStart,
+                ValidatyTo=offer.ValidatyTo
+            };
+            return View(offervm);
+        }
+        [HttpPost]
+        public IActionResult UpdateFoodOffer(OfferVm offervm)
+        {
+            Offer offer = new Offer()
+            {
+                OfferId=offervm.OfferId,
+                Coupon=offervm.Coupon,
+                Discount = offervm.Discount,
+                ValidatyStart = offervm.ValidatyStart,
+                ValidatyTo = offervm.ValidatyTo
+            };
+            _context.Offer.Update(offer);
+            _context.SaveChanges();
+            ModelState.Clear();
+            return RedirectToAction("OfferDetails");
+        }
+        public IActionResult DeleteFoodOffer(int id)
+        {
+            var offer = _context.Offer.AsNoTracking().Where(q => q.OfferId == id).FirstOrDefault();
+            _context.Offer.Remove(offer);
+            _context.SaveChanges();
+            return RedirectToAction("OfferDetails");
+        }
     }
 }
         
