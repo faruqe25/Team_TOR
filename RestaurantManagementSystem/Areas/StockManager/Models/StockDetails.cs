@@ -14,7 +14,7 @@ namespace RestaurantManagementSystem.Areas.StockManager.Models
         public int Quantity { get; set; }
 
         public DateTime StockInDate { get; set; }
-        public DateTime AvailableStock { get; set; }
+        public Double AvailableStock { get; set; }
         public int IngredientId { get; set; }
         public Ingredient Ingredient { get; set; } 
     }

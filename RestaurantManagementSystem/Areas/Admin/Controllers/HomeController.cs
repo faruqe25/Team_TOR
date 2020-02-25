@@ -196,6 +196,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddIngredient(IngredientVm a)
         {
+            var valid = _context.Ingredient.AsNoTracking().
+                Where(t => t.IngredientName == a.IngredientName).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added "+a.IngredientName;
+                return View();
+            }
             Ingredient s = new Ingredient()
             {
                 IngredientId = a.IngredientId,
@@ -204,6 +211,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             _context.Ingredient.Add(s);
             _context.SaveChanges();
             ModelState.Clear();
+            ViewBag.Success = "You have succesfully added " + a.IngredientName;
             return View();
         }
         public IActionResult IngredientList(int Page = 1)
@@ -222,7 +230,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 se.Add(s);
                 c++;
             }
-            var list = se.ToPagedList(Page, 4);
+            var list = se.ToPagedList(Page, 5);
             return View(list);
         }
 
