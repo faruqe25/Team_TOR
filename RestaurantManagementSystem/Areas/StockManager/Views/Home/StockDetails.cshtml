@@ -1,8 +1,11 @@
-﻿@model List<RestaurantManagementSystem.Areas.StockManager.ViewModels.StockDetailsVm>
+﻿@model X.PagedList.IPagedList<RestaurantManagementSystem.Areas.StockManager.ViewModels.StockDetailsVm>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
 @{
     ViewData["Title"] = "StockDetails";
 }
 <style>
+
     #cols {
         background-color: ghostwhite;
         border-radius: 8px;
@@ -21,41 +24,48 @@
 <div class="row mt-5">
     <div class="col-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1" id="cols">
         <h1>Stock Details</h1>
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th>Serial</th>
-                    <th>Ingredient</th>
-                    <th>Quantity</th>
-                    <th>Stock-in Date</th>
-                    <th>Available</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead>
                     <tr>
-                        <td>@item.Serial</td>
-                        <td>@item.Ingredient</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.StockInDate</td>
-                        <td>@item.AvailableStock</td>
-                        <td>
-                            <a asp-action="UpdateStock" asp-controller="Home" asp-area="StockManager"
-                               asp-route-id="@item.StockDetailsId">
-                                <i class="fas fa-pencil-alt"
-                                   style="color:forestgreen"></i>
-                            </a> &nbsp;&nbsp;&nbsp;
-                            <a asp-action="DeleteStock" asp-controller="Home"
-                               asp-area="StockManager" asp-route-id="@item.StockDetailsId">
-                                <i class="fas fa-trash" style="color:red"></i>
-                            </a>
-                        </td>
+                        <th>Serial</th>
+                        <th>Ingredient</th>
+                        <th>Quantity (Kg or Ltr)</th>
+                        <th>Stock-in Date</th>
+                        <th>Available (Kg or Ltr)</th>
+                        <th>Action</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Serial</td>
+                            <td>@item.IngredientName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.StockInDate.ToShortDateString()</td>
+                            <td>@item.AvailableStock</td>
+                            <td>
+                                <a asp-action="UpdateStock" asp-controller="Home" asp-area="StockManager"
+                                   asp-route-id="@item.StockDetailsId">
+                                    <i class="fas fa-pencil-alt"
+                                       style="color:forestgreen"></i>
+                                </a> &nbsp;&nbsp;&nbsp;
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @Html.PagedListPager((IPagedList)Model, c => Href("~/StockManager/Home/StockDetails?page=" + c),
+               new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+               {
+                   PageClasses = new string[] { "page-link" },
+                   UlElementClasses = new string[] { "pagination" },
+                   LiElementClasses = new string[] { "page-item" },
+
+               })
+        </div>
     </div>
 </div>
 
