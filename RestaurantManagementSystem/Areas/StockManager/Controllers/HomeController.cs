@@ -53,5 +53,14 @@ namespace RestaurantManagementSystem.Areas.StockManager.Controllers
         {
             return View();
         }
+        public IActionResult UpdateStock()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult UpdateStock(StockDetailsVm stockdetailsvm)
+        {
+            return View();
+        }
     }
 }

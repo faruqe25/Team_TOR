@@ -1,7 +1,8 @@
-﻿@model List<RestaurantManagementSystem.Areas.StockManager.ViewModels.StockDetailsVm>
+﻿@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.OfferVm>
 @{
-    ViewData["Title"] = "StockDetails";
+    ViewData["Title"] = "OfferDetails";
 }
+
 <style>
     #cols {
         background-color: ghostwhite;
@@ -20,15 +21,14 @@
 </style>
 <div class="row mt-5">
     <div class="col-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1" id="cols">
-        <h1>Stock Details</h1>
+        <h1>Food Offer Details</h1>
         <table class="table table-sm">
             <thead>
                 <tr>
                     <th>Serial</th>
-                    <th>Ingredient</th>
-                    <th>Quantity</th>
-                    <th>Stock-in Date</th>
-                    <th>Available</th>
+                    <th>Coupon Name</th>
+                    <th>Discount(%)</th>
+                    <th>Validity</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -37,20 +37,18 @@
                 {
                     <tr>
                         <td>@item.Serial</td>
-                        <td>@item.Ingredient</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.StockInDate</td>
-                        <td>@item.AvailableStock</td>
+                        <td>@item.Coupon</td>
+                        <td>@item.Discount %</td>
+                        <td>@item.ValidatyStart_ - @item.ValidatyTo_</td>
                         <td>
-                            <a asp-action="UpdateStock" asp-controller="Home" asp-area="StockManager"
-                               asp-route-id="@item.StockDetailsId">
+                            <a asp-action="UpdateFoodOffer" asp-controller="Home" asp-area="Admin"
+                               asp-route-id="@item.OfferId">
                                 <i class="fas fa-pencil-alt"
                                    style="color:forestgreen"></i>
                             </a> &nbsp;&nbsp;&nbsp;
-                            <a asp-action="DeleteStock" asp-controller="Home"
-                               asp-area="StockManager" asp-route-id="@item.StockDetailsId">
-                                <i class="fas fa-trash" style="color:red"></i>
-                            </a>
+                            <a asp-action="DeleteFoodOffer" asp-controller="Home"
+                               asp-area="Admin" asp-route-id="@item.OfferId">
+                            <i class="fas fa-trash" style="color:red"></i></a>
                         </td>
                     </tr>
                 }
