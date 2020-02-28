@@ -1,5 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RestaurantManagementSystem.Areas.Admin.ViewModels;
 using RestaurantManagementSystem.Database;
 using RestaurantManagementSystem.Models;
 
@@ -15,11 +19,25 @@ namespace RestaurantManagementSystem.Controllers
 
         public IActionResult Index()
         {
-
-
-         return View();
+            var fooditem = _context.FoodItems.AsNoTracking().Include(q=>q.MealHour).ToList();
+            var fooditemvmlist=new List<FoodItemVm>();
+            foreach (var item in fooditem)
+            {
+                FoodItemVm fooditemvm = new FoodItemVm()
+                {
+                    FoodName = item.FoodName,
+                    MealHourName=item.MealHour.MealHourTitle,
+                    Description=item.Description,
+                    Price=item.Price
+                };
+                fooditemvmlist.Add(fooditemvm);
+            }
+            return View(fooditemvmlist);
         }
-        
+        public IActionResult Login()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

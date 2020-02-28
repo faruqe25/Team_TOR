@@ -1,4 +1,5 @@
-﻿@*@{
+﻿@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.FoodItemVm>
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -34,7 +35,7 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Sign up</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Login</a>
+                            <a class="nav-link text-light" asp-controller="Home" asp-action="Login">Login</a>
                         </li>
                     </ul>
                 </div>
@@ -48,94 +49,59 @@
             <p>Some quick example text to build on the card title</p>
             <button class="btn btn-dark">Reserve Table Now</button>
         </div>
-
     </div>
     <div class="container-fluid" id="menupage">
         <h1><strong>Our Food Menu</strong></h1>
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
+        <div class="row d-flex justify-content-center">
+            @foreach (var item in Model)
+            {
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <div class="card box-shadow m-1">
+                        <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
+                             style="max-height: 100px; max-width: 100px;">
+                        <div class="card-body">
+                            <h3>@item.FoodName</h3>
+                            <hr />
+                            <p>
+                                For @item.MealHourName
+                                <br />
+                                Shareable by @item.Description
+                                <br />
+                                Price: @item.Price (BDT)
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                Order Now
+                            </button>
+                            @*<a href="#" class="btn btn-dark">Order Now</a>*@
+                        </div>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            
+            }
         </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
-</html>*@
+</html>
