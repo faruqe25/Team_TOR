@@ -13,3 +13,25 @@
     background-size: cover;
     background-repeat:no-repeat;
 }
+#holder form {
+    background: linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6));
+    height:60vh;
+    transform:translateY(45%);
+}
+#holder button{
+    transform:translateX(50%);
+}
+#btn{
+    padding-bottom:5%;
+}
+#holder h2{
+    text-align:center;
+    padding:10px;
+}
+#holder input {
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px ridge #000;
+    border-radius:0;
+    background-color: transparent;
+}
