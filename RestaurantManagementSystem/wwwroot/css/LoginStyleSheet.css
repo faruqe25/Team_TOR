@@ -1,0 +1,31 @@
+﻿body {
+    margin:0;
+    padding:0;
+    top:0;
+    left:0;
+}
+#holder {
+    width: 100%;
+    height:100vh;
+    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(/images/eaters-collective-ddZYOtZUnBk-unsplash.jpg);
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    background-repeat:no-repeat;
+}
+#holder form {
+    background: linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6));
+    padding:6%;
+    transform:translateY(20%);
+}
+#holder h2{
+    text-align:center;
+    padding:10px;
+}
+#holder input {
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px ridge #000;
+    border-radius:0;
+    background-color: transparent;
+}

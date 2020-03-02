@@ -544,6 +544,77 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             _context.SaveChanges();
             return RedirectToAction("OfferDetails");
         }
+        public IActionResult AddNewTable()
+        {
+            return View ();
+        }
+        [HttpPost]
+        public IActionResult AddNewTable(TableVm tablevm)
+        {
+            Table table = new Table
+            {
+                TableNumber=tablevm.TableNumber,
+                TableCapacity=tablevm.TableCapacity,
+                BookingPrice=tablevm.BookingPrice
+            };
+            _context.Table.Add(table);
+            _context.SaveChanges();
+            ModelState.Clear();
+            return View();
+        }
+        public IActionResult TableList()
+        {
+            var tablelist = _context.Table.AsNoTracking().ToList();
+            var tablelistvm = new List<TableVm>();
+            int count =1;
+            foreach (var item in tablelist)
+            {
+                TableVm tablevm = new TableVm()
+                {
+                    Serial=count,
+                    TableId=item.TableId,
+                    TableNumber = item.TableNumber,
+                    TableCapacity = item.TableCapacity,
+                    BookingPrice = item.BookingPrice
+                };
+                count++;
+                tablelistvm.Add(tablevm);
+            }
+            return View(tablelistvm);
+        }
+        public IActionResult UpdateTableInfo(int id)
+        {
+            var check = _context.Table.Where(q => q.TableId == id).AsNoTracking().FirstOrDefault();
+            TableVm tablevm = new TableVm()
+            {
+                TableId = id,
+                TableNumber = check.TableNumber,
+                TableCapacity = check.TableCapacity,
+                BookingPrice = check.BookingPrice
+            };
+            return View(tablevm);
+        }
+        [HttpPost]
+        public IActionResult UpdateTableInfo(TableVm tablevm)
+        {
+            Table table = new Table()
+            {
+                TableId=tablevm.TableId,
+                TableNumber = tablevm.TableNumber,
+                TableCapacity = tablevm.TableCapacity,
+                BookingPrice = tablevm.BookingPrice
+            };
+            _context.Table.Update(table);
+            _context.SaveChanges();
+            return RedirectToAction("TableList");
+        }
+        public IActionResult RemoveTableInfo(int id)
+        {
+            var tableinfo = _context.Table.Where(q => q.TableId == id).AsNoTracking().FirstOrDefault();
+            _context.Table.Remove(tableinfo);
+            _context.SaveChanges();
+            return RedirectToAction("TableList");
+        }
     }
 }
         

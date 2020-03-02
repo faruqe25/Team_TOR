@@ -1,4 +1,5 @@
-﻿@*@{
+﻿@*@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.FoodItemVm>
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -7,8 +8,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Resturant Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -34,7 +39,7 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Sign up</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Login</a>
+                            <a class="nav-link text-light" asp-controller="Home" asp-action="Login">Login</a>
                         </li>
                     </ul>
                 </div>
@@ -48,94 +53,75 @@
             <p>Some quick example text to build on the card title</p>
             <button class="btn btn-dark">Reserve Table Now</button>
         </div>
-
     </div>
     <div class="container-fluid" id="menupage">
         <h1><strong>Our Food Menu</strong></h1>
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
+        <div class="row d-flex justify-content-center"id="sn">
+            @foreach (var item in Model)
+            {
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <div class="box-shadow m-1 bg-light">
                     <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
                          style="max-height: 100px; max-width: 100px;">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <h3>@item.FoodName</h3>
+                        <hr />
+                        <p>
+                            For @item.MealHourName
+                            <br />
+                            Shareable by @item.Description
+                            <br />
+                            Price: @item.Price BDT
+                        </p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
+                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
+                            Order Now
+                        </button>
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-center" id="exampleModalLongTitle">
+                                            You must login before placing an order!
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="col-8 offset-2">
+                                            <h2>Login Now</h2>
+                                            <hr />
+                                            <div class="form-group">
+                                                <label>Enter UserId</label>
+                                                <input placeholder="UserId" class="form-control" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Enter Password</label>
+                                                <input placeholder="Password" type="password" class="form-control" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-dark">Login</button>
+                                        <span>
+                                            <a asp-controller="Home"asp-action="CreateAccount">Create Account</a>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                <div class="card box-shadow m-2">
-                    <img src="~/images/breakfast (1).svg" class="card-img-top img-fluid p-1"
-                         style="max-height: 100px; max-width: 100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-dark">Order Now</a>
-                    </div>
-                </div>
-            </div>
-            
+            }
         </div>
-    </div>
+        </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
 </body>
 </html>*@
