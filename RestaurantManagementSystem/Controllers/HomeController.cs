@@ -38,7 +38,10 @@ namespace RestaurantManagementSystem.Controllers
         {
             return View();
         }
-
+        public IActionResult CreateAccount()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             

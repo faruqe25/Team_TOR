@@ -1,4 +1,4 @@
-﻿@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.FoodItemVm>
+﻿@*@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.FoodItemVm>
 @{
     Layout = null;
 }
@@ -104,11 +104,12 @@
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-success">Login</button>
-                                        
-                                        <a href="#">Create Account</a>
+                                        <button type="button" class="btn btn-dark">Login</button>
+                                        <span>
+                                            <a asp-controller="Home"asp-action="CreateAccount">Create Account</a>
+                                        </span>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -123,4 +124,4 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     
 </body>
-</html>
+</html>*@
