@@ -2,6 +2,7 @@
     Layout = null;
     ViewData["Title"] = "Login";
 }
+@model RestaurantManagementSystem.Areas.Customer.ViewModels.CustomerAccount
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,18 +14,20 @@
 </head>
 <body>
        <div id="holder">
-           <form class="col-10 offset-1 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-5 offset-lg-6 col-xl-5 offset-xl-6">
+           <form asp-action="Login" asp-area="" asp-controller="Home" method="post" class="col-10 offset-1 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-5 offset-lg-6 col-xl-5 offset-xl-6">
                <h2>Login Here</h2>
                <hr />
                <div class="form-group col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                    <label>Enter UserId</label>
-                   <input placeholder="UserId" class="form-control" />
+                   <input placeholder="UserId" class="form-control" asp-for="Email" />
+               <span asp-validation-for="Email" class="text-danger"></span>
                </div>
                <div class="form-group col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                    <label>Enter Password</label>
-                   <input placeholder="Password" type="password" class="form-control" />
+                   <input asp-for="Password" placeholder="Password" type="password" class="form-control" />
+                   <span asp-validation-for="Password" class="text-danger"></span>
                </div>
-                   <button class="btn btn-dark"style="float:right;">Login</button>
+                   <button class="btn btn-dark"style="float:right;" type="submit">Login</button>
            </form>
        </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

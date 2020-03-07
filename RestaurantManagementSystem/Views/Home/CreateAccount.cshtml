@@ -1,4 +1,5 @@
-﻿
+﻿@model RestaurantManagementSystem.Areas.Customer.ViewModels.CustomerAccount
+
 @{
     Layout = null;
     ViewData["Title"] = "CreateAccount";
@@ -15,34 +16,41 @@
 </head>
 <body>
     <div class="container">
-        <form class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-4 col-xl-8 offset-xl-5">
+        <form class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-4 col-xl-8 offset-xl-5" asp-controller="Home" asp-action="CreateAccount" method="post">
             <h2>Create Your Account</h2>
             <hr />
             <div class="form-row">
                 <div class="form-group col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 offset-xl-1">
                     <label>Enter Your Name</label>
-                    <input placeholder="Name" class="form-control" />
+                    <input placeholder="Name" class="form-control" asp-for="CustomersName" />
+                    <span asp-validation-for="CustomersName" class="text-danger"></span>
                 </div>
                 <div class="form-group col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5">
                     <label>Enter E-mail Address</label>
-                    <input placeholder="E-mail" class="form-control" />
+                    <input placeholder="E-mail" class="form-control" asp-for="Email"/>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 offset-xl-1">
                     <label>Enter Contact Number</label>
-                    <input placeholder="Contact Number" type="number" class="form-control" />
+                    <input asp-for="MobileNumber" placeholder="Contact Number" type="number" class="form-control" />
+                    <span asp-validation-for="MobileNumber" class="text-danger"></span>
+
                 </div>
                 <div class="form-group col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5">
                     <label>Enter Payment Number</label>
-                    <input placeholder="Payment Number" type="number" class="form-control" />
+                    <input asp-for="PaymentMobileNumber" placeholder="Payment Number" type="number" class="form-control" />
+                    <span asp-validation-for="PaymentMobileNumber" class="text-danger"></span>
+
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 offset-xl-1">
                     <label>Give a Password</label>
                     <div class="input-group">
-                        <input type="password" class="form-control" placeholder="Password" id="myInput">
+                        <input  asp-for="Password"type="password" class="form-control" placeholder="Password" id="myInput">
                         <span class="input-group-btn">
                             <button class="btn" onclick="myFunction()" type="button">
                                 <i class="fa fa-eye"></i>
@@ -54,18 +62,26 @@
             <button class="btn btn-dark" style="float:right">Submit</button>
         </form>
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script>
-        function myFunction() {
-  var x = document.getElementById("myInput");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
-  }
-}
-    </script>
+
+    <environment include="Development">
+        <script src="~/Assets/AJAX/ajaxjQueryjquery1.11.3.min.js"></script>
+        <script src="~/Assets/AJAX/ajaxjqueryvalidate1.14.0jquery.validate.min.js"></script>
+        <script src="~/Assets/AJAX/jquery.validate.unobtrusive.min.js"></script>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+       
+        <script>
+            function myFunction() {
+                var x = document.getElementById("myInput");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+            }
+        </script>
+    </environment>
+      
 </body>
 </html>

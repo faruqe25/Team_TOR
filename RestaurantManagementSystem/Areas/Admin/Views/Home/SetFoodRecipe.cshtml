@@ -28,7 +28,6 @@
             <table class="table table-sm">
                 <thead>
                     <tr>
-
                         <th>
                             Food Item
                         </th>
@@ -41,16 +40,20 @@
 
                     <tr>
                         <td>
+
                             <select asp-items="@ViewBag.RawItem" asp-for="FoodItemId" class="form-control">
                                 <option hidden disabled selected>  Food Item Name </option>"
                             </select>
                             <span asp-validation-for="FoodItemId" class="text-danger"></span>
                         </td>
+
                         <td>
+
                             <select id="MaterialsItem0" asp-for="MaterialVms[0].IngredientId" class="form-control"></select>
                             <span asp-validation-for="MaterialVms[0].IngredientId" class="text-danger"></span>
 
                         </td>
+
 
                         <td>
                             <input asp-for="MaterialVms[0].QuantityInGram" class="form-control"placeholder="Quantity(Gm)" />
@@ -58,6 +61,7 @@
                         </td>
 
                         <td><input type="button" class="btn  btn-success " id="addrow" value="Add Raw Item" /></td>
+
                     </tr>
                 </tbody>
                 <tfoot>
@@ -76,10 +80,12 @@
 
 </div>
 @section Scripts{
+
     <script type="text/javascript">
     $(document).ready(function () {
          var counter = 1;
          var con = 1;
+
 
          var url = "/Admin/Home/GetIngredients";
         $.getJSON(url, function (data) {
@@ -91,16 +97,22 @@
             $('#MaterialsItem'+0).html(items);
               });
 
+
+
         $("#addrow").on("click", function () {
             con++;
     var newRow = $("<tr>");
     var cols = "";
+
+
             cols += '<td>' + counter + '</td>';
             cols += '<td><select id="MaterialsItem'+con+'" name="MaterialVms[' + counter + '].IngredientId" class="form-control"></select ><span class="text-danger field-validation-valid" data-valmsg-for="MaterialVms[0].IngredientId" data-valmsg-replace="true"></span></td>';
             cols += '<td><input type="number" class="form-control" name="MaterialVms[' + counter + '].QuantityInGram" /><span class="text-danger field-validation-valid" data-valmsg-for="MaterialVms[0].QuantityInGram" data-valmsg-replace="true"></span></td > ';
             cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " value="Delete"></td>';
+
              newRow.append(cols);
             $("table.table-sm").append(newRow);
+
             var url = "/Admin/Home/GetIngredients";
                 $.getJSON(url,function (data){
                     var items = "<option hidden disabled selected>Please Select Ingredient</option>";
@@ -112,12 +124,14 @@
                 });
 
 
+
             counter++;
             $('#RowCount').attr('rowspan', counter);
             $('#RowCount').html(counter);
 
 
     });
+
     $("table.table-sm").on("click", ".ibtnDel", function (event) {
         $(this).closest("tr").remove();
         counter--;
@@ -126,6 +140,7 @@
 
     });
     });
+
     </script>
 }
 

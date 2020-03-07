@@ -63,20 +63,24 @@
                         </td>
                         <td>@Model[i].Price</td>
                         <td>
+
                             @*<a asp-action="UpdateFoodRecipe" asp-controller="Home" asp-area="Admin"
                                asp-route-id="@Model[i].FoodItemId">
                                 <i class="fas fa-pencil-alt"
                                    style="color:forestgreen"></i>
                             </a> &nbsp;&nbsp;&nbsp;*@
                             <a asp-action="DeleteFoodRecipe" asp-controller="Home"
+
                                asp-area="Admin" asp-route-id="@Model[i].FoodItemId"><i class="fas fa-trash" style="color:red"></i></a>
 
                         </td>
                     </tr>
                 }
 
+
                 
         </table>
     </div>
+
 </div>
 
