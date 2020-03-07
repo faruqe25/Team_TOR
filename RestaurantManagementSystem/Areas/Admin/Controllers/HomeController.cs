@@ -33,10 +33,11 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult SetMealHour(MealHourVm mealHourVm)
         {
-            MealHour m = new MealHour() {
+            MealHour m = new MealHour()
+            {
                 MealHourId = 0,
-                MealHourTitle=mealHourVm.MealHourTitle
-          
+                MealHourTitle = mealHourVm.MealHourTitle
+
             };
             _context.MealHour.Add(m);
             _context.SaveChanges();
@@ -50,16 +51,17 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             int c = 1;
             foreach (var item in s)
             {
-                MealHourVm sp = new MealHourVm() {
-                Serial=c,
-                MealHourId=item.MealHourId,
-                MealHourTitle=item.MealHourTitle
+                MealHourVm sp = new MealHourVm()
+                {
+                    Serial = c,
+                    MealHourId = item.MealHourId,
+                    MealHourTitle = item.MealHourTitle
                 };
                 a.Add(sp);
                 c++;
 
             }
-            
+
             return View(a);
         }
         public IActionResult UpdateMealHour(int id)
@@ -75,7 +77,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             return View(m);
         }
         [HttpPost]
-        public IActionResult UpdateMealHour(MealHourVm mealHourVm) 
+        public IActionResult UpdateMealHour(MealHourVm mealHourVm)
         {
             MealHour m = new MealHour()
             {
@@ -95,7 +97,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             _context.MealHour.Remove(mealhourVm);
             _context.SaveChanges();
             return RedirectToAction("MealHourInfo");
-        } 
+        }
         public IActionResult AddFoodItem()
         {
             ViewBag.MealHour = new SelectList(_context.MealHour.AsNoTracking().
@@ -107,15 +109,17 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         {
             FoodItem p = new FoodItem()
             {
-                FoodName=a.FoodName,
-                Description=a.Description,
-                Price=a.Price,
-                FoodItemId=a.FoodItemId,
-                MealHourId=a.MealHourId,
+                FoodName = a.FoodName,
+                Description = a.Description,
+                Price = a.Price,
+                FoodItemId = a.FoodItemId,
+                MealHourId = a.MealHourId,
             };
             _context.FoodItems.Add(p);
             _context.SaveChanges();
             ModelState.Clear();
+            ViewBag.MealHour = new SelectList(_context.MealHour.AsNoTracking().
+              ToList(), "MealHourId", "MealHourTitle");
             return View();
         }
         public IActionResult FoodItemList()
@@ -136,21 +140,21 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
 
                 };
                 s.Add(ab);
-                c++;            
+                c++;
             }
             return View(s);
         }
-        public IActionResult UpdateFoodItem(int id)  
+        public IActionResult UpdateFoodItem(int id)
         {
             var foodItem = _context.FoodItems.AsNoTracking()
-                 .Where(t => t.FoodItemId == id).FirstOrDefault(); 
+                 .Where(t => t.FoodItemId == id).FirstOrDefault();
             FoodItemVm m = new FoodItemVm()
             {
                 FoodItemId = foodItem.FoodItemId,
                 Price = foodItem.Price,
-                Description=foodItem.Description,
-                MealHourId=foodItem.MealHourId,
-                FoodName=foodItem.FoodName
+                Description = foodItem.Description,
+                MealHourId = foodItem.MealHourId,
+                FoodName = foodItem.FoodName
 
             };
             ViewBag.MealHour = new SelectList(_context.MealHour.AsNoTracking().
@@ -158,7 +162,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             return View(m);
         }
         [HttpPost]
-        public IActionResult UpdateFoodItem(FoodItemVm a) 
+        public IActionResult UpdateFoodItem(FoodItemVm a)
         {
             FoodItem p = new FoodItem()
             {
@@ -183,24 +187,34 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             _context.SaveChanges();
             return RedirectToAction("FoodItemList");
         }
-        public IActionResult AddIngredient() { 
-                
-            
-        return View(); 
+        public IActionResult AddIngredient()
+        {
+
+
+            return View();
         }
         [HttpPost]
         public IActionResult AddIngredient(IngredientVm a)
         {
-            Ingredient s = new Ingredient() {
-            IngredientId=a.IngredientId,
-            IngredientName=a.IngredientName,
+            var valid = _context.Ingredient.AsNoTracking().
+                Where(t => t.IngredientName == a.IngredientName).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added "+a.IngredientName;
+                return View();
+            }
+            Ingredient s = new Ingredient()
+            {
+                IngredientId = a.IngredientId,
+                IngredientName = a.IngredientName,
             };
             _context.Ingredient.Add(s);
             _context.SaveChanges();
             ModelState.Clear();
+            ViewBag.Success = "You have succesfully added " + a.IngredientName;
             return View();
         }
-        public IActionResult IngredientList(int Page=1)
+        public IActionResult IngredientList(int Page = 1)
         {
             var li = _context.Ingredient.AsNoTracking().ToList();
             var se = new List<IngredientVm>();
@@ -211,16 +225,16 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 {
                     IngredientId = item.IngredientId,
                     IngredientName = item.IngredientName,
-                    Serial=c,
+                    Serial = c,
                 };
                 se.Add(s);
                 c++;
             }
-            var list = se.ToPagedList(Page, 4);
+            var list = se.ToPagedList(Page, 5);
             return View(list);
         }
-      
-        public IActionResult UpdateIngredient(int id )
+
+        public IActionResult UpdateIngredient(int id)
         {
             var a = _context.Ingredient.AsNoTracking()
                 .Where(k => k.IngredientId == id).FirstOrDefault();
@@ -229,13 +243,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 IngredientId = a.IngredientId,
                 IngredientName = a.IngredientName,
             };
-            
+
             return View(s);
         }
         [HttpPost]
         public IActionResult UpdateIngredient(IngredientVm st)
         {
-            
+
             Ingredient s = new Ingredient()
             {
                 IngredientId = st.IngredientId,
@@ -254,8 +268,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
 
             return RedirectToAction("IngredientList");
         }
-
-        public JsonResult GetIngredients() 
+        public JsonResult GetIngredients()
         {
             var ingre = _context.Ingredient.AsNoTracking().ToList();
             var slist = new SelectList(ingre, "IngredientId", "IngredientName");
@@ -263,7 +276,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             return Json(slist);
         }
 
-        public IActionResult SetFoodRecipe() 
+        public IActionResult SetFoodRecipe()
         {
             var raw = _context.FoodItems.AsNoTracking().ToList();
             ViewBag.RawItem = new SelectList(raw, "FoodItemId", "FoodName");
@@ -275,44 +288,49 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             var raw = _context.FoodItems.AsNoTracking().ToList();
             ViewBag.RawItem = new SelectList(raw, "FoodItemId", "FoodName");
 
-            RequiredMaterial a = new RequiredMaterial();
+            //var tem = _context.RequiredMaterial.AsNoTracking().ToList();
+            //var valid = false;
+          
             foreach (var item in Rl.MaterialVms)
             {
-                a.RequiredMaterialId = 0;
+                 
+                RequiredMaterial a = new RequiredMaterial();
+                a.RequiredMaterialId = Rl.RequiredMaterialId;
                 a.FoodItemId = Rl.FoodItemId;
                 a.IngredientId = item.IngredientId;
                 a.QuantityInGram = item.QuantityInGram;
                 _context.RequiredMaterial.Add(a);
                 _context.SaveChanges();
             }
-           
+
             ModelState.Clear();
             return View();
         }
         public IActionResult FoodRecipeDetails()
         {
-            var res =from ls in _context.RequiredMaterial
-                .AsNoTracking().Include(s => s.FoodItem).
-                Include(s=>s.Ingredient)
-                group ls by ls.FoodItemId into p
-                     let temp = (
-                            from val in p
-                            select new
-                            {
-                                Price=val.FoodItem.Price,
-                                FoodItemId=val.FoodItem.FoodItemId,
-                                FoodName=val.FoodItem.FoodName,
-                                IngredientName=val.Ingredient.IngredientName,
-                                Quantity=val.QuantityInGram,
-                                IngredientId=val.IngredientId,
-                                RequiredMaterialId=val.RequiredMaterialId
+            var res = from ls in _context.RequiredMaterial
+                 .AsNoTracking().Include(s => s.FoodItem).
+                 Include(s => s.Ingredient)
+                      group ls by ls.FoodItemId into p
+                      let temp = (
+                             from val in p
+                             select new
+                             {
+                                 Price = val.FoodItem.Price,
+                                 FoodItemId = val.FoodItem.FoodItemId,
+                                 FoodName = val.FoodItem.FoodName,
+                                 IngredientName = val.Ingredient.IngredientName,
+                                 Quantity = val.QuantityInGram,
+                                 IngredientId = val.IngredientId,
+                                 RequiredMaterialId = val.RequiredMaterialId
 
-                            }
-                            )
-                     select temp;
+                             }
+                             )
+                      select temp;
 
             var sent = new List<RequiredMaterialVm>();
-            
+
+
             List<MaterialVm> prt = new List<MaterialVm>();
             int c = 1;
             foreach (var item in res)
@@ -320,27 +338,290 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 var ass = new RequiredMaterialVm();
                 foreach (var it in item)
                 {
-                    
+
+
                     ass.Price = it.Price;
                     ass.FoodItemId = it.FoodItemId;
                     ass.FoodItemNames = it.FoodName;
-                    MaterialVm t = new MaterialVm() {
-                    QuantityInGram=it.Quantity,
-                    IngredientName=it.IngredientName
+                    MaterialVm t = new MaterialVm()
+                    {
+                        QuantityInGram = it.Quantity,
+                        IngredientName = it.IngredientName
+
                     };
                     ass.MaterialVms.Add(t);
                     ass.Serial = c;
                 }
                 sent.Add(ass);
                 c++;
-                
+
+
 
             }
-            
+
 
             return View(sent);
         }
+        public IActionResult DeleteFoodRecipe(int id)
+        {
+            var ls = _context.RequiredMaterial.AsNoTracking().Where(s => s.FoodItemId == id).ToList();
+            _context.RequiredMaterial.RemoveRange(ls);
+            _context.SaveChanges();
+
+            return RedirectToAction("FoodRecipeDetails");
+
+        }
+        //public IActionResult UpdateFoodRecipe(int id)
+        //{
+        //    var ls = _context.RequiredMaterial.AsNoTracking().
+        //                Include(s => s.Ingredient).Include(s => s.FoodItem).
+        //                Where(s => s.FoodItemId == id).ToList();
 
 
+
+        //    var sent = new List<RequiredMaterialVm>();
+
+        //    List<MaterialVm> prt = new List<MaterialVm>();
+        //    int c = 1;
+        //    foreach (var item in ls)
+        //    {
+        //        var ass = new RequiredMaterialVm();
+
+
+        //        ass.Price = item.FoodItem.Price;
+        //        ass.FoodItemId = item.FoodItemId;
+        //        ass.FoodItemNames = item.FoodItem.FoodName;
+        //        ass.RequiredMaterialId = item.RequiredMaterialId;
+        //        MaterialVm t = new MaterialVm()
+        //        {
+        //            QuantityInGram = item.QuantityInGram,
+        //            IngredientName = item.Ingredient.IngredientName
+        //        };
+        //        ass.MaterialVms.Add(t);
+        //        ass.Serial = c;
+        //        sent.Add(ass);
+        //        c++;
+
+
+        //    }
+
+
+
+        //    return View(sent);
+
+
+        //}
+        //public IActionResult UpdateFoodRecipe(int id)
+        //{
+        //    var res = from ls in _context.RequiredMaterial
+        //         .AsNoTracking().Include(s => s.FoodItem).
+        //         Include(s => s.Ingredient).Where(s => s.FoodItemId == id)
+        //              group ls by ls.FoodItemId into p
+        //              let temp = (
+        //                     from val in p
+        //                     select new
+        //                     {
+        //                         Price = val.FoodItem.Price,
+        //                         FoodItemId = val.FoodItem.FoodItemId,
+        //                         FoodName = val.FoodItem.FoodName,
+        //                         IngredientName = val.Ingredient.IngredientName,
+        //                         Quantity = val.QuantityInGram,
+        //                         IngredientId = val.IngredientId,
+        //                         RequiredMaterialId = val.RequiredMaterialId
+
+        //                     }
+        //                     )
+        //              select temp;
+
+        //    var sent = new List<RequiredMaterialVm>();
+
+        //    List<MaterialVm> prt = new List<MaterialVm>();
+        //    int c = 1;
+        //    foreach (var item in res)
+        //    {
+        //        var ass = new RequiredMaterialVm();
+        //        foreach (var it in item)
+        //        {
+
+        //            ass.Price = it.Price;
+        //            ass.RequiredMaterialId = it.RequiredMaterialId;
+        //            ass.FoodItemId = it.FoodItemId;
+        //            ass.FoodItemNames = it.FoodName;
+        //            MaterialVm t = new MaterialVm()
+        //            {
+        //                QuantityInGram = it.Quantity,
+        //                IngredientName = it.IngredientName,
+        //                IngredientId = it.IngredientId
+        //            };
+        //            ass.MaterialVms.Add(t);
+        //            ass.Serial = c;
+        //        }
+        //        sent.Add(ass);
+        //        c++;
+
+
+        //    }
+
+        //    var raw = _context.Ingredient.AsNoTracking().ToList();
+        //    ViewBag.RawItem = new SelectList(raw, "IngredientId", "IngredientName");
+        //    return View(sent);
+        //}
+        //[HttpPost]
+        //public IActionResult UpdateFoodRecipe(List<RequiredMaterialVm> ps)
+        //{
+        //    return View();
+        //}
+
+
+        public IActionResult AddNewOffer()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddNewOffer(OfferVm offervm)
+        {
+            Offer offer = new Offer()
+            {
+                Coupon=offervm.Coupon,
+                Discount=offervm.Discount,
+                ValidatyStart=offervm.ValidatyStart,
+                ValidatyTo=offervm.ValidatyTo
+            };
+            _context.Offer.Add(offer);
+            _context.SaveChanges();
+            ModelState.Clear();
+            return View();
+        }
+        public IActionResult OfferDetails()
+        {
+            var offerdetails = _context.Offer.AsNoTracking().ToList();
+            var offerdetailslist = new List<OfferVm>();
+            int count = 1;
+            foreach (var item in offerdetails)
+            {
+                OfferVm offervm = new OfferVm()
+                {
+                    Serial = count,
+                    OfferId=item.OfferId,
+                    Coupon=item.Coupon,
+                    Discount=item.Discount,
+                    ValidatyStart_=item.ValidatyStart.ToShortDateString(),
+                    ValidatyTo_=item.ValidatyTo.ToShortDateString()
+                };
+                offerdetailslist.Add(offervm);
+                count++;
+            }
+            return View(offerdetailslist);
+        }
+        public IActionResult UpdateFoodOffer(int id)
+        {
+            var offer = _context.Offer.AsNoTracking().Where(q => q.OfferId == id).FirstOrDefault();
+            OfferVm offervm = new OfferVm()
+            {
+                OfferId=offer.OfferId,
+                Coupon=offer.Coupon,
+                Discount=offer.Discount,
+                ValidatyStart=offer.ValidatyStart,
+                ValidatyTo=offer.ValidatyTo
+            };
+            return View(offervm);
+        }
+        [HttpPost]
+        public IActionResult UpdateFoodOffer(OfferVm offervm)
+        {
+            Offer offer = new Offer()
+            {
+                OfferId=offervm.OfferId,
+                Coupon=offervm.Coupon,
+                Discount = offervm.Discount,
+                ValidatyStart = offervm.ValidatyStart,
+                ValidatyTo = offervm.ValidatyTo
+            };
+            _context.Offer.Update(offer);
+            _context.SaveChanges();
+            ModelState.Clear();
+            return RedirectToAction("OfferDetails");
+        }
+        public IActionResult DeleteFoodOffer(int id)
+        {
+            var offer = _context.Offer.AsNoTracking().Where(q => q.OfferId == id).FirstOrDefault();
+            _context.Offer.Remove(offer);
+            _context.SaveChanges();
+            return RedirectToAction("OfferDetails");
+        }
+        public IActionResult AddNewTable()
+        {
+            return View ();
+        }
+        [HttpPost]
+        public IActionResult AddNewTable(TableVm tablevm)
+        {
+            Table table = new Table
+            {
+                TableNumber=tablevm.TableNumber,
+                TableCapacity=tablevm.TableCapacity,
+                BookingPrice=tablevm.BookingPrice
+            };
+            _context.Table.Add(table);
+            _context.SaveChanges();
+            ModelState.Clear();
+            return View();
+        }
+        public IActionResult TableList()
+        {
+            var tablelist = _context.Table.AsNoTracking().ToList();
+            var tablelistvm = new List<TableVm>();
+            int count =1;
+            foreach (var item in tablelist)
+            {
+                TableVm tablevm = new TableVm()
+                {
+                    Serial=count,
+                    TableId=item.TableId,
+                    TableNumber = item.TableNumber,
+                    TableCapacity = item.TableCapacity,
+                    BookingPrice = item.BookingPrice
+                };
+                count++;
+                tablelistvm.Add(tablevm);
+            }
+            return View(tablelistvm);
+        }
+        public IActionResult UpdateTableInfo(int id)
+        {
+            var check = _context.Table.Where(q => q.TableId == id).AsNoTracking().FirstOrDefault();
+            TableVm tablevm = new TableVm()
+            {
+                TableId = id,
+                TableNumber = check.TableNumber,
+                TableCapacity = check.TableCapacity,
+                BookingPrice = check.BookingPrice
+            };
+            return View(tablevm);
+        }
+        [HttpPost]
+        public IActionResult UpdateTableInfo(TableVm tablevm)
+        {
+            Table table = new Table()
+            {
+                TableId=tablevm.TableId,
+                TableNumber = tablevm.TableNumber,
+                TableCapacity = tablevm.TableCapacity,
+                BookingPrice = tablevm.BookingPrice
+            };
+            _context.Table.Update(table);
+            _context.SaveChanges();
+            return RedirectToAction("TableList");
+        }
+        public IActionResult RemoveTableInfo(int id)
+        {
+            var tableinfo = _context.Table.Where(q => q.TableId == id).AsNoTracking().FirstOrDefault();
+            _context.Table.Remove(tableinfo);
+            _context.SaveChanges();
+            return RedirectToAction("TableList");
+        }
     }
 }
+        
+
+ 

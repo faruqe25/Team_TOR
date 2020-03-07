@@ -1,0 +1,137 @@
+﻿
+@*@{
+    ViewData["Title"] = "UpdateFoodRecipe";
+}
+
+<h1>UpdateFoodRecipe</h1>
+@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.RequiredMaterialVm>
+@{
+    ViewData["Title"] = "SetFoodRecipe";
+}
+
+
+<style>
+    #cols {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+    }
+
+        #cols h1 {
+            text-align: center;
+            padding: 2%;
+        }
+
+    table {
+        text-align: center;
+    }
+</style>
+<div class="row mt-3 table-responsive">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="cols">
+        <h1>Food Recipe Details</h1>
+        <form asp-controller="Home" asp-action="UpdateFoodRecipe"
+              asp-area="Admin" method="post">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+
+                        <th class="col-sm-3">
+                            Food Item
+                        </th>
+                        <th class="col-sm-3">Ingredients</th>
+                        <th class="col-sm-3">Quantity (gm)</th>
+                        <th class="col-sm-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  @for (int i = 0; i < Model.Count; i++)
+                  {
+                        <tr>
+                            <td class="col-sm-3">
+                                @Model[i].FoodItemNames
+                            </td>
+                            <td class="col-sm-3">
+                                <select id="MaterialsItem0" asp-for="@Model[i].MaterialVms[i].IngredientId" class="form-control"></select>
+                                <span asp-validation-for="@Model[i].MaterialVms[i].IngredientId" class="text-danger"></span>
+
+                            </td>
+
+                            <td class="col-sm-3">
+                                <input asp-for="MaterialVms[0].QuantityInGram" class="form-control" />
+                                <span asp-validation-for="MaterialVms[0].QuantityInGram" class="text-danger"></span>
+                            </td>
+
+                            <td class="col-sm-3"><input type="button" class="btn  btn-success " id="addrow" value="Add Raw Item" /></td>
+                        </tr>
+                    }
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align: left;">
+                            <input type="submit" class="btn btn-lg btn-block btn-success  " value="Save" />
+                        </td>
+                    </tr>
+
+                </tfoot>
+
+            </table>
+        </form>
+    </div>
+
+
+</div>
+@section Scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+         var counter = 1;
+         var con = 1;
+
+         var url = "/Admin/Home/GetIngredients";
+        $.getJSON(url, function (data) {
+            var items = "<option hidden disabled selected>Please Select Ingredient</option>";
+            $('#MaterialsItem' + 0).empty();
+            $.each(data, function (i, sec) {
+                items += '<option value="'+sec.value +'">' + sec.text + '</option > ';
+            });
+            $('#MaterialsItem'+0).html(items);
+              });
+
+        $("#addrow").on("click", function () {
+            con++;
+    var newRow = $("<tr>");
+    var cols = "";
+            cols += '<td>' + counter + '</td>';
+            cols += '<td><select id="MaterialsItem'+con+'" name="MaterialVms[' + counter + '].IngredientId" class="form-control"></select ><span class="text-danger field-validation-valid" data-valmsg-for="MaterialVms[0].IngredientId" data-valmsg-replace="true"></span></td>';
+            cols += '<td><input type="number" class="form-control" name="MaterialVms[' + counter + '].QuantityInGram" /><span class="text-danger field-validation-valid" data-valmsg-for="MaterialVms[0].QuantityInGram" data-valmsg-replace="true"></span></td > ';
+            cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " value="Delete"></td>';
+             newRow.append(cols);
+            $("table.table-sm").append(newRow);
+            var url = "/Admin/Home/GetIngredients";
+                $.getJSON(url,function (data){
+                    var items = "<option hidden disabled selected>Please Select Ingredient</option>";
+                    $("#MaterialsItem"+ con).empty();
+                    $.each(data, function (i, sec) {
+                        items += '<option value="'+sec.value +'">' + sec.text + '</option > ';
+                    });
+                    $("#MaterialsItem"+ con).html(items);
+                });
+
+
+            counter++;
+            $('#RowCount').attr('rowspan', counter);
+            $('#RowCount').html(counter);
+
+
+    });
+    $("table.table-sm").on("click", ".ibtnDel", function (event) {
+        $(this).closest("tr").remove();
+        counter--;
+        $('#RowCount').attr('rowspan', counter);
+        $('#RowCount').html(counter);
+
+    });
+    });
+    </script>
+}*@
+

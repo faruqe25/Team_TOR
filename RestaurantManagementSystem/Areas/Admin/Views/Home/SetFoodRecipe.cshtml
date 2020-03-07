@@ -28,35 +28,40 @@
             <table class="table table-sm">
                 <thead>
                     <tr>
-
-                        <th class="col-sm-3">
-                            Food Item</th>
-                        <th class="col-sm-3">Ingredients</th>
-                        <th class="col-sm-3">Quantity (gm)</th>
-                        <th class="col-sm-3">Action</th>
+                        <th>
+                            Food Item
+                        </th>
+                        <th>Ingredients</th>
+                        <th>Quantity (gm)</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     <tr>
-                        <td class="col-sm-3" >
+                        <td>
+
                             <select asp-items="@ViewBag.RawItem" asp-for="FoodItemId" class="form-control">
                                 <option hidden disabled selected>  Food Item Name </option>"
                             </select>
                             <span asp-validation-for="FoodItemId" class="text-danger"></span>
                         </td>
-                        <td class="col-sm-3">
+
+                        <td>
+
                             <select id="MaterialsItem0" asp-for="MaterialVms[0].IngredientId" class="form-control"></select>
                             <span asp-validation-for="MaterialVms[0].IngredientId" class="text-danger"></span>
 
                         </td>
 
-                        <td class="col-sm-3">
-                            <input asp-for="MaterialVms[0].QuantityInGram" class="form-control" />
+
+                        <td>
+                            <input asp-for="MaterialVms[0].QuantityInGram" class="form-control"placeholder="Quantity(Gm)" />
                             <span asp-validation-for="MaterialVms[0].QuantityInGram" class="text-danger"></span>
                         </td>
 
-                        <td class="col-sm-3"><input type="button" class="btn  btn-success " id="addrow" value="Add Raw Item" /></td>
+                        <td><input type="button" class="btn  btn-success " id="addrow" value="Add Raw Item" /></td>
+
                     </tr>
                 </tbody>
                 <tfoot>
@@ -75,12 +80,13 @@
 
 </div>
 @section Scripts{
-<script type="text/javascript">
 
+    <script type="text/javascript">
     $(document).ready(function () {
          var counter = 1;
          var con = 1;
-       
+
+
          var url = "/Admin/Home/GetIngredients";
         $.getJSON(url, function (data) {
             var items = "<option hidden disabled selected>Please Select Ingredient</option>";
@@ -93,14 +99,11 @@
 
 
 
-
-
-   
-
         $("#addrow").on("click", function () {
             con++;
     var newRow = $("<tr>");
     var cols = "";
+
 
             cols += '<td>' + counter + '</td>';
             cols += '<td><select id="MaterialsItem'+con+'" name="MaterialVms[' + counter + '].IngredientId" class="form-control"></select ><span class="text-danger field-validation-valid" data-valmsg-for="MaterialVms[0].IngredientId" data-valmsg-replace="true"></span></td>';
@@ -119,13 +122,14 @@
                     });
                     $("#MaterialsItem"+ con).html(items);
                 });
-            
-           
+
+
+
             counter++;
             $('#RowCount').attr('rowspan', counter);
             $('#RowCount').html(counter);
-            
-             
+
+
     });
 
     $("table.table-sm").on("click", ".ibtnDel", function (event) {
@@ -133,11 +137,10 @@
         counter--;
         $('#RowCount').attr('rowspan', counter);
         $('#RowCount').html(counter);
-    
-    });
-
 
     });
+    });
+
     </script>
 }
 

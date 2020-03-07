@@ -1,0 +1,59 @@
+﻿@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.OfferVm>
+@{
+    ViewData["Title"] = "OfferDetails";
+}
+
+<style>
+    #cols {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+    }
+
+        #cols h1 {
+            text-align: center;
+            padding: 4%;
+        }
+
+    table {
+        text-align: center;
+    }
+</style>
+<div class="row mt-5">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1" id="cols">
+        <h1>Food Offer Details</h1>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Serial</th>
+                    <th>Coupon Name</th>
+                    <th>Discount(%)</th>
+                    <th>Validity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Serial</td>
+                        <td>@item.Coupon</td>
+                        <td>@item.Discount %</td>
+                        <td>@item.ValidatyStart_ - @item.ValidatyTo_</td>
+                        <td>
+                            <a asp-action="UpdateFoodOffer" asp-controller="Home" asp-area="Admin"
+                               asp-route-id="@item.OfferId">
+                                <i class="fas fa-pencil-alt"
+                                   style="color:forestgreen"></i>
+                            </a> &nbsp;&nbsp;&nbsp;
+                            <a asp-action="DeleteFoodOffer" asp-controller="Home"
+                               asp-area="Admin" asp-route-id="@item.OfferId">
+                            <i class="fas fa-trash" style="color:red"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

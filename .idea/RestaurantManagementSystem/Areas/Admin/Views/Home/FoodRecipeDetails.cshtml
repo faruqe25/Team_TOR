@@ -1,0 +1,82 @@
+﻿@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.RequiredMaterialVm>
+@{
+    ViewData["Title"] = "FoodRecipeDetails";
+}
+<style>
+
+    #cols {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+    }
+
+        #cols h1 {
+            text-align: center;
+            padding: 2%;
+        }
+
+    table {
+        text-align: center;
+    }
+</style>
+<div class="row mt-3">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="cols">
+        <h1>Food Recipe Details</h1>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Serial</th>
+                    <th>Food Item</th>
+                    <th>Ingredients</th>
+                    <th>Quantity (gm)</th>
+                    <th>Price (BDT)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+
+                    <tr>
+                        <td>@Model[i].Serial</td>
+                        <td>@Model[i].FoodItemNames</td>
+                        <td>
+                            <table class="d-flex justify-content-center">
+
+                                @foreach (var p in Model[i].MaterialVms)
+                                {
+                                    <tr>
+                                        <td>@p.IngredientName</td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                        <td>
+                            <table class="d-flex justify-content-center">
+                                @foreach (var p in Model[i].MaterialVms)
+                                {
+                                    <tr>
+                                        <td>@p.QuantityInGram</td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                        <td>@Model[i].Price</td>
+                        <td>
+                            @*<a asp-action="UpdateFoodRecipe" asp-controller="Home" asp-area="Admin"
+                               asp-route-id="@Model[i].FoodItemId">
+                                <i class="fas fa-pencil-alt"
+                                   style="color:forestgreen"></i>
+                            </a> &nbsp;&nbsp;&nbsp;*@
+                            <a asp-action="DeleteFoodRecipe" asp-controller="Home"
+                               asp-area="Admin" asp-route-id="@Model[i].FoodItemId"><i class="fas fa-trash" style="color:red"></i></a>
+
+                        </td>
+                    </tr>
+                }
+
+                
+        </table>
+    </div>
+</div>
+

@@ -1,0 +1,116 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #f9a602;
+}
+
+#frontpage {
+    width: 100%;
+    height: 100vh;
+    background: url(/images/hermes-rivera-Ww8eQWjMJWk-unsplash.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-family: Garamond;
+}
+/* Provide sufficient contrast against white background */
+a {
+    color: black;
+}
+
+#menupage {
+    background-color: #f9a602;
+    background-attachment: fixed;
+}
+
+    #menupage h1 {
+        color: #fff;
+        text-align: center;
+        padding: 3%;
+    }
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+#sn form input {
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px ridge #000;
+    border-radius: 0;
+    background-color: transparent;
+}

@@ -12,6 +12,8 @@ namespace RestaurantManagementSystem.Areas.Admin.ViewModels
         public int QuantityInGram { get; set; }
         [Required]
         public int IngredientId { get; set; }
-        public string IngredientName{ get; set; } 
+
+        public string IngredientName { get; set; }
+
     }
 }

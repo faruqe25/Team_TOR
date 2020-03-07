@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "UpdateStock";
+}
+
+@model RestaurantManagementSystem.Areas.StockManager.ViewModels.StockDetailsVm
+
+<style>
+
+    #formdiv {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+        padding: 4%;
+    }
+
+        #formdiv h1 {
+            text-align: center;
+            padding: 4%;
+        }
+
+        #formdiv button {
+            float: right;
+        }
+
+        #formdiv textarea {
+            height: 15vh;
+        }
+</style>
+<form class="row mt-5" asp-area="StockManager" asp-controller="Home"
+      asp-action="UpdateStock" method="post">
+    <div class="col-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 col-xl-8" id="formdiv">
+        <h1>Update Stock Record </h1>
+        <input  asp-for="StockDetailsId" type="hidden"/>
+        <div class="form-group">
+            <label>Select Raw Ingredient</label>
+            <select asp-for="IngredientId" 
+                    asp-items="@ViewBag.IngredientList"class="form-control">
+                <option>Select Raw Ingredient</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Enter Quantity (Kg)</label>
+            <input class="form-control" placeholder="Quantity" asp-for="Quantity" />
+        </div>
+        <button class="btn btn-dark">Update</button>
+    </div>
+</form>
+
+
+
+

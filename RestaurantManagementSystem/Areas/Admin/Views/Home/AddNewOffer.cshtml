@@ -1,0 +1,64 @@
+﻿@model RestaurantManagementSystem.Areas.Admin.ViewModels.OfferVm
+@{
+    ViewData["Title"] = "AddNewOffer";
+}
+<style>
+    #formdiv {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+        padding: 4%;
+    }
+
+        #formdiv h1 {
+            text-align: center;
+            padding: 4%;
+        }
+
+        #formdiv button {
+            float: right;
+        }
+
+        #formdiv textarea {
+            height: 15vh;
+        }
+</style>
+<form class="row mt-5" asp-area="Admin" asp-controller="Home"
+      asp-action="AddNewOffer" method="post">
+    <div class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8" id="formdiv">
+        <h1>Add New Food Offer</h1>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                <div class="form-group">
+                    <label>Set the Coupon</label>
+                    <input class="form-control" placeholder="e.g. Dx6He0P" asp-for="Coupon" />
+                    <span asp-validation-for="Coupon" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                <div class="form-group">
+                    <label>Enter Discount Amount</label>
+                    <input class="form-control" placeholder="Discount(%)" asp-for="Discount" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Set the Validity</label>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <label>From:</label>
+                        <input class="form-control" type="date" asp-for="ValidatyStart" />
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <label>To:</label>
+                        <input class="form-control" type="date" asp-for="ValidatyTo" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-dark">Add</button>
+    </div>
+</form>

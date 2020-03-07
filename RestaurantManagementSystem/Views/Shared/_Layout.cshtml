@@ -65,6 +65,12 @@
                         <a href="#" class="nav-link has-dropdown">
                             <i class="fas fa-fire"></i><span>Dashboard</span>
                         </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="nav-link" asp-area="" asp-controller="Home"
+                                   asp-action="Index">Set Meal Hour</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="menu-header">Admin Activities</li>
                     <li class="nav-item dropdown">
@@ -97,22 +103,35 @@
                         <ul class="dropdown-menu">
                             <li>
 
-                                <a class="nav-link" asp-controller="Home" asp-area="Admin" 
+                                <a class="nav-link" asp-controller="Home" asp-area="Admin"
                                    asp-action="AddIngredient">Add Raw Ingredient</a>
                             </li>
                             <li>
-                                <a class="nav-link" asp-controller="Home" asp-area="Admin" 
+                                <a class="nav-link" asp-controller="Home" asp-area="Admin"
                                    asp-action="IngredientList">List of Raw Ingredient</a>
 
-                                <a class="nav-link" asp-area="Admin"asp-controller="Home"
+                                <a class="nav-link" asp-area="Admin" asp-controller="Home"
                                    asp-action="SetFoodRecipe">Set Food Recipe</a>
                             </li>
                             <li>
-                                <a class="nav-link"asp-area="Admin"asp-controller="Home"
+                                <a class="nav-link" asp-area="Admin" asp-controller="Home"
                                    asp-action="FoodRecipeDetails">Food Recipe Details</a>
-
                             </li>
-
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+                            <i class="fas fa-columns"></i> <span>Manage Table</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="nav-link" asp-controller="Home" asp-area="Admin"
+                                   asp-action="AddNewTable">Set New Table</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" asp-controller="Home" asp-area="Admin"
+                                   asp-action="TableList">See Table Details</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -134,10 +153,27 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="nav-link" href="#">Add New Offer</a>
+                                <a class="nav-link" asp-area="Admin" asp-controller="Home"
+                                   asp-action="AddNewOffer">Add New Offer</a>
                             </li>
                             <li>
-                                <a class="nav-link" href="#">Offer List</a>
+                                <a class="nav-link" asp-area="Admin" asp-controller="Home"
+                                   asp-action="OfferDetails">See Offer Details</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link has-dropdown">
+                            <i class="fas fa-th"></i> <span>Manager Stock</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="nav-link" asp-area="Stockmanager" asp-controller="Home"
+                                   asp-action="AddStock">Insert in Stock</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" asp-area="Stockmanager" asp-controller="Home"
+                                   asp-action="StockDetails">Stock Details</a>
                             </li>
                         </ul>
                     </li>
