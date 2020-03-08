@@ -330,6 +330,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
 
             var sent = new List<RequiredMaterialVm>();
 
+
             List<MaterialVm> prt = new List<MaterialVm>();
             int c = 1;
             foreach (var item in res)
@@ -338,6 +339,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 foreach (var it in item)
                 {
 
+
                     ass.Price = it.Price;
                     ass.FoodItemId = it.FoodItemId;
                     ass.FoodItemNames = it.FoodName;
@@ -345,12 +347,14 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                     {
                         QuantityInGram = it.Quantity,
                         IngredientName = it.IngredientName
+
                     };
                     ass.MaterialVms.Add(t);
                     ass.Serial = c;
                 }
                 sent.Add(ass);
                 c++;
+
 
 
             }
@@ -400,6 +404,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
 
 
         //    }
+
 
 
         //    return View(sent);

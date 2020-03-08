@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Resturant Management System</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/Assets/css/all.css">
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(/images/hermes-rivera-Ww8eQWjMJWk-unsplash.jpg);
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-3">
+        <div class="row p-5 mb-2" style=" background:linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6));">
+            @*<div class="col-6 col-lg-6 col-xl-6"style="background-color:pink;">*@
+            <h2>My Food Cart</h2>
+            @*</div>*@
+        </div>
+        <div class="row pt-5" style=" background:linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8));">
+            <table class="table table-responsive">
+                <tr>
+                    <td>
+                        <img height=100 width=100 class="img-fluid m-2 mb-4" src="~/images/breakfast (1).svg" />
+                    </td>
+                    <td>
+                        <h3>Pasta</h3>
+                        <hr />
+                        <p>Shareable by 2 perosns</p>
+                        <p>Price: 105(BDT)</p>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-danger"><strong>-</strong></button>
+                            <input type="text" value="1" class="form-control" />
+                            <button class="btn btn-success"><strong>+</strong></button>
+                        </div>
+                    </td>
+                    <td>
+                        <h4>Total Price</h4>
+                        <hr />
+                        <p>300(BDT)</p>
+                    </td>
+                </tr>
+            </table>
+            @*<div class="col-3 col-lg-2 col-xl-2" >
+                    <img class="img-fluid m-2 mb-4" src="~/images/breakfast (1).svg" />
+                </div>
+                <div class="col-3 col-lg-3 offset-lg-1 col-xl-3 offset-xl-1" >
+                    <h3>Pasta</h3>
+                    <hr />
+                    <p>Shareable by 2 perosns</p>
+                    <p>Price: 105(BDT)</p>
+                </div>
+                <div class="col-3 col-lg-2 col-xl-2">
+                    <div class="btn-group">
+                        <button class="btn btn-danger"><strong>-</strong></button>
+                        <input type="text"value="1"class="form-control"  />
+                        <button class="btn btn-success"><strong>+</strong></button>
+                    </div>
+                </div>
+                <div class="col-2 col-lg-2 offset-lg-1 col-xl-2 offset-xl-1" >
+                    <h4>Total Price</h4>
+                    <hr />
+                    <p>300(BDT)</p>
+                </div>
+                <hr />*@
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
