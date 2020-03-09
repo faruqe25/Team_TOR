@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagementSystem.Areas.Admin.Models;
 using RestaurantManagementSystem.Areas.Admin.ViewModels;
+
 using RestaurantManagementSystem.Areas.Customer.Models;
+
 using RestaurantManagementSystem.Areas.Customer.ViewModels;
 using RestaurantManagementSystem.Database;
 using RestaurantManagementSystem.Helper;
@@ -59,7 +61,9 @@ namespace RestaurantManagementSystem.Controllers
             return View();
         }
         [HttpPost]
-        public  async Task<IActionResult> Login(CustomerAccount ct)
+
+        public  async Task< IActionResult> Login(CustomerAccount ct)
+
         {
             
                 var user = await userManager.FindByEmailAsync(ct.Email);
@@ -67,6 +71,7 @@ namespace RestaurantManagementSystem.Controllers
                             
                 if (result.Succeeded)
                 {
+
                         if(await userManager.IsInRoleAsync(user, "Admin") == true)
                             {
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
@@ -79,6 +84,7 @@ namespace RestaurantManagementSystem.Controllers
                 }
                
                  return RedirectToAction("Login");
+
 
 
         }
@@ -111,6 +117,7 @@ namespace RestaurantManagementSystem.Controllers
                 if (result.Succeeded)
                 {
 
+
                     Customers cs = new Customers {
                     CustomersId=0,
                     MobileNumber=ca.MobileNumber,
@@ -121,11 +128,12 @@ namespace RestaurantManagementSystem.Controllers
                     await _context.Customers.AddAsync(cs);
                     await _context.SaveChangesAsync();
                     await userManager.AddToRoleAsync(user, "Customer");
+
                     await signInManager.SignInAsync(user, isPersistent: false);
 
                      return RedirectToAction("Index");
                 }
-               
+
             }
 
             return View();
