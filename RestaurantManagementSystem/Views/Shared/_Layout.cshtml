@@ -13,7 +13,7 @@
 </head>
 @using Microsoft.AspNetCore.Http
 @using RestaurantManagementSystem.Helper
-@using RestaurantManagementSystem.Areas.Admin.Models
+
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -76,6 +76,7 @@
                     <div class="sidebar-brand">
                         <a href="#">RMS Admin</a>
                     </div>
+
                     <div class="sidebar-brand sidebar-brand-sm">
                         <a href="#">RMS</a>
                     </div>
@@ -88,7 +89,7 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="nav-link" asp-area="" asp-controller="Home"
-                                       asp-action="Index">Set Meal Hour</a>
+                                       asp-action="Index">Customer View</a>
                                 </li>
                             </ul>
                         </li>
@@ -122,6 +123,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
+
 
                                     <a class="nav-link" asp-controller="Home" asp-area="Admin"
                                        asp-action="AddIngredient">Add Raw Ingredient</a>

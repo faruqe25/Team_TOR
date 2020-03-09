@@ -59,7 +59,9 @@ namespace RestaurantManagementSystem.Controllers
             return View();
         }
         [HttpPost]
-        public  async Task<IActionResult> Login(CustomerAccount ct)
+
+        public  async Task< IActionResult> Login(CustomerAccount ct)
+
         {
             
                 var user = await userManager.FindByEmailAsync(ct.Email);
@@ -67,6 +69,7 @@ namespace RestaurantManagementSystem.Controllers
                             
                 if (result.Succeeded)
                 {
+
                         if(await userManager.IsInRoleAsync(user, "Admin") == true)
                             {
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
@@ -79,6 +82,7 @@ namespace RestaurantManagementSystem.Controllers
                 }
                
                  return RedirectToAction("Login");
+
 
 
         }
@@ -111,6 +115,7 @@ namespace RestaurantManagementSystem.Controllers
                 if (result.Succeeded)
                 {
 
+
                     Customers cs = new Customers {
                     CustomersId=0,
                     MobileNumber=ca.MobileNumber,
@@ -121,11 +126,12 @@ namespace RestaurantManagementSystem.Controllers
                     await _context.Customers.AddAsync(cs);
                     await _context.SaveChangesAsync();
                     await userManager.AddToRoleAsync(user, "Customer");
+
                     await signInManager.SignInAsync(user, isPersistent: false);
 
                      return RedirectToAction("Index");
                 }
-               
+
             }
 
             return View();
@@ -141,19 +147,41 @@ namespace RestaurantManagementSystem.Controllers
         [HttpPost]
         public JsonResult SetCartValue(int id) 
         {
-            var food = _context.FoodItems.AsNoTracking().Where(s => s.FoodItemId == id).FirstOrDefault();
-            if (food != null)
-            {
-                 
-                var List = HttpContext.Session.Get<List<FoodItem>>("FoodS");
+               var food = new FoodCart
+               {
+                 FoodItemId=id,
+                 Quantity=1,
+               };
+ 
+                var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
                 if (List == null)
                 {
-                    List = new List<FoodItem>();
+                    List = new List<FoodCart>();
                 }
-                List.Add(food);
+                else 
+                {
+                   
+                    var exist = List.Where(a => a.FoodItemId == id).FirstOrDefault();
+                        if (exist != null)
+                        {
+                           
+                                food.Quantity= exist.Quantity + 1;
+                                food.FoodItemId = id;
+                                List.Remove(exist);
+                                List.Add(food);
+                        
+                         }
+                        else
+                            {
+                                List.Add(food);
+                            }
+
+                }
+                
+              
                 HttpContext.Session.Set("FoodS", List);
-            }
-            var count = (HttpContext.Session.Get<List<FoodItem>>("FoodS")).Count;
+         
+            var count = HttpContext.Session.Get<List<FoodCart>>("FoodS").Count();
 
             return Json(count);
         }

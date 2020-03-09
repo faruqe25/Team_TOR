@@ -45,6 +45,7 @@ namespace RestaurantManagementSystem
             Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<IdentityUser, IdentityRole>()
             .AddEntityFrameworkStores<DatabaseContext>();
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -61,6 +62,8 @@ namespace RestaurantManagementSystem
 
                
             });
+
+
 
         }
 

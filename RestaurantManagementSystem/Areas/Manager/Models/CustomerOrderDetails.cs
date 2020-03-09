@@ -13,7 +13,7 @@ namespace RestaurantManagementSystem.Areas.Manager.Models
         public int CustomerOrderDetailsId { get; set; }
         public int Quantity { get; set; }
         public Boolean OnlineStatus { get; set; }
-        public int FoodItemNo { get; set; }
+        public int FoodItemId { get; set; } 
         public FoodItem FoodItem { get; set; }
         public int DiscountId { get; set; }
         public Offer Offer { get; set; }

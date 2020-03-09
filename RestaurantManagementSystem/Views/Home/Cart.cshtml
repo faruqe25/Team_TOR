@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <style>
+
         body {
             margin: 0;
             padding: 0;
@@ -29,59 +30,92 @@
 </head>
 <body>
     <div class="container mt-3">
-        <div class="row p-5 mb-2" style=" background:linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6));">
-            @*<div class="col-6 col-lg-6 col-xl-6"style="background-color:pink;">*@
+        <div class="row p-5 mb-2" style=" background:linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6));border-left:10px solid #ffa500;">
             <h2>My Food Cart</h2>
-            @*</div>*@
         </div>
         <div class="row pt-5" style=" background:linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8));">
-            <table class="table table-responsive">
-                <tr>
-                    <td>
-                        <img height=100 width=100 class="img-fluid m-2 mb-4" src="~/images/breakfast (1).svg" />
-                    </td>
-                    <td>
-                        <h3>Pasta</h3>
-                        <hr />
-                        <p>Shareable by 2 perosns</p>
-                        <p>Price: 105(BDT)</p>
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <button class="btn btn-danger"><strong>-</strong></button>
-                            <input type="text" value="1" class="form-control" />
-                            <button class="btn btn-success"><strong>+</strong></button>
+            <div class="table-responsive">
+                <table class=" table table-responsive col-lg-12 col-xl-12 d-flex justify-content-center">
+                    <tr>
+                        <td>
+                            <img height=100 width=100 class="img-fluid mr-4" src="~/images/breakfast (1).svg" />
+                        </td>
+                        <td class="m-3">
+                            <h3>Pasta</h3>
+                            <hr />
+                            <p>Shareable by 2 perosns</p>
+                            <p>Price: 105(BDT)</p>
+                        </td>
+                        <td>
+                            <div class="btn-group m-3">
+                                <button class="btn btn-danger"><strong>-</strong></button>
+                                <input type="text" value="1" class="form-control" />
+                                <button class="btn btn-success"><strong>+</strong></button>
+                            </div>
+                        </td>
+                        <td>
+                            <h4>Total Price</h4>
+                            <hr />
+                            <p>300(BDT)</p>
+                        </td>
+                        <td>
+                            <a asp-route-id=""><i class="fa fa-trash-alt m-3 ml-4" style="color:red;font-size:3em;"></i></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
+                Order Now
+            </button>
+            <!--First Modal-->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </td>
-                    <td>
-                        <h4>Total Price</h4>
-                        <hr />
-                        <p>300(BDT)</p>
-                    </td>
-                </tr>
-            </table>
-            @*<div class="col-3 col-lg-2 col-xl-2" >
-                    <img class="img-fluid m-2 mb-4" src="~/images/breakfast (1).svg" />
-                </div>
-                <div class="col-3 col-lg-3 offset-lg-1 col-xl-3 offset-xl-1" >
-                    <h3>Pasta</h3>
-                    <hr />
-                    <p>Shareable by 2 perosns</p>
-                    <p>Price: 105(BDT)</p>
-                </div>
-                <div class="col-3 col-lg-2 col-xl-2">
-                    <div class="btn-group">
-                        <button class="btn btn-danger"><strong>-</strong></button>
-                        <input type="text"value="1"class="form-control"  />
-                        <button class="btn btn-success"><strong>+</strong></button>
+                        <div class="modal-body">
+                            <h5 class="modal-title text-center" id="exampleModalLongTitle">
+                                Dear Customer,
+                                <br />
+                                Kindly Reserve a Table!
+                            </h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-dark">Ok</button>
+                        </div>
                     </div>
                 </div>
-                <div class="col-2 col-lg-2 offset-lg-1 col-xl-2 offset-xl-1" >
-                    <h4>Total Price</h4>
-                    <hr />
-                    <p>300(BDT)</p>
+            </div>
+            <!--Second Modal-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+
+                        </div>
+                        <div class="modal-body">
+                            <h5 class="text-center">Available Tables</h5>
+                            <hr />
+                            @*<div class="btn-group">
+                                    <button class="btn btn-info"><strong>A-3</strong></button>
+                                    <button class="btn btn-info"><strong>A-3</strong></button>
+                                    <button class="btn btn-info"><strong>A-3</strong></button>
+                                    <button class="btn btn-info"><strong>A-3</strong></button>
+                                    <button class="btn btn-info"><strong>A-3</strong></button>
+                                </div>*@
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-dark">Ok</button>
+                        </div>
+                    </div>
                 </div>
-                <hr />*@
+            </div>
         </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -89,3 +123,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
 </html>
+
+
