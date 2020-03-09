@@ -4,7 +4,7 @@
 }
 @using Microsoft.AspNetCore.Http
 @using RestaurantManagementSystem.Helper
-@using RestaurantManagementSystem.Areas.Admin.Models
+@using RestaurantManagementSystem.Areas.Customer.ViewModels
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -49,7 +49,7 @@
                         <li class="nav-item">
                             <a class="nav-link light" asp-area="" asp-controller="Home" asp-action="Cart">
                                 <i class="fas fa-cart-plus"></i>
-                                @{var a = Context.Session.Get<List<FoodItem>>("FoodS");}
+                                @{var a = Context.Session.Get<List<FoodCart>>("FoodS");}
                                 @if (a != null)
                                 {
                                     <span id="CartValue">
@@ -130,52 +130,52 @@
                             </p>
                         </div>
                         <div class="card-footer" id="cardFotter">
-                            <button type="button" class="btn btn-dark button" value="@item.FoodItemId" data-toggle="modal" data-target="#exampleModalCenter">
-                                Order Now
-                            </button>
-                            @*<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
+                                <button type="button" class="btn btn-dark button" value="@item.FoodItemId" data-toggle="modal" data-target="#exampleModalCenter">
                                     Order Now
                                 </button>
-                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-center" id="exampleModalLongTitle">
-                                                    You must login before plac
-                                                      ing an order!
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form class="col-8 offset-2">
-                                                    <h2>Login Now</h2>
-                                                    <hr />
-                                                    <div class="form-group">
-                                                        <label>Enter UserId</label>
-                                                        <input placeholder="UserId" class="form-control" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Enter Password</label>
-                                                        <input placeholder="Password" type="password" class="form-control" />
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-dark">Login</button>
-                                                <span>
-                                                    <a asp-controller="Home"asp-action="CreateAccount">Create Account</a>
-                                                </span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>*@
-
-
-
+                                @*<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
+                Order Now
+            </button>
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-center" id="exampleModalLongTitle">
+                                You must login before plac
+                                  ing an order!
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
+                        <div class="modal-body">
+                            <form class="col-8 offset-2">
+                                <h2>Login Now</h2>
+                                <hr />
+                                <div class="form-group">
+                                    <label>Enter UserId</label>
+                                    <input placeholder="UserId" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Enter Password</label>
+                                    <input placeholder="Password" type="password" class="form-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark">Login</button>
+                            <span>
+                                <a asp-controller="Home"asp-action="CreateAccount">Create Account</a>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>*@
+
+
+
+                            </div>
                     </div>
                 </div>
             }

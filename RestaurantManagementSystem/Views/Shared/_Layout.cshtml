@@ -13,7 +13,7 @@
 </head>
 @using Microsoft.AspNetCore.Http
 @using RestaurantManagementSystem.Helper
-@using RestaurantManagementSystem.Areas.Admin.Models
+
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -89,7 +89,7 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="nav-link" asp-area="" asp-controller="Home"
-                                       asp-action="Index">Set Meal Hour</a>
+                                       asp-action="Index">Customer View</a>
                                 </li>
                             </ul>
                         </li>
