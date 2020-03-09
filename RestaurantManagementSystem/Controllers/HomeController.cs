@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagementSystem.Areas.Admin.Models;
 using RestaurantManagementSystem.Areas.Admin.ViewModels;
+
+using RestaurantManagementSystem.Areas.Customer.Models;
+
 using RestaurantManagementSystem.Areas.Customer.ViewModels;
 using RestaurantManagementSystem.Database;
 using RestaurantManagementSystem.Helper;
@@ -58,7 +61,9 @@ namespace RestaurantManagementSystem.Controllers
             return View();
         }
         [HttpPost]
+
         public  async Task< IActionResult> Login(CustomerAccount ct)
+
         {
             
                 var user = await userManager.FindByEmailAsync(ct.Email);
@@ -66,16 +71,22 @@ namespace RestaurantManagementSystem.Controllers
                             
                 if (result.Succeeded)
                 {
-                  
-                    return RedirectToAction("Index");
+
+                        if(await userManager.IsInRoleAsync(user, "Admin") == true)
+                            {
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
                 }
-                else
-                {
-                    return RedirectToAction("Login");
-                    //Asd. asd12345
+                     else if (await userManager.IsInRoleAsync(user, "Customer") == true)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                 
                 }
-           
-           
+               
+                 return RedirectToAction("Login");
+
+
+
         }
         public IActionResult CreateAccount()
         {
@@ -105,13 +116,24 @@ namespace RestaurantManagementSystem.Controllers
                 var result = await userManager.CreateAsync(user, ca.Password);
                 if (result.Succeeded)
                 {
+
+
+                    Customers cs = new Customers {
+                    CustomersId=0,
+                    MobileNumber=ca.MobileNumber,
+                    PaymentMobileNumber=ca.PaymentMobileNumber,
+                    CustomersName=ca.CustomersName
+                    };
+
+                    await _context.Customers.AddAsync(cs);
+                    await _context.SaveChangesAsync();
                     await userManager.AddToRoleAsync(user, "Customer");
 
-                   
                     await signInManager.SignInAsync(user, isPersistent: false);
 
                      return RedirectToAction("Index");
                 }
+
             }
 
             return View();
