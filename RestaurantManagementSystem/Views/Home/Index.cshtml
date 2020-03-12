@@ -76,14 +76,14 @@
 
                         @if (SignInManager.IsSignedIn(User))
                         {
-                           
+
                             <li class="nav-item">
                                 <form class="nav-link text-light" method="post" asp-controller="Home" asp-action="Logout">
                                     <input style="border:none;background-color: #f9a602;" type="submit" value="Logout" /><i class="fas fa-sign-out-alt" aria-hidden="true"></i>
 
                                 </form>
                             </li>
- 
+
                         }
                         else
                         {
@@ -106,7 +106,8 @@
             <h1><strong>Lorem ipsum dolor</strong></h1>
             <hr />
             <p>Some quick example text to build on the card title</p>
-            <button class="btn btn-dark">Reserve Table Now</button>
+            <button class="btn btn-dark">Reserve Table</button>
+            <a class="btn btn-dark"href="#menupage">Food Menu</a>
         </div>
     </div>
     <div class="container-fluid" id="menupage">
@@ -130,57 +131,58 @@
                             </p>
                         </div>
                         <div class="card-footer" id="cardFotter">
-                                <button type="button" class="btn btn-dark button" value="@item.FoodItemId" data-toggle="modal" data-target="#exampleModalCenter">
+                            <button type="button" class="btn btn-dark button" value="@item.FoodItemId" data-toggle="modal" data-target="#exampleModalCenter">
+                                Order Now
+                            </button>
+                            @*<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
                                     Order Now
                                 </button>
-                                @*<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
-                Order Now
-            </button>
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title text-center" id="exampleModalLongTitle">
-                                You must login before plac
-                                  ing an order!
-                            </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-center" id="exampleModalLongTitle">
+                                                    You must login before plac
+                                                      ing an order!
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="col-8 offset-2">
+                                                    <h2>Login Now</h2>
+                                                    <hr />
+                                                    <div class="form-group">
+                                                        <label>Enter UserId</label>
+                                                        <input placeholder="UserId" class="form-control" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Enter Password</label>
+                                                        <input placeholder="Password" type="password" class="form-control" />
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-dark">Login</button>
+                                                <span>
+                                                    <a asp-controller="Home"asp-action="CreateAccount">Create Account</a>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>*@
+
+
+
                         </div>
-                        <div class="modal-body">
-                            <form class="col-8 offset-2">
-                                <h2>Login Now</h2>
-                                <hr />
-                                <div class="form-group">
-                                    <label>Enter UserId</label>
-                                    <input placeholder="UserId" class="form-control" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Enter Password</label>
-                                    <input placeholder="Password" type="password" class="form-control" />
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-dark">Login</button>
-                            <span>
-                                <a asp-controller="Home"asp-action="CreateAccount">Create Account</a>
-                            </span>
-                        </div>
-
-                    </div>
-                </div>
-            </div>*@
-
-
-
-                            </div>
                     </div>
                 </div>
             }
         </div>
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -201,6 +203,7 @@
 
 
     </script>
+
 
 
 

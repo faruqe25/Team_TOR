@@ -28,29 +28,29 @@ namespace RestaurantManagementSystem.Controllers
         public HomeController(DatabaseContext context,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole>roleManager)
+            RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.roleManager = roleManager;
-           
+
         }
-        
+
         public IActionResult Index()
         {
-            var fooditem = _context.FoodItems.AsNoTracking().Include(q=>q.MealHour).ToList();
-            var fooditemvmlist=new List<FoodItemVm>();
+            var fooditem = _context.FoodItems.AsNoTracking().Include(q => q.MealHour).ToList();
+            var fooditemvmlist = new List<FoodItemVm>();
             foreach (var item in fooditem)
             {
-                
+
                 FoodItemVm fooditemvm = new FoodItemVm()
                 {
                     FoodName = item.FoodName,
-                    MealHourName=item.MealHour.MealHourTitle,
-                    Description=item.Description,
-                    Price=item.Price,
-                    FoodItemId=item.FoodItemId,
+                    MealHourName = item.MealHour.MealHourTitle,
+                    Description = item.Description,
+                    Price = item.Price,
+                    FoodItemId = item.FoodItemId,
                 };
                 fooditemvmlist.Add(fooditemvm);
             }
@@ -62,28 +62,28 @@ namespace RestaurantManagementSystem.Controllers
         }
         [HttpPost]
 
-        public  async Task< IActionResult> Login(CustomerAccount ct)
+        public async Task<IActionResult> Login(CustomerAccount ct)
 
         {
-            
-                var user = await userManager.FindByEmailAsync(ct.Email);
-                var result = await signInManager.PasswordSignInAsync(user, ct.Password, true, true);
-                            
-                if (result.Succeeded)
-                {
 
-                        if(await userManager.IsInRoleAsync(user, "Admin") == true)
-                            {
+            var user = await userManager.FindByEmailAsync(ct.Email);
+            var result = await signInManager.PasswordSignInAsync(user, ct.Password, true, true);
+
+            if (result.Succeeded)
+            {
+
+                if (await userManager.IsInRoleAsync(user, "Admin") == true)
+                {
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
                 }
-                     else if (await userManager.IsInRoleAsync(user, "Customer") == true)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                 
+                else if (await userManager.IsInRoleAsync(user, "Customer") == true)
+                {
+                    return RedirectToAction("Index");
                 }
-               
-                 return RedirectToAction("Login");
+
+            }
+
+            return RedirectToAction("Login");
 
 
 
@@ -101,7 +101,7 @@ namespace RestaurantManagementSystem.Controllers
                 IdentityRole role = new IdentityRole
                 {
                     Name = "Customer"
-                 
+
                 };
                 await roleManager.CreateAsync(role);
             }
@@ -111,18 +111,19 @@ namespace RestaurantManagementSystem.Controllers
                 {
                     UserName = ca.Email,
                     Email = ca.Email,
-                    
+
                 };
                 var result = await userManager.CreateAsync(user, ca.Password);
                 if (result.Succeeded)
                 {
 
 
-                    Customers cs = new Customers {
-                    CustomersId=0,
-                    MobileNumber=ca.MobileNumber,
-                    PaymentMobileNumber=ca.PaymentMobileNumber,
-                    CustomersName=ca.CustomersName
+                    Customers cs = new Customers
+                    {
+                        CustomersId = 0,
+                        MobileNumber = ca.MobileNumber,
+                        PaymentMobileNumber = ca.PaymentMobileNumber,
+                        CustomersName = ca.CustomersName
                     };
 
                     await _context.Customers.AddAsync(cs);
@@ -131,7 +132,7 @@ namespace RestaurantManagementSystem.Controllers
 
                     await signInManager.SignInAsync(user, isPersistent: false);
 
-                     return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
 
             }
@@ -147,48 +148,83 @@ namespace RestaurantManagementSystem.Controllers
 
         [HttpGet]
         [HttpPost]
-        public JsonResult SetCartValue(int id) 
+        public JsonResult SetCartValue(int id)
         {
-               var food = new FoodCart
-               {
-                 FoodItemId=id,
-                 Quantity=1,
-               };
- 
-                var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
-                if (List == null)
+            var foodDetails = _context.FoodItems.AsNoTracking().Where(s => s.FoodItemId == id).FirstOrDefault();
+            var food = new FoodCart
+            {
+                FoodItemId = id,
+                Quantity = 1,
+                FoodName = foodDetails.FoodName,
+                FoodPrice = foodDetails.Price,
+                FoodDescription = foodDetails.Description
+            };
+
+            var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
+            if (List == null)
+            {
+                List = new List<FoodCart>();
+                List.Add(food);
+            }
+            else
+            {
+
+                var exist = List.Where(a => a.FoodItemId == id).FirstOrDefault();
+                if (exist != null)
                 {
-                    List = new List<FoodCart>();
-                }
-                else 
-                {
-                   
-                    var exist = List.Where(a => a.FoodItemId == id).FirstOrDefault();
-                        if (exist != null)
-                        {
-                           
-                                food.Quantity= exist.Quantity + 1;
-                                food.FoodItemId = id;
-                                List.Remove(exist);
-                                List.Add(food);
-                        
-                         }
-                        else
-                            {
-                                List.Add(food);
-                            }
+
+                    food.Quantity = exist.Quantity + 1;
+                    food.FoodItemId = id;
+                    food.FoodPrice = food.FoodPrice;
+                    List.Remove(exist);
+                    List.Add(food);
 
                 }
-                
-              
-                HttpContext.Session.Set("FoodS", List);
-         
-            var count = HttpContext.Session.Get<List<FoodCart>>("FoodS").Count();
+                else
+                {
+                    List.Add(food);
+                }
+
+            }
+
+
+            HttpContext.Session.Set("FoodS", List);
+
+            var count = HttpContext.Session.Get<List<FoodCart>>("FoodS").Sum(t => t.Quantity);
 
             return Json(count);
         }
+        public JsonResult SetCartValueUpdated(int id, int Quantity)
+        {
 
-        public IActionResult Cart() 
+
+            var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
+            var up = List.Where(s => s.FoodItemId == id).FirstOrDefault();
+            var food = new FoodCart
+            {
+                FoodItemId = id,
+                Quantity = Quantity,
+                FoodName = up.FoodName,
+                FoodPrice = up.FoodPrice,
+                FoodDescription = up.FoodDescription
+            };
+            List.Remove(up);
+            List.Add(food);
+
+            HttpContext.Session.Set("FoodS", List);
+            return Json(true);
+        }
+
+        public JsonResult DeleteCart(int id)
+        {
+            var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
+            var up = List.Where(s => s.FoodItemId == id).FirstOrDefault();
+            List.Remove(up);
+            HttpContext.Session.Set("FoodS", List);
+            return Json(true);
+        }
+
+        public IActionResult Cart()
         {
 
             return View();
