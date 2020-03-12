@@ -34,45 +34,90 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             this.roleManager = roleManager;
 
         }
+        public JsonResult TableReservation(DateTime From,DateTime To,int TableId)  
+        {
+                TableResevationCart table = new TableResevationCart() {
+                    BookTimeFrom = From,
+                    BookTimeTo = To,
+                    Date = DateTime.Today,
+                    TableId=TableId
+                };
+                HttpContext.Session.Set("Table", table);
+            return Json(true);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Order(CustomerOrderedTable ct) 
         {   var email = "";
-            var CustrId=new Customers();
+            var CustomerDetails=new Customers();
             if (signInManager.IsSignedIn(User)) {  email = User.Identity.Name; }
             var user = await userManager.FindByEmailAsync(email);
             if (await userManager.IsInRoleAsync(user, "Customer") == true) {
-                CustrId = _context.Customers.Where(s => s.MobileNumber == user.PhoneNumber).FirstOrDefault();
+                CustomerDetails = _context.Customers.
+                            Where(s => s.MobileNumber == user.PhoneNumber)
+                            .FirstOrDefault();
             }
-
-            CustomerOrderedTable abc = new CustomerOrderedTable
+            var ReservedTable = HttpContext.Session.Get<TableResevationCart>("Table");
+            if (ReservedTable != null)
             {
-                CustomerOrderedTableId=ct.CustomerOrderedTableId,
-                CustomersId=CustrId.CustomersId,
-                BookTimeFrom=ct.BookTimeFrom,
-                BookTimeTo=ct.BookTimeTo,
-                Date=ct.Date,
-                ConfirmStatus=false,
-                TableId=ct.TableId, 
-            };
-            await _context.CustomerOrderedTable.AddAsync(abc);
-            await _context.SaveChangesAsync();
-            var orderlist =HttpContext.Session.Get<List<FoodCart>>("FoodS");
-            if(orderlist!=null)
-            {
-                foreach (var item in orderlist)
+                CustomerOrderedTable abc = new CustomerOrderedTable()
                 {
-                    var countfood = orderlist.Where(s => s.FoodItemId == item.FoodItemId).Count();
-                    CustomerOrderDetails ab = new CustomerOrderDetails() 
+                    CustomerOrderedTableId = ct.CustomerOrderedTableId,
+                    CustomersId = CustomerDetails.CustomersId,
+                };
+                abc.BookTimeFrom = ReservedTable.BookTimeFrom;
+                abc.BookTimeTo = ReservedTable.BookTimeTo;
+                abc.Date = ReservedTable.Date;
+                abc.TableId = ReservedTable.TableId;
+                await _context.CustomerOrderedTable.AddAsync(abc);
+                await _context.SaveChangesAsync();
+                var update = _context.Table.Where(a => a.TableId == ReservedTable.TableId).FirstOrDefault();
+                   update.BookedStatus = true;
+                   _context.Table.Update(update);
+                await _context.SaveChangesAsync();
+                
+                var orderlist = HttpContext.Session.Get<List<FoodCart>>("FoodS");
+                if (orderlist != null)
+                {
+                    foreach (var item in orderlist)
                     {
-                       CustomerOrderDetailsId=0,
-                       FoodItemId=item.FoodItemId,
-                       Quantity= countfood,
-                       DiscountId=0,
-                       OnlineStatus=true,
-                       CustomerOrderedTableId=abc.CustomerOrderedTableId,
-                    };
-                    await _context.CustomerOrderDetails.AddAsync(ab);
-                    await _context.SaveChangesAsync();
+                        var countfood = orderlist.Where(s => s.FoodItemId == item.FoodItemId).Count();
+                        CustomerOrderDetails ab = new CustomerOrderDetails()
+                        {
+                            CustomerOrderDetailsId = 0,
+                            FoodItemId = item.FoodItemId,
+                            Quantity = countfood,
+                            DiscountId = 0,
+                            OnlineStatus = true,
+                            CustomerOrderedTableId = abc.CustomerOrderedTableId,
+                        };
+                        await _context.CustomerOrderDetails.AddAsync(ab);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+            else
+            {
+
+                var orderlist = HttpContext.Session.Get<List<FoodCart>>("FoodS");
+                if (orderlist != null)
+                {
+                    foreach (var item in orderlist)
+                    {
+                        var countfood = orderlist.Where(s => s.FoodItemId == item.FoodItemId).Count();
+                        CustomerOrderDetails ab = new CustomerOrderDetails()
+                        {
+                            CustomerOrderDetailsId = 0,
+                            FoodItemId = item.FoodItemId,
+                            Quantity = countfood,
+                            DiscountId = 0,
+                            OnlineStatus = true,
+                            
+                        };
+                        await _context.CustomerOrderDetails.AddAsync(ab);
+                        await _context.SaveChangesAsync();
+                    }
                 }
             }
             return View();
