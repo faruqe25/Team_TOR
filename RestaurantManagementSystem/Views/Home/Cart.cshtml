@@ -1,9 +1,7 @@
-<<<<<<< HEAD
+﻿@using RestaurantManagementSystem.Helper
+@using RestaurantManagementSystem.Areas.Customer.ViewModels
 ﻿﻿@{
-=======
 
-﻿@{
->>>>>>> master
     Layout = null;
 }
 <!DOCTYPE html>
@@ -19,6 +17,7 @@
     </environment>
     <style>
 
+
         body {
             margin: 0;
             padding: 0;
@@ -33,6 +32,7 @@
         }
     </style>
 </head>
+@{var abc=0.0;}
 <body>
     <div class="container mt-3">
         <div class="row p-5 mb-2" style=" background:linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6));border-left:10px solid #ffa500;">
@@ -40,37 +40,60 @@
         </div>
         <div class="row pt-5" style=" background:linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8));">
             <div class="table-responsive">
-                <table class=" table table-responsive col-lg-12 col-xl-12 d-flex justify-content-center">
-                    <tr>
-                        <td>
-                            <img height=100 width=100 class="img-fluid mr-4" src="~/images/breakfast (1).svg" />
-                        </td>
-                        <td class="m-3">
-                            <h3>Pasta</h3>
-                            <hr />
-                            <p>Shareable by 2 perosns</p>
-                            <p>Price: 105(BDT)</p>
-                        </td>
-                        <td>
-                            <div class="btn-group m-3">
-                                <button class="btn btn-danger"><strong>-</strong></button>
-                                <input type="text" value="1" class="form-control" />
-                                <button class="btn btn-success"><strong>+</strong></button>
-                            </div>
-                        </td>
-                        <td>
-                            <h4>Total Price</h4>
-                            <hr />
-                            <p>300(BDT)</p>
-                        </td>
-                        <td>
-                            <a asp-route-id=""><i class="fa fa-trash-alt m-3 ml-4" style="color:red;font-size:3em;"></i></a>
-                        </td>
-                    </tr>
+                <table class="table table-responsive col-lg-12 col-xl-12 d-flex justify-content-center">
+                    <tbody>
+                        @{var a = Context.Session.Get<List<FoodCart>>("FoodS");}
+                        @if (a != null)
+                        {
+                            @foreach (var item in a)
+                            {
+                                <tr>
+                                    <td>
+                                        <img height=100 width=100 class="img-fluid mr-4" src="~/images/breakfast (1).svg" />
+                                    </td>
+                                    <td class="m-3">
+                                        <h3>@item.FoodName</h3>
+                                        <hr />
+                                        <p>@item.FoodDescription</p>
+                                        <p>Price: @item.FoodPrice (BDT)<input id="Ta" type="hidden" value="@item.FoodPrice" /></p>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group m-3">
+                                            <button id="Minus" class="btn btn-danger" value="-"><strong>-</strong></button>
+                                            <input id="Quantity" type="text" value="@item.Quantity" class="form-control" readonly />
+                                            <button id="Plus" class="btn btn-success" value="+"><strong>+</strong></button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h4>Total Price</h4>
+                                        <hr />
+                                        @{ var ab = item.Quantity * item.FoodPrice;}
+                                    <p id="totalprice">@ab (BDT)</p>
+
+                                    </td>
+
+                                    <td>
+                                        <a id="DeleteMe"><i class="fa fa-trash-alt m-3 ml-4" style="color:red;font-size:3em;"></i></a>
+                                    </td>
+                                    <td class="text-hide">@item.FoodItemId
+                                    
+                                    @{abc = abc+item.FoodPrice * item.Quantity; }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4"><p id="FinalTotal">Total : @abc</p></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
+            <hr />
+            
             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
-                Order Now
+                Order Now 
             </button>
             <!--First Modal-->
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -123,9 +146,91 @@
             </div>
         </div>
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("[id^=Quantity]").each(function () {
+                var C = $(this).closest("tr").find("#Quantity").val()
+                if (C == 1) {
+                    $(this).closest("tr").find("#Minus").attr("disabled", true);
+                }
+            });
+        });
+
+
+
+        $("table.table-responsive").on("click", "#DeleteMe", function (event) {
+            var FoodId = $(this).closest("tr").find('td:eq(5)').text();
+            var url = "/Home/DeleteCart";
+            $.getJSON(url, { id: FoodId }, function (data) {
+                var FinalCost = data;
+                   
+                    $("#FinalTotal").html(FinalCost);
+            });
+            $(this).closest("tr").remove();
+
+
+        });
+
+        $("button").click(function () {
+            var value = $(this).attr("value");
+            if (value == "+") {
+                var Q = $(this).closest("tr").find("#Quantity").val();
+                var TotalQuantity = Number(Q) + Number(1);
+                $(this).closest("tr").find("#Quantity").val(TotalQuantity);
+
+                if (TotalQuantity > 1) {
+
+                    $(this).closest("tr").find('#Minus').removeAttr("disabled");
+                }
+                var FoodId = $(this).closest("tr").find('td:eq(5)').text();
+                var url = "/Home/SetCartValueUpdated";
+                $.getJSON(url, { id: FoodId, Quantity: TotalQuantity }, function (data) {
+                    var FinalCost = data;
+                   
+                    $("#FinalTotal").html(FinalCost);
+                });
+                var FoodPrice = $(this).closest("tr").find("#Ta").val();
+                var CalculatedTotalPrice = Number(FoodPrice) * Number(TotalQuantity)
+                $(this).closest("tr").find("#totalprice").html(CalculatedTotalPrice+" (BDT)");
+
+            }
+            else if(value == "-") {
+
+                var FoodId = $(this).closest("tr").find('td:eq(5)').text();
+                var FoodPrice = $(this).closest("tr").find("#Ta").val();
+
+                var Q = $(this).closest("tr").find("#Quantity").val();
+                var TotalQuantity = Number(Q) - Number(1);
+
+                $(this).closest("tr").find("#Quantity").val(TotalQuantity);
+
+                $(this).closest("tr").find("#totalprice").html(Number(FoodPrice) * Number(TotalQuantity)+" (BDT)");
+
+
+                if (TotalQuantity == 1) {
+                    $(this).closest("tr").find("#Minus").attr("disabled", true);
+                }
+
+               
+                var url = "/Home/SetCartValueUpdated";
+                $.getJSON(url, { id: FoodId, Quantity: TotalQuantity }, function (data) {
+                    var FinalCost = data;
+                   
+                    $("#FinalTotal").html(FinalCost);
+                       
+                });
+            }
+        });
+
+
+    </script>
+
+
 </body>
 </html>
 

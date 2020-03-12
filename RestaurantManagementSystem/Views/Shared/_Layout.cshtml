@@ -2,18 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   @*<meta http-equiv="X-UA-Compatible" content="IE=edge">*@
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>@ViewData["Title"] - Resturant Management System</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
     <environment include="Development">
         <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="~/Assets/css/all.css">
         <link rel="stylesheet" href="~/Assets/css/style.css">
+        <link rel="stylesheet" href="~/SweetAlert/sweetalert2.min.css">
+
     </environment>
 </head>
 @using Microsoft.AspNetCore.Http
 @using RestaurantManagementSystem.Helper
-
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -239,6 +241,8 @@
         <script src="~/Assets/js/bootstrap.min.js"></script>
         <script src="~/Assets/js/NiceScroll.min.js"></script>
         <script src="~/Assets/js/scripts.js"></script>
+        <script type="text/javascript" src="~/SweetAlert/sweetalert2.all.min.js"></script>
+
     </environment>
     @RenderSection("Scripts", required: false)
 </body>
