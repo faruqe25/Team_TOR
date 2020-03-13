@@ -28,14 +28,14 @@
       asp-action="AddIngredient" method="post">
     <div class="col-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 col-xl-8 offset-xl-2" id="formdiv">
         @if (ViewBag.Validation != null)
-        {
-            <div class="alert alert-danger" role="alert">
+        {        
+            <div id="mytoastr" class="alert alert-danger toast" role="alert">
                 @ViewBag.Validation
-            </div>
+            </div>        
         }
         @if (ViewBag.Success != null)
         {
-            <div class="alert alert-success" role="alert">
+            <div id="mytoastr" class="alert alert-success toast" role="alert">
                 @ViewBag.Success
             </div>
         }
@@ -50,4 +50,13 @@
         <button class="btn btn-dark">Add</button>
     </div>
 </form>
+@section Scripts{
 
+    <script type="text/javascript">
+         $(document).ready(function () {
+                    $('#mytoastr').toast({ delay: 2000 });
+                    $('#mytoastr').toast('show');
+           
+                });
+    </script>
+}
