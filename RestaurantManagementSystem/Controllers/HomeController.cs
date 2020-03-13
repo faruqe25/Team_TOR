@@ -63,7 +63,6 @@ namespace RestaurantManagementSystem.Controllers
         [HttpPost]
 
         public async Task<IActionResult> Login(CustomerAccount ct)
-
         {
 
             var user = await userManager.FindByEmailAsync(ct.Email);
@@ -129,9 +128,7 @@ namespace RestaurantManagementSystem.Controllers
                     await _context.Customers.AddAsync(cs);
                     await _context.SaveChangesAsync();
                     await userManager.AddToRoleAsync(user, "Customer");
-
                     await signInManager.SignInAsync(user, isPersistent: false);
-
                     return RedirectToAction("Index");
                 }
 
@@ -212,7 +209,9 @@ namespace RestaurantManagementSystem.Controllers
             List.Add(food);
 
             HttpContext.Session.Set("FoodS", List);
-            return Json(true);
+            var total =List.Sum(s => s.FoodPrice * s.Quantity);
+
+            return Json(total);
         }
 
         public JsonResult DeleteCart(int id)
@@ -221,7 +220,14 @@ namespace RestaurantManagementSystem.Controllers
             var up = List.Where(s => s.FoodItemId == id).FirstOrDefault();
             List.Remove(up);
             HttpContext.Session.Set("FoodS", List);
-            return Json(true);
+            if (List !=null)
+            {
+                var total = List.Sum(s => s.FoodPrice * s.Quantity);
+
+                return Json(total);
+
+            }
+            return Json(0);
         }
 
         public IActionResult Cart()
