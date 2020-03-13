@@ -1,5 +1,6 @@
 ﻿@using RestaurantManagementSystem.Helper
 @using RestaurantManagementSystem.Areas.Customer.ViewModels
+@*@model List<RestaurantManagementSystem.Areas.Admin.Models.Table>*@
 ﻿﻿@{
 
     Layout = null;
@@ -32,114 +33,113 @@
         }
     </style>
 </head>
-@{var abc=0.0;}
 <body>
-    <div class="container mt-3">
-        <div class="row p-5 mb-2" style=" background:linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6));border-left:10px solid #ffa500;">
-            <h2>My Food Cart</h2>
+    <div class="container-fluid mt-3">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1 p-3 mb-2"style="background:linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6));">
+            <h2 class="text-center">My Food Cart</h2>
         </div>
-        <div class="row pt-5" style=" background:linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8));">
-            <div class="table-responsive">
-                <table class="table table-responsive col-lg-12 col-xl-12 d-flex justify-content-center">
-                    <tbody>
-                        @{var a = Context.Session.Get<List<FoodCart>>("FoodS");}
-                        @if (a != null)
-                        {
-                            @foreach (var item in a)
-                            {
-                                <tr>
-                                    <td>
-                                        <img height=100 width=100 class="img-fluid mr-4" src="~/images/breakfast (1).svg" />
-                                    </td>
-                                    <td class="m-3">
-                                        <h3>@item.FoodName</h3>
-                                        <hr />
-                                        <p>@item.FoodDescription</p>
-                                        <p>Price: @item.FoodPrice (BDT)<input id="Ta" type="hidden" value="@item.FoodPrice" /></p>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group m-3">
-                                            <button id="Minus" class="btn btn-danger" value="-"><strong>-</strong></button>
-                                            <input id="Quantity" type="text" value="@item.Quantity" class="form-control" readonly />
-                                            <button id="Plus" class="btn btn-success" value="+"><strong>+</strong></button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <h4>Total Price</h4>
-                                        <hr />
-                                        @{ var ab = item.Quantity * item.FoodPrice;}
-                                    <p id="totalprice">@ab (BDT)</p>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1">
+            <div class="row d-flex justify-content-center">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8"
+                     style="background:linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8));">
+                    <div class="table-responsive">
+                        <table class="table col-lg-12 col-xl-12 d-flex justify-content-center">
+                            <tbody>
+                                @{var a = Context.Session.Get<List<FoodCart>>("FoodS");}
+                                @if (a != null)
+                                {
+                                    @foreach (var item in a)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img height=100 width=100 class="img-fluid mr-4" src="~/images/breakfast (1).svg" />
+                                            </td>
+                                            <td class="m-3">
+                                                <h5>@item.FoodName</h5>
+                                                <hr />
+                                                <p>@item.FoodDescription</p>
+                                                <p>Price: @item.FoodPrice (BDT)<input id="Ta" type="hidden" value="@item.FoodPrice" /></p>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group m-3">
+                                                    <button id="Minus" class="btn btn-danger" value="-"><strong>-</strong></button>
+                                                    <input id="Quantity" type="text" value="@item.Quantity" class="form-control" readonly />
+                                                    <button id="Plus" class="btn btn-success" value="+"><strong>+</strong></button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <h5>Total Price</h5>
+                                                <hr />
+                                                @{ var ab = item.Quantity * item.FoodPrice;}
+                                                <p id="totalprice">@ab </p>(BDT)
 
-                                    </td>
-
-                                    <td>
-                                        <a id="DeleteMe"><i class="fa fa-trash-alt m-3 ml-4" style="color:red;font-size:3em;"></i></a>
-                                    </td>
-                                    <td class="text-hide">@item.FoodItemId
-                                    
-                                    @{abc = abc+item.FoodPrice * item.Quantity; }
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4"><p id="FinalTotal">Total : @abc</p></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <hr />
-            
-            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
-                Order Now 
-            </button>
-            <!--First Modal-->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <h5 class="modal-title text-center" id="exampleModalLongTitle">
-                                Dear Customer,
-                                <br />
-                                Kindly Reserve a Table!
-                            </h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-dark">Ok</button>
-                        </div>
+                                            </td>
+                                            <td>
+                                                <a id="DeleteMe"><i class="fa fa-trash-alt mt-3" style="color:red;font-size:1.5em;"></i></a>
+                                            </td>
+                                            <td class="text-hide">@item.FoodItemId</td>
+                                        </tr>
+                                                    }
+                                                    }
+                        </table>
+                    </div>
+                    <div class="card-footer d-flex justify-content-end">
+                        <button type="button" class="btn btn-dark">
+                            Confirm Order
+                        </button>
                     </div>
                 </div>
-            </div>
-            <!--Second Modal-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3 ml-lg-3 col-xl-3 ml-xl-3"
+                     style="background:linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8));">
+                    <h4 class="text-center">Reserve a Table</h4>
+                    <hr />
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
+                            <img src="~/images/table (3).svg" class="img-fluid" />
                         </div>
-                        <div class="modal-body">
-                            <h5 class="text-center">Available Tables</h5>
-                            <hr />
-                            @*<div class="btn-group">
-                                    <button class="btn btn-info"><strong>A-3</strong></button>
-                                    <button class="btn btn-info"><strong>A-3</strong></button>
-                                    <button class="btn btn-info"><strong>A-3</strong></button>
-                                    <button class="btn btn-info"><strong>A-3</strong></button>
-                                    <button class="btn btn-info"><strong>A-3</strong></button>
-                                </div>*@
+                        <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
+                            <img src="~/images/table (4).svg" class="img-fluid" />
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-dark">Ok</button>
+                        <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
+                            <img src="~/images/table (5).svg" class="img-fluid" />
+                        </div>
+                        <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
+                            <img src="~/images/table (5).svg" class="img-fluid" />
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-end mt-auto">
+                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
+                            Reserve
+                        </button>
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="text-center" id="exampleModalLongTitle">Set Reservation Schedule</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form asp-area=""asp-controller=""asp-action=""method="post">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label>Reserve From</label>
+                                                    <input class="form-control" type="time" />
+                                                </div>
+                                                <div class="form-group ml-auto">
+                                                    <label>Reserve To</label>
+                                                    <input class="form-control" type="time" />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-dark">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -161,18 +161,12 @@
             });
         });
 
-
-
         $("table.table-responsive").on("click", "#DeleteMe", function (event) {
             var FoodId = $(this).closest("tr").find('td:eq(5)').text();
             var url = "/Home/DeleteCart";
             $.getJSON(url, { id: FoodId }, function (data) {
-                var FinalCost = data;
-                   
-                    $("#FinalTotal").html(FinalCost);
             });
             $(this).closest("tr").remove();
-
 
         });
 
@@ -190,43 +184,38 @@
                 var FoodId = $(this).closest("tr").find('td:eq(5)').text();
                 var url = "/Home/SetCartValueUpdated";
                 $.getJSON(url, { id: FoodId, Quantity: TotalQuantity }, function (data) {
-                    var FinalCost = data;
-                   
-                    $("#FinalTotal").html(FinalCost);
+                    console.log(data);
                 });
                 var FoodPrice = $(this).closest("tr").find("#Ta").val();
                 var CalculatedTotalPrice = Number(FoodPrice) * Number(TotalQuantity)
-                $(this).closest("tr").find("#totalprice").html(CalculatedTotalPrice+" (BDT)");
+                $(this).closest("tr").find("#totalprice").html(CalculatedTotalPrice);
 
             }
-            else if(value == "-") {
+            else {
 
                 var FoodId = $(this).closest("tr").find('td:eq(5)').text();
-                var FoodPrice = $(this).closest("tr").find("#Ta").val();
+                var tt = $(this).closest("tr").find("#Ta").val();
 
                 var Q = $(this).closest("tr").find("#Quantity").val();
                 var TotalQuantity = Number(Q) - Number(1);
 
                 $(this).closest("tr").find("#Quantity").val(TotalQuantity);
 
-                $(this).closest("tr").find("#totalprice").html(Number(FoodPrice) * Number(TotalQuantity)+" (BDT)");
+                $(this).closest("tr").find("#totalprice").html(Number(tt) * Number(TotalQuantity));
 
 
-                if (TotalQuantity == 1) {
+                if (t == 1) {
                     $(this).closest("tr").find("#Minus").attr("disabled", true);
                 }
 
-               
+                $(this).closest("tr").find("#totalprice").html(Number(tt) * Number(TotalQuantity));
+
                 var url = "/Home/SetCartValueUpdated";
                 $.getJSON(url, { id: FoodId, Quantity: TotalQuantity }, function (data) {
-                    var FinalCost = data;
-                   
-                    $("#FinalTotal").html(FinalCost);
-                       
+
                 });
             }
         });
-
 
     </script>
 

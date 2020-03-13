@@ -12,7 +12,10 @@ namespace RestaurantManagementSystem.Areas.Customer.ViewModels
         public string FoodName { get; set; }
         public string FoodDescription { get; set; }
         public float FoodPrice { get; set; }
-      
+
+        //public int DiscountId { get; set; }
+        //public int CustomerOrderedTableId { get; set; }
+    
 
     }
 }
