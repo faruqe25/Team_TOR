@@ -229,6 +229,21 @@ namespace RestaurantManagementSystem.Controllers
             }
             return Json(0);
         }
+        public JsonResult GetCartValueTotal() 
+        {
+            var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
+            var count = 0;
+            if (List == null)
+            {
+                count = 0;
+            }
+            else
+            {
+                count = List.Count();
+            }
+           
+            return Json(count);
+        }
 
         public async Task< IActionResult> Cart()
         {

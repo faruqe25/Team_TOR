@@ -63,10 +63,13 @@ var minutes = 0;
     toTime = $("#ToTime").val();
     hours = toTime.split(':')[0] - fromTime.split(':')[0];
     minutes = toTime.split(':')[1] - fromTime.split(':')[1];
-    if ( FromfocusOut == true
-        && TofocusOut==true &&
-        (hours > 0 || minutes > 0)) {
-        $("#ConfirmTime").removeAttr("disabled");
+     if (FromfocusOut == true
+         && TofocusOut == true &&
+         (hours > 0 || minutes > 0)) {
+         $("#ConfirmTime").removeAttr("disabled");
+     }
+     else {
+         $("#ConfirmTime").attr("disabled", true);
      }
 });
 $("#ToTime").focusout(function () {
@@ -79,6 +82,9 @@ $("#ToTime").focusout(function () {
         && TofocusOut == true &&
         (hours > 0 || minutes > 0)) {
         $("#ConfirmTime").removeAttr("disabled");
+    }
+    else {
+        $("#ConfirmTime").attr("disabled", true);
     }
 });
 $("#ConfirmTime").click(function () {
