@@ -27,6 +27,7 @@
     <Folder Include="Areas\Customer\Views\" />
     <Folder Include="Areas\Manager\Controllers\" />
     <Folder Include="Areas\Manager\Data\" />
+    <Folder Include="Areas\Manager\Models\" />
     <Folder Include="Areas\Manager\Views\" />
     <Folder Include="Areas\StockManager\Data\" />
   </ItemGroup>

@@ -44,6 +44,7 @@
                      style="background:linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8));">
                     <div class="table-responsive">
                         <table class="table col-lg-12 col-xl-12 d-flex justify-content-center">
+
                             <tbody>
                                 @{var a = Context.Session.Get<List<FoodCart>>("FoodS");}
                                 @if (a != null)
@@ -58,7 +59,7 @@
                                                 <h5>@item.FoodName</h5>
                                                 <hr />
                                                 <p>@item.FoodDescription</p>
-                                                <p>Price: @item.FoodPrice (BDT)<input id="Ta" type="hidden" value="@item.FoodPrice" /></p>
+                                                <p>Price: @item.FoodPrice tk<input id="Ta" type="hidden" value="@item.FoodPrice" /></p>
                                             </td>
                                             <td>
                                                 <div class="btn-group m-3">
@@ -71,7 +72,7 @@
                                                 <h5>Total Price</h5>
                                                 <hr />
                                                 @{ var ab = item.Quantity * item.FoodPrice;}
-                                                <p id="totalprice">@ab </p>(BDT)
+                                               <p id="totalprice">@ab tk</p>
 
                                             </td>
                                             <td>
@@ -79,8 +80,27 @@
                                             </td>
                                             <td class="text-hide">@item.FoodItemId</td>
                                         </tr>
+                                                    }
+                                    <tr>
+                                        <td colspan="3" class="text-right">
+                                            Total :
+                                        </td>
+                                        <td id="FinalTotal">@a.Sum(s => s.FoodPrice * s.Quantity) tk</td>
+                                    </tr>
+                                                    }
+                                                    else
+                                                    {
+                              <tr>
+                                <td>No Food
+                                    
+                                </td>
+                              
+                              </tr>
+
                                     }
-                                }
+
+                            </tbody>
+                           
                         </table>
                     </div>
                     <div class="card-footer d-flex justify-content-end">
@@ -91,31 +111,56 @@
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-3 ml-lg-3 col-xl-3 ml-xl-3"
                      style="background:linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,0.8));">
-                    <h4 class="text-center">Reserve a Table</h4>
+                    <h4 class="text-center">
+                        Reserve a Table
+                    </h4>
                     <hr />
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
-                            <img src="~/images/table (3).svg" class="img-fluid" />
-                        </div>
-                        <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
-                            <img src="~/images/table (4).svg" class="img-fluid" />
-                        </div>
-                        <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
-                            <img src="~/images/table (5).svg" class="img-fluid" />
-                        </div>
-                        <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
-                            <img src="~/images/table (5).svg" class="img-fluid" />
-                        </div>
+                    
+                    <div class="row d-flex justify-content-center" id="TablesImage">
+                        @{var T = Context.Session.Get<List<TableResevationCart>>("AvailableTable");}
+                        @if (T != null)
+                        {
+                            int i;
+                            @for (i = 0; i < T.Count; i++)
+                            {
+
+                                @if (T[i].BookedStatus == false)
+                                {
+                                    <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
+                                        <img data-poss="true" data-conf="false" src="~/images/table (5).svg" class="img-fluid" alt="@T[i].TableId"  />
+                                          @T[i].TableName  
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
+                                        <img data-poss="false" data-conf="true" src="~/images/table (4).svg" class="img-fluid" alt="@T[i].TableId"  />
+                                           @T[i].TableName 
+                                    </div>
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
+                                <img src="~/images/table (3).svg" class="img-fluid" />
+                            </div>
+
+                            <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
+                                <img src="~/images/table (4).svg" class="img-fluid" />
+                            </div>
+                        }
                     </div>
                     <div class="card-footer d-flex justify-content-end mt-auto">
-                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
+                        <button id="ReserveButton" type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
                             Reserve
                         </button>
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="text-center" id="exampleModalLongTitle">Set Reservation Schedule</h5>
+                                        <h5 class="text-center" id="exampleModalLongTitle">Set Reservation Schedule for <span id="TableName"></span></h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -125,18 +170,18 @@
                                             <div class="form-inline">
                                                 <div class="form-group">
                                                     <label>Reserve From</label>
-                                                    <input class="form-control" type="time" />
+                                                    <input id="FromTime" class="form-control" type="time" />
                                                 </div>
                                                 <div class="form-group ml-auto">
                                                     <label>Reserve To</label>
-                                                    <input class="form-control" type="time" />
+                                                    <input id="ToTime" class="form-control" type="time" />
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-dark">Confirm</button>
+                                        <button id="ConfirmTime" type="button" class="btn btn-dark" data-dismiss="modal">Confirm</button>
                                     </div>
                                 </div>
                             </div>
@@ -150,85 +195,11 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript">
+    <script src="~/js/TableReservation.js" asp-append-version="true"></script>
+    <script src="~/js/FoodCartControll.js" asp-append-version="true"></script>
+   
 
-        $(document).ready(function () {
-            $("[id^=Quantity]").each(function () {
-                var C = $(this).closest("tr").find("#Quantity").val()
-                if (C == 1) {
-                    $(this).closest("tr").find("#Minus").attr("disabled", true);
-                }
-            });
-        });
-
-
-
-        $("table.table-responsive").on("click", "#DeleteMe", function (event) {
-            var FoodId = $(this).closest("tr").find('td:eq(5)').text();
-            var url = "/Home/DeleteCart";
-            $.getJSON(url, { id: FoodId }, function (data) {
-                var FinalCost = data;
-
-                $("#FinalTotal").html(FinalCost);
-            });
-            $(this).closest("tr").remove();
-
-
-        });
-
-        $("button").click(function () {
-            var value = $(this).attr("value");
-            if (value == "+") {
-                var Q = $(this).closest("tr").find("#Quantity").val();
-                var TotalQuantity = Number(Q) + Number(1);
-                $(this).closest("tr").find("#Quantity").val(TotalQuantity);
-
-                if (TotalQuantity > 1) {
-
-                    $(this).closest("tr").find('#Minus').removeAttr("disabled");
-                }
-                var FoodId = $(this).closest("tr").find('td:eq(5)').text();
-                var url = "/Home/SetCartValueUpdated";
-                $.getJSON(url, { id: FoodId, Quantity: TotalQuantity }, function (data) {
-                    var FinalCost = data;
-
-                    $("#FinalTotal").html(FinalCost);
-                });
-                var FoodPrice = $(this).closest("tr").find("#Ta").val();
-                var CalculatedTotalPrice = Number(FoodPrice) * Number(TotalQuantity)
-                $(this).closest("tr").find("#totalprice").html(CalculatedTotalPrice + " (BDT)");
-
-            }
-            else if (value == "-") {
-
-                var FoodId = $(this).closest("tr").find('td:eq(5)').text();
-                var FoodPrice = $(this).closest("tr").find("#Ta").val();
-
-                var Q = $(this).closest("tr").find("#Quantity").val();
-                var TotalQuantity = Number(Q) - Number(1);
-
-                $(this).closest("tr").find("#Quantity").val(TotalQuantity);
-
-                $(this).closest("tr").find("#totalprice").html(Number(FoodPrice) * Number(TotalQuantity) + " (BDT)");
-
-
-                if (TotalQuantity == 1) {
-                    $(this).closest("tr").find("#Minus").attr("disabled", true);
-                }
-
-
-                var url = "/Home/SetCartValueUpdated";
-                $.getJSON(url, { id: FoodId, Quantity: TotalQuantity }, function (data) {
-                    var FinalCost = data;
-
-                    $("#FinalTotal").html(FinalCost);
-
-                });
-            }
-        });
-
-
-    </script>
+   
 
 
 </body>
