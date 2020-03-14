@@ -11,7 +11,8 @@ namespace RestaurantManagementSystem.Areas.Customer.ViewModels
         public DateTime BookTimeFrom { get; set; }
         public DateTime BookTimeTo { get; set; }
         public DateTime Date { get; set; }
-        public Boolean ConfirmStatus { get; set; }
+        public string TableName { get; set; } 
+        public Boolean BookedStatus { get; set; }  
         public int CustomersId { get; set; }
     }
 }

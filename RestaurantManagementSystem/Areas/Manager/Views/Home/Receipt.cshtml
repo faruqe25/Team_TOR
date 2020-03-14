@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewData["Title"] = "Receipt";
+}
+<style>
+    #receipt {
+        border: 1px solid #000;
+    }
+</style>
+<div class="container d-flex justify-content-center">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-9 offset-lg-1 col-xl-9 offset-xl-1 p-4" id="receipt">
+            <div class="row">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <address>
+                        <strong>Dawn Restaurant</strong>
+                        <br>
+                        Uttara, 1290
+                        <br>
+                        Dhaka, Bangladesh
+                        <br>
+                        <strong>Phone:</strong> (+880) 01253658
+                    </address>
+                </div>
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <p class="text-right"><strong>Receipt no.: </strong>0125</p>
+                    <p class="text-right"><strong>Date & Time: </strong>05-03-2020 08.00.00PM</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2 mt-3">
+                    <h3 class="text-center">Payment Receipt</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ordered Food</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">Price(BDT/-)</th>
+                                <th class="text-center">Discount</th>
+                                <th class="text-center">Coupon Applied</th>
+                                <th class="text-center">Total(BDT)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-md-1">Pasta</td>
+                                <td class="col-md-1 text-center">2</td>
+                                <td class="col-md-1 text-center">200</td>
+                                <td class="col-md-1 text-center">10%</td>
+                                <td class="col-md-1 text-center">bdfcehgf</td>
+                                <td class="col-md-1 text-center">400</td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-1">Burger</td>
+                                <td class="col-md-1 text-center">2</td>
+                                <td class="col-md-1 text-center">200</td>
+                                <td class="col-md-1 text-center">10%</td>
+                                <td class="col-md-1 text-center">bdfcehgf</td>
+                                <td class="col-md-1 text-center">400</td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                                <td class="text-right"><h4><strong>800(BDT)</strong></h4></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                        <button type="button" class="btn btn-lg btn-block btn-dark">
+                            Print   
+                        </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
