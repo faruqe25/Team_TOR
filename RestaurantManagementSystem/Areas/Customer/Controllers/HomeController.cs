@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RestaurantManagementSystem.Areas.Admin.Models;
 using RestaurantManagementSystem.Areas.Customer.Models;
 using RestaurantManagementSystem.Areas.Customer.ViewModels;
@@ -34,8 +35,9 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             this.roleManager = roleManager;
 
         }
-        public JsonResult TableReservation(DateTime From,DateTime To,int TableId)  
+        public JsonResult TableReservationSet(DateTime From,DateTime To,int TableId)  
         {
+                HttpContext.Session.Remove("Table");
                 TableResevationCart table = new TableResevationCart() {
                     BookTimeFrom = From,
                     BookTimeTo = To,
@@ -43,7 +45,13 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
                     TableId=TableId
                 };
                 HttpContext.Session.Set("Table", table);
-            return Json(true);
+                return Json(true);
+        }
+        public async Task<JsonResult> GetTableName(int TableId)  
+        {
+            var tb = await _context.Table.AsNoTracking().Where(a => a.TableId == TableId).FirstOrDefaultAsync();
+               
+            return Json(tb.TableNumber);
         }
 
 

@@ -229,9 +229,48 @@ namespace RestaurantManagementSystem.Controllers
             }
             return Json(0);
         }
-
-        public IActionResult Cart()
+        public JsonResult GetCartValueTotal() 
         {
+            var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
+            var count = 0;
+            if (List == null)
+            {
+                count = 0;
+            }
+            else
+            {
+                count = List.Count();
+            }
+           
+            return Json(count);
+        }
+
+        public async Task< IActionResult> Cart()
+        {
+            var Exists = HttpContext.Session.Get<List<TableResevationCart>>("AvailableTable");
+            if (Exists!=null)
+            {
+                HttpContext.Session.Remove("AvailableTable");
+            }
+            var TableAvailableList = await _context.Table.AsNoTracking().ToListAsync();
+           
+            if (TableAvailableList.Count()!=0)
+            {
+                var Tables = new List<TableResevationCart>();
+                foreach (var item in TableAvailableList)
+                {
+                    TableResevationCart tableResevationCart = new TableResevationCart()
+                    {
+                        TableId = item.TableId,
+                        BookedStatus = item.BookedStatus,
+                        TableName=item.TableNumber
+                    };
+                    Tables.Add(tableResevationCart);
+                }
+                HttpContext.Session.Set("AvailableTable", Tables);
+            }
+
+          
 
             return View();
         }

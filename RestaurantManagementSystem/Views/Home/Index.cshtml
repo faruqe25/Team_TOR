@@ -47,8 +47,8 @@
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link light" asp-area="" asp-controller="Home" asp-action="Cart">
-                                <i class="fas fa-cart-plus"></i>
+                            <a id="CheckCartNumber"  class="nav-link light" asp-area="" asp-controller="Home" asp-action="Cart">
+                                <i  class="fas fa-cart-plus"></i>
                                 @{var a = Context.Session.Get<List<FoodCart>>("FoodS");}
                                 @if (a != null)
                                 {
@@ -191,18 +191,23 @@
             var url = "/Home/SetCartValue";
             $.getJSON(url, { id: FoodId }, function (data) {
                 var a = data;
-
                 $("#CartValue").html(a);
             });
-
-
-
         });
-
-
-
+        $('#CheckCartNumber').click(function () {
+            event.preventDefault();
+            var anchor = event.target.closest("a");
+            var url = "/Home/GetCartValueTotal";
+            $.getJSON(url,function (data) {
+                var a = data;
+                if (a!=0){
+                      window.location.href = anchor.getAttribute('href');
+                }
+            });
+        });
+        
     </script>
-
+    
 
 
 
