@@ -22,6 +22,12 @@
 </style>
 <div class="row mt-3 table-responsive">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="cols">
+        @if (ViewBag.Success != null)
+        {
+            <div id="mytoastr" class="alert alert-success toast" role="alert">
+                @ViewBag.Success
+            </div>
+        }
         <h1>Food Recipe Details</h1>
         <form asp-controller="Home" asp-action="SetFoodRecipe"
               asp-area="Admin" method="post">
@@ -56,7 +62,7 @@
 
 
                         <td>
-                            <input asp-for="MaterialVms[0].QuantityInGram" class="form-control"placeholder="Quantity(Gm)" />
+                            <input asp-for="MaterialVms[0].QuantityInGram" class="form-control" placeholder="Quantity(Gm)" />
                             <span asp-validation-for="MaterialVms[0].QuantityInGram" class="text-danger"></span>
                         </td>
 
@@ -82,7 +88,11 @@
 @section Scripts{
 
     <script type="text/javascript">
-    $(document).ready(function () {
+        $(document).ready(function () {
+
+         $('#mytoastr').toast({ delay: 2000 });
+         $('#mytoastr').toast('show');     
+
          var counter = 1;
          var con = 1;
 

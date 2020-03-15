@@ -9,20 +9,35 @@
         box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
         padding: 4%;
     }
+
         #formdiv h1 {
             text-align: center;
             padding: 4%;
         }
+
         #formdiv button {
             float: right;
         }
-        #formdiv textarea{
-            height:15vh;
+
+        #formdiv textarea {
+            height: 15vh;
         }
 </style>
 <form class="row mt-5" asp-area="Admin" asp-controller="Home"
       asp-action="AddFoodItem" method="post">
     <div class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8" id="formdiv">
+        @if (ViewBag.Validation != null)
+        {
+            <div id="mytoastr" class="alert alert-danger toast" role="alert">
+                @ViewBag.Validation
+            </div>
+        }
+        @if (ViewBag.Success != null)
+        {
+            <div id="mytoastr" class="alert alert-success toast" role="alert">
+                @ViewBag.Success
+            </div>
+        }
         <h1>Add Food Item</h1>
         <div class="form-group">
             <label>Enter Food Name</label>
@@ -32,17 +47,28 @@
         <div class="form-group">
             <label>Set Price</label>
             <input class="form-control" placeholder="Price" asp-for="Price" />
+            <span asp-validation-for="Price" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label>Enter Food Description</label>
             <textarea class="form-control" rows="5" asp-for="Description" placeholder="Write about food here..."></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label>Select Meal Hour</label>
-            <select  asp-items="@ViewBag.MealHour" class="form-control" asp-for="MealHourId"></select>
+            <select asp-items="@ViewBag.MealHour" class="form-control" asp-for="MealHourId"></select>          
         </div>
         <button class="btn btn-dark">Add</button>
     </div>
 </form>
 
+@section Scripts{
+
+    <script type="text/javascript">
+         $(document).ready(function () {
+                    $('#mytoastr').toast({ delay: 2000 });
+                    $('#mytoastr').toast('show');
+                });
+    </script>
+}
 

@@ -33,15 +33,22 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult SetMealHour(MealHourVm mealHourVm)
         {
+            var valid = _context.MealHour.AsNoTracking().
+                Where(t => t.MealHourTitle == mealHourVm.MealHourTitle).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added " + mealHourVm.MealHourTitle;
+                return View();
+            }
             MealHour m = new MealHour()
             {
                 MealHourId = 0,
                 MealHourTitle = mealHourVm.MealHourTitle
-
             };
             _context.MealHour.Add(m);
             _context.SaveChanges();
-            ModelState.Clear();
+            ViewBag.Success = "You have succesfully added " + mealHourVm.MealHourTitle;
+            ModelState.Clear();           
             return View();
         }
         public IActionResult MealHourInfo()
@@ -107,6 +114,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddFoodItem(FoodItemVm a)
         {
+            var valid = _context.FoodItems.AsNoTracking().
+                Where(t => t.FoodName == a.FoodName).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added " + a.FoodName + ".";
+                return View();
+            }
             FoodItem p = new FoodItem()
             {
                 FoodName = a.FoodName,
@@ -117,6 +131,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             };
             _context.FoodItems.Add(p);
             _context.SaveChanges();
+            ViewBag.Success = "You have succesfully added " + a.FoodName + ".";
             ModelState.Clear();
             ViewBag.MealHour = new SelectList(_context.MealHour.AsNoTracking().
               ToList(), "MealHourId", "MealHourTitle");
@@ -290,19 +305,18 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
 
             //var tem = _context.RequiredMaterial.AsNoTracking().ToList();
             //var valid = false;
-          
+
             foreach (var item in Rl.MaterialVms)
-            {
-                 
+            {                 
                 RequiredMaterial a = new RequiredMaterial();
                 a.RequiredMaterialId = Rl.RequiredMaterialId;
                 a.FoodItemId = Rl.FoodItemId;
                 a.IngredientId = item.IngredientId;
                 a.QuantityInGram = item.QuantityInGram;
-                _context.RequiredMaterial.Add(a);
+                _context.RequiredMaterial.Add(a);                
                 _context.SaveChanges();
             }
-
+            ViewBag.Success = "You have succesfully added food recipe.";
             ModelState.Clear();
             return View();
         }
@@ -355,10 +369,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 sent.Add(ass);
                 c++;
 
-
-
             }
-
 
             return View(sent);
         }
@@ -480,6 +491,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddNewOffer(OfferVm offervm)
         {
+            var valid = _context.Offer.AsNoTracking().
+               Where(t => t.Coupon == offervm.Coupon).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added Coupon " + offervm.Coupon + ".";
+                return View();
+            }
             Offer offer = new Offer()
             {
                 Coupon=offervm.Coupon,
@@ -489,6 +507,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             };
             _context.Offer.Add(offer);
             _context.SaveChanges();
+            ViewBag.Success = "You have succesfully added Coupon " + offervm.Coupon + ".";
             ModelState.Clear();
             return View();
         }
@@ -556,14 +575,22 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddNewTable(TableVm tablevm)
         {
+            var valid = _context.Table.AsNoTracking().
+               Where(t => t.TableNumber == "Table-" + tablevm.TableNumber).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added Table-" + tablevm.TableNumber + ".";
+                return View();
+            }
             Table table = new Table
             {
-                TableNumber=tablevm.TableNumber,
+                TableNumber="Table-" + tablevm.TableNumber,
                 TableCapacity=tablevm.TableCapacity,
                 BookingPrice=tablevm.BookingPrice
             };
             _context.Table.Add(table);
             _context.SaveChanges();
+            ViewBag.Success = "You have succesfully added Table-"+tablevm.TableNumber + ".";
             ModelState.Clear();
             return View();
         }

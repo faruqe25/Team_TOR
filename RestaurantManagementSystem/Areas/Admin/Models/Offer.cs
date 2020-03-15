@@ -13,7 +13,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Models
         public string Coupon { get; set; }
         public DateTime ValidatyStart{ get; set; }
         public DateTime ValidatyTo{ get; set; }
-        public  int Discount  { get; set; }
+        public  int Discount  { get; set; }      
 
     }
 }
