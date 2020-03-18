@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using RestaurantManagementSystem.Areas.Admin.Models;
 using RestaurantManagementSystem.Areas.Customer.Models;
 using RestaurantManagementSystem.Areas.Customer.ViewModels;
 using RestaurantManagementSystem.Areas.Manager.Models;
+using RestaurantManagementSystem.Areas.StockManager.Models;
 using RestaurantManagementSystem.Database;
 using RestaurantManagementSystem.Helper;
 
@@ -35,33 +37,36 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             this.roleManager = roleManager;
 
         }
-        public JsonResult TableReservationSet(DateTime From,DateTime To,int TableId)  
+        public JsonResult TableReservationSet(DateTime From, DateTime To, int TableId)
         {
-                HttpContext.Session.Remove("Table");
-                TableResevationCart table = new TableResevationCart() {
-                    BookTimeFrom = From,
-                    BookTimeTo = To,
-                    Date = DateTime.Today,
-                    TableId=TableId
-                };
-                HttpContext.Session.Set("Table", table);
-                return Json(true);
+            HttpContext.Session.Remove("Table");
+            TableResevationCart table = new TableResevationCart()
+            {
+                BookTimeFrom = From,
+                BookTimeTo = To,
+                Date = DateTime.Today,
+                TableId = TableId
+            };
+            HttpContext.Session.Set("Table", table);
+            return Json(true);
         }
-        public async Task<JsonResult> GetTableName(int TableId)  
+        public async Task<JsonResult> GetTableName(int TableId)
         {
             var tb = await _context.Table.AsNoTracking().Where(a => a.TableId == TableId).FirstOrDefaultAsync();
-               
+
             return Json(tb.TableNumber);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Order(CustomerOrderedTable ct) 
-        {   var email = "";
-            var CustomerDetails=new Customers();
-            if (signInManager.IsSignedIn(User)) {  email = User.Identity.Name; }
-            var user = await userManager.FindByEmailAsync(email);
-            if (await userManager.IsInRoleAsync(user, "Customer") == true) {
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> Order()
+        {
+            var CustomerDetails = new Customers();
+            var user = await userManager.GetUserAsync(User);
+            var user1 = await userManager.FindByEmailAsync(User.Identity.Name);
+            if (await userManager.IsInRoleAsync(user, "Customer") == true)
+            {
                 CustomerDetails = _context.Customers.
                             Where(s => s.MobileNumber == user.PhoneNumber)
                             .FirstOrDefault();
@@ -71,7 +76,7 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             {
                 CustomerOrderedTable abc = new CustomerOrderedTable()
                 {
-                    CustomerOrderedTableId = ct.CustomerOrderedTableId,
+                    CustomerOrderedTableId = 0,
                     CustomersId = CustomerDetails.CustomersId,
                 };
                 abc.BookTimeFrom = ReservedTable.BookTimeFrom;
@@ -81,10 +86,10 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
                 await _context.CustomerOrderedTable.AddAsync(abc);
                 await _context.SaveChangesAsync();
                 var update = _context.Table.Where(a => a.TableId == ReservedTable.TableId).FirstOrDefault();
-                   update.BookedStatus = true;
-                   _context.Table.Update(update);
+                update.BookedStatus = true;
+                _context.Table.Update(update);
                 await _context.SaveChangesAsync();
-                
+
                 var orderlist = HttpContext.Session.Get<List<FoodCart>>("FoodS");
                 if (orderlist != null)
                 {
@@ -107,28 +112,76 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             }
             else
             {
+                CustomerOrderedTable tbs = new CustomerOrderedTable()
+                {
+                    CustomerOrderedTableId = 0,
+                    CustomersId = CustomerDetails.CustomersId,
+                    TableId = 1
+                };
+                await _context.CustomerOrderedTable.AddAsync(tbs);
+                await _context.SaveChangesAsync();
+
 
                 var orderlist = HttpContext.Session.Get<List<FoodCart>>("FoodS");
                 if (orderlist != null)
                 {
                     foreach (var item in orderlist)
                     {
-                        var countfood = orderlist.Where(s => s.FoodItemId == item.FoodItemId).Count();
+
                         CustomerOrderDetails ab = new CustomerOrderDetails()
                         {
                             CustomerOrderDetailsId = 0,
                             FoodItemId = item.FoodItemId,
-                            Quantity = countfood,
+                            Quantity = item.Quantity,
                             DiscountId = 0,
                             OnlineStatus = true,
-                            
+                            CustomerOrderedTableId = tbs.CustomerOrderedTableId
+
                         };
                         await _context.CustomerOrderDetails.AddAsync(ab);
                         await _context.SaveChangesAsync();
                     }
                 }
             }
-            return View();
+
+            var FoodItemList = HttpContext.Session.Get<List<FoodCart>>("FoodS");
+            foreach (var item in FoodItemList)
+            {
+                var IngredientList = await _context.RequiredMaterial
+                        .AsNoTracking().Where(a => a.FoodItemId == item.FoodItemId).ToListAsync();
+                for (int i = 0; i < IngredientList.Count(); i++)
+                {
+                    var Requiered = await _context.RequiredMaterial.AsNoTracking()
+                          .Where(a => a.RequiredMaterialId == IngredientList[i].RequiredMaterialId)
+                          .FirstOrDefaultAsync();
+
+                    var NeedToUpdateMaterials = await _context.StockDetails.
+                        AsNoTracking().Where(a => a.IngredientId == IngredientList[i].IngredientId)
+                        .FirstOrDefaultAsync();
+
+                    for (int j = 0; j < item.Quantity; j++)
+                    {
+
+                        var quaantity = NeedToUpdateMaterials.AvailableStock - Requiered.QuantityInGram;
+                        NeedToUpdateMaterials.AvailableStock = quaantity;
+                        _context.StockDetails.Update(NeedToUpdateMaterials);
+                        await _context.SaveChangesAsync();
+                        _context.Entry<StockDetails>(NeedToUpdateMaterials).State = EntityState.Detached;
+
+                    }
+                    NeedToUpdateMaterials = new StockDetails();
+                    Requiered = new RequiredMaterial();
+                }
+
+                IngredientList = new List<RequiredMaterial>();
+            }
+
+
+
+            HttpContext.Session.Remove("FoodS");
+            HttpContext.Session.Remove("Table");
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
