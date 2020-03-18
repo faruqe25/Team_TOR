@@ -157,7 +157,7 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
 
                     var NeedToUpdateMaterials = await _context.StockDetails.
                         AsNoTracking().Where(a => a.IngredientId == IngredientList[i].IngredientId)
-                        .FirstOrDefaultAsync();
+                        .LastOrDefaultAsync();
 
                     for (int j = 0; j < item.Quantity; j++)
                     {
