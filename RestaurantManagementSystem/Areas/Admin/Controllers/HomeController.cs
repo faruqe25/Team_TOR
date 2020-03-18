@@ -37,7 +37,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 Where(t => t.MealHourTitle == mealHourVm.MealHourTitle).FirstOrDefault();
             if (valid != null)
             {
-                ViewBag.Validation = "You have already added " + mealHourVm.MealHourTitle;
+                ViewBag.Validation = "You have already added " + mealHourVm.MealHourTitle + ".";
                 return View();
             }
             MealHour m = new MealHour()
@@ -47,7 +47,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             };
             _context.MealHour.Add(m);
             _context.SaveChanges();
-            ViewBag.Success = "You have succesfully added " + mealHourVm.MealHourTitle;
+            ViewBag.Success = "You have succesfully added " + mealHourVm.MealHourTitle + ".";
             ModelState.Clear();           
             return View();
         }
@@ -73,6 +73,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         }
         public IActionResult UpdateMealHour(int id)
         {
+            
             var mealhourVm = _context.MealHour.AsNoTracking()
                  .Where(t => t.MealHourId == id).FirstOrDefault();
             MealHourVm m = new MealHourVm()
@@ -86,6 +87,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateMealHour(MealHourVm mealHourVm)
         {
+            var valid = _context.MealHour.AsNoTracking().
+                Where(t => t.MealHourTitle == mealHourVm.MealHourTitle).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added " + mealHourVm.MealHourTitle + ".";
+                return View();
+            }
             MealHour m = new MealHour()
             {
                 MealHourId = mealHourVm.MealHourId,

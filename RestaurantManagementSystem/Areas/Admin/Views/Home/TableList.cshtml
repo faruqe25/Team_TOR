@@ -58,7 +58,6 @@
 </div>
 @section Scripts{
 
-
     <script type="text/javascript">
 
         function MyDeleteConfirm() {
@@ -75,13 +74,13 @@
                   confirmButtonText: 'Yes, delete it!',
 
             }).then((result) => {
-                if (result.value) {
-                   window.location.href = anchor.getAttribute('href');
+                if (result.value) {                   
                     //Swal.fire(
                     //  'Deleted!',
                     //  'Your file has been deleted.',
                     //  'success'
                     //  )
+                    window.location.href = anchor.getAttribute('href');
               }
               })
         }
