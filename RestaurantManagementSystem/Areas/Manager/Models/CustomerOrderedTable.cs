@@ -18,7 +18,7 @@ namespace RestaurantManagementSystem.Areas.Manager.Models
         public Boolean ConfirmStatus { get; set; }
         public int CustomersId { get; set; } 
         public Customers Customers { get; set; }
-        public int TableId { get; set; }
+        public int? TableId { get; set; }
         public Table Table { get; set; }
     }
 }

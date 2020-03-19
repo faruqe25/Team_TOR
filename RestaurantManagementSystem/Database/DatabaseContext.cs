@@ -61,6 +61,15 @@ namespace RestaurantManagementSystem.Database
                 RoleId = ROLE_ID,
                 UserId = ADMIN_ID
             });
+            builder.Entity<Table>().HasData(new Table
+            {
+                TableId=1,
+                TableCapacity=0,
+                TableNumber="Special Table",
+                BookedStatus=false,
+                BookingPrice=0
+
+            });
         }
     }
 }

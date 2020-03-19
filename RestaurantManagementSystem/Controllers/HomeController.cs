@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@ namespace RestaurantManagementSystem.Controllers
             this.roleManager = roleManager;
 
         }
-
+        
         public IActionResult Index()
         {
             var fooditem = _context.FoodItems.AsNoTracking().Include(q => q.MealHour).ToList();
@@ -92,6 +93,7 @@ namespace RestaurantManagementSystem.Controllers
             return View();
         }
         [HttpPost]
+        
         public async Task<IActionResult> CreateAccount(CustomerAccount ca)
         {
             var rolelist = await roleManager.RoleExistsAsync("Customer");
@@ -110,13 +112,11 @@ namespace RestaurantManagementSystem.Controllers
                 {
                     UserName = ca.Email,
                     Email = ca.Email,
-
+                    PhoneNumber=ca.MobileNumber
                 };
                 var result = await userManager.CreateAsync(user, ca.Password);
                 if (result.Succeeded)
                 {
-
-
                     Customers cs = new Customers
                     {
                         CustomersId = 0,

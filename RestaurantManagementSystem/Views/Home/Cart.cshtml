@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="~/Assets/css/all.css">
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/SweetAlert/sweetalert2.min.css" />
     </environment>
     <style>
 
@@ -72,7 +73,7 @@
                                                 <h5>Total Price</h5>
                                                 <hr />
                                                 @{ var ab = item.Quantity * item.FoodPrice;}
-                                               <p id="totalprice">@ab tk</p>
+                                                <p id="totalprice">@ab tk</p>
 
                                             </td>
                                             <td>
@@ -80,33 +81,37 @@
                                             </td>
                                             <td class="text-hide">@item.FoodItemId</td>
                                         </tr>
-                                                    }
+                                    }
                                     <tr>
                                         <td colspan="3" class="text-right">
                                             Total :
                                         </td>
                                         <td id="FinalTotal">@a.Sum(s => s.FoodPrice * s.Quantity) tk</td>
                                     </tr>
-                                                    }
-                                                    else
-                                                    {
-                              <tr>
-                                <td>No Food
-                                    
-                                </td>
-                              
-                              </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            No Food
 
-                                    }
+                                        </td>
+
+                                    </tr>
+
+                                }
 
                             </tbody>
-                           
+
                         </table>
                     </div>
                     <div class="card-footer d-flex justify-content-end">
-                        <button type="button" class="btn btn-dark">
-                            Confirm Order
-                        </button>
+                        <form id="OrderConfirm" asp-area="Customer" asp-action="Order" asp-controller="Home" method="post">
+                            <button type="submit" class="btn btn-dark" onclick="OrderConfirmMessage()">
+                                Confirm Order
+                            </button>
+                        </form>
+
                     </div>
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-3 ml-lg-3 col-xl-3 ml-xl-3"
@@ -115,7 +120,7 @@
                         Reserve a Table
                     </h4>
                     <hr />
-                    
+
                     <div class="row d-flex justify-content-center" id="TablesImage">
                         @{var T = Context.Session.Get<List<TableResevationCart>>("AvailableTable");}
                         @if (T != null)
@@ -127,15 +132,15 @@
                                 @if (T[i].BookedStatus == false)
                                 {
                                     <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
-                                        <img data-poss="true" data-conf="false" src="~/images/table (5).svg" class="img-fluid" alt="@T[i].TableId"  />
-                                          @T[i].TableName  
+                                        <img data-poss="true" data-conf="false" src="~/images/table (5).svg" class="img-fluid" alt="@T[i].TableId" />
+                                        @T[i].TableName
                                     </div>
                                 }
                                 else
                                 {
                                     <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
-                                        <img data-poss="false" data-conf="true" src="~/images/table (4).svg" class="img-fluid" alt="@T[i].TableId"  />
-                                           @T[i].TableName 
+                                        <img data-poss="false" data-conf="true" src="~/images/table (4).svg" class="img-fluid" alt="@T[i].TableId" />
+                                        @T[i].TableName
                                     </div>
 
                                 }
@@ -143,12 +148,8 @@
                         }
                         else
                         {
-                            <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
-                                <img src="~/images/table (3).svg" class="img-fluid" />
-                            </div>
-
-                            <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
-                                <img src="~/images/table (4).svg" class="img-fluid" />
+                            <div>
+                                <b>No Table Is Added to Database</b>
                             </div>
                         }
                     </div>
@@ -197,9 +198,30 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/TableReservation.js" asp-append-version="true"></script>
     <script src="~/js/FoodCartControll.js" asp-append-version="true"></script>
-   
+    <script src="~/SweetAlert/sweetalert2.all.min.js" asp-append-version="true"></script>
 
-   
+    <script type="text/javascript">
+
+        function OrderConfirmMessage() {
+            event.preventDefault();
+
+           Swal.fire({
+                  title: 'Please,click okay to confrim order',
+                  showClass: {
+                    popup: 'animated fadeInDown faster'
+                  },
+                  hideClass: {
+                    popup: 'animated fadeOutUp faster'
+                  }
+           }).then((result) => {
+               if (result.value) {
+                   $("#OrderConfirm").submit();
+                
+                }
+            })
+        }
+    </script>
+
 
 
 </body>
