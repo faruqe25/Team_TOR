@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@{ 
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject( ViewBag.TotalQueantity );
+    
+}
+
+<h1>Index</h1>
+<div class="btn-group">
+    @if (@ViewBag.InredientList != null)
+    {
+        @foreach (var item in ViewBag.InredientList)
+        {
+            <button type="button" class="btn btn-primary" data-id="@item.IngredientId">@item.IngredientName</button>
+        }
+    }
+    else
+    {
+        <p>No Data found to create chart</p>
+    }
+    <br />
+    <br />
+
+</div>
+
+<div  style="height:600px;width:800px" id="ParentDivChart">
+    <h1 class="text-center">Chart</h1>
+    <canvas id="myChart"></canvas>
+</div>
+@section Scripts{
+
+
+    
+<script type="text/javascript">
+    
+    $(".btn-group button").click(function () {
+        var value = $(this).data("id");
+        $(this).css({ "border-bottom": "2px solid red" });
+        console.log(value);
+        var url = "/StockManager/Home/LoadChartData";
+        $.getJSON(url, { id: value }, function (data) {
+            $('canvas').remove();
+            $( "#ParentDivChart" ).append( "<canvas id='myChart'></canvas>" );
+            console.log(data);
+            MyChartBar(data);
+
+
+              
+         });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        console.log(@XLabels);
+        MyChartBar(@XLabels);
+    });
+    function MyChartBar(Passedata) {
+  
+        var ctx = document.getElementById('myChart').getContext('2d');
+        
+        var testdata = Passedata;
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'bar',
+
+            // The data for our dataset
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Ingredient Ammount',
+                    backgroundColor: 'rgb(255, 15, 85)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: testdata
+                }]
+            },
+
+            // Configuration options go here
+
+           options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+               }
+               ,
+               legend: {
+          display: false
+        }
+    }
+});
+      }
+</script>
+}
+

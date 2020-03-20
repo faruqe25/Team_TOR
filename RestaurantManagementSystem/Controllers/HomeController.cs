@@ -110,6 +110,7 @@ namespace RestaurantManagementSystem.Controllers
                 {
                     UserName = ca.Email,
                     Email = ca.Email,
+                    PhoneNumber=ca.MobileNumber
 
                 };
                 var result = await userManager.CreateAsync(user, ca.Password);
@@ -252,7 +253,7 @@ namespace RestaurantManagementSystem.Controllers
             {
                 HttpContext.Session.Remove("AvailableTable");
             }
-            var TableAvailableList = await _context.Table.AsNoTracking().ToListAsync();
+            var TableAvailableList = await _context.Table.AsNoTracking().Where(a=>a.TableId!=1).ToListAsync();
            
             if (TableAvailableList.Count()!=0)
             {

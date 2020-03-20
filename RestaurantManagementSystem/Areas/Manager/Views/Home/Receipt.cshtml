@@ -1,4 +1,4 @@
-﻿
+﻿@model List<RestaurantManagementSystem.Areas.Manager.ViewModels.Invoice>
 @{
     ViewData["Title"] = "Receipt";
 }
@@ -45,22 +45,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="col-md-1">Pasta</td>
-                                <td class="col-md-1 text-center">2</td>
-                                <td class="col-md-1 text-center">200</td>
-                                <td class="col-md-1 text-center">10%</td>
-                                <td class="col-md-1 text-center">bdfcehgf</td>
-                                <td class="col-md-1 text-center">400</td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-1">Burger</td>
-                                <td class="col-md-1 text-center">2</td>
-                                <td class="col-md-1 text-center">200</td>
-                                <td class="col-md-1 text-center">10%</td>
-                                <td class="col-md-1 text-center">bdfcehgf</td>
-                                <td class="col-md-1 text-center">400</td>
-                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="col-md-1">@item.FoodName</td>
+                                    <td class="col-md-1 text-center">@item.Quantity</td>
+                                    <td class="col-md-1 text-center">@item.Price</td>
+                                    <td class="col-md-1 text-center">@item.Discount %</td>
+                                    <td class="col-md-1 text-center">@item.Coupone</td>
+                                    <td class="col-md-1 text-center">@item.Total</td>
+                                </tr>
+                            }
+
+
 
                             <tr>
                                 <td></td>
@@ -68,7 +65,7 @@
                                 <td></td>
                                 <td></td>
                                 <td class="text-right"><h4><strong>Total: </strong></h4></td>
-                                <td class="text-right"><h4><strong>800(BDT)</strong></h4></td>
+                                <td class="text-right"><h4><strong>@Model.Sum(s=>s.Total)  <span>(BDT)</span></strong></h4></td>
                             </tr>
                         </tbody>
                     </table>

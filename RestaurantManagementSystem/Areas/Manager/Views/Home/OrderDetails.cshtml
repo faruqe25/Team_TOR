@@ -1,0 +1,258 @@
+﻿@model X.PagedList.IPagedList<RestaurantManagementSystem.Areas.Manager.ViewModels.CustomerOrderVm>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+
+@using RestaurantManagementSystem.Helper
+@using RestaurantManagementSystem.Areas.Manager.ViewModels
+
+
+
+@{
+    ViewData["Title"] = "OrderedFoodItemList";
+}
+
+<style>
+    #cols {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+    }
+
+        #cols h1 {
+            text-align: center;
+            padding: 4%;
+        }
+
+    table {
+        text-align: center;
+    }
+</style>
+<div class="row mt-5">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1" id="cols">
+        <h1>Ordered Food Item List</h1>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Serial</th>
+                    <th>Customer Name</th>
+                    <th>Mobile</th>
+                    <th>Booked From</th>
+                    <th>Booked To</th>
+                    <th>Table Name</th>
+                    <th>Approve Status</th>
+                    <th>Seat</th>
+                    <th>Payment Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ var c = 1;}
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>@c</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.Mobile</td>
+                        <td>@item.BookFrom</td>
+                        <td>@item.BookTo</td>
+                        <td>@item.TableName</td>
+                        <td>
+                            @if (item.Approve == true)
+                            {
+                                <button data-id="@item.CustomerOrderDetailsId" class="btn btn-success" disabled id="buttonText">Approved</button>
+                            }
+                            else
+                            {
+                                <button data-id="@item.CustomerOrderDetailsId" class="btn btn-danger" id="buttonText">Not Approved</button>
+                            }
+
+                        </td>
+                        <td>
+                            @if (item.TableName != "Special Table")
+                            {
+                                <span id="Tb">---</span>
+                            }
+                            else
+                            {
+                                var a = Context.Session.Get<List<TempTable>>("TempTableSeat");
+                                if (a != null)
+                                {
+
+                                    var tbl = a.Where(b => b.Id == item.CustomerOrderDetailsId).FirstOrDefault();
+
+                                    if (tbl != null)
+                                    {
+                                        <input id="Tb" style="width:50px;height:33px" class="form-control" data-id="@tbl.Id" value="@tbl.SeatName" readonly />
+                                    }
+                                    else
+                                    {
+
+                                        if (item.Approve == true && item.PaymentStatus == true)
+                                        {
+                                            <input id="Tb" style="width:50px;height:33px" class="form-control" readonly value="---" />
+
+                                        }
+                                        else
+                                        {
+
+                                            <input id="Tb" style="width:50px;height:33px" class="form-control"  />
+
+
+
+                                        }
+
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (item.Approve == true && item.PaymentStatus == true)
+                                    {
+                                        <input id="Tb" style="width:50px;height:33px" class="form-control" readonly value="---" />
+
+                                    }
+                                    else
+                                    {
+
+                                        <input id="Tb" style="width:50px;height:33px" class="form-control"  />
+
+
+
+                                    }
+
+
+                                }
+                            }
+                        </td>
+                        <td>
+                            @if (item.PaymentStatus == true)
+                            {
+                                <button data-id="@item.CustomerOrderDetailsId" class="btn btn-success" disabled>Paid</button>
+
+                            }
+                            else
+                            {
+                                <button data-id="@item.CustomerOrderDetailsId" class="btn btn-warning">Make Payment</button>
+                            }
+                        </td>
+
+                    </tr>
+                                        c++;
+                                    }
+            </tbody>
+        </table>
+        @Html.PagedListPager((IPagedList) Model, c => Href("~/Manager/Home/OrderDetails?page=" + c),
+               new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+               {
+                   PageClasses = new string[] { "page-link" },
+                   UlElementClasses = new string[] { "pagination" },
+                   LiElementClasses = new string[] { "page-item" },
+
+               })
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+
+
+
+
+        });
+
+
+        $("button").click(function () {
+            var value = $(this).text();
+            var Id = $(this).data("id");
+
+            var TableName = $(this).closest("tr").find('td:eq(5)').text();
+            var Seat = $(this).closest("tr").find('td:eq(7)').find("#Tb").text();
+            var InputValue = $(this).closest("tr").find('td:eq(7)').find("#Tb").val();
+            console.log(InputValue);
+            console.log(Seat);
+            console.log(value);
+            console.log(TableName);
+            var ButtonValue = $(this).closest("tr").find('td:eq(6)').find("#buttonText").text();
+            console.log("Button Value :" + ButtonValue);
+            if (Seat === "---") {
+
+                if (value === "Not Approved") {
+                    $(this).removeClass("btn btn-danger").addClass("btn btn-success");
+                    $(this).off('click');
+                    var value = $(this).text("Approved");
+                    var url = "/Manager/Home/OrderApproved";
+                    console.log(Id);
+                    $.getJSON(url, { id: Id }, function (data) {
+                        console.log(data);
+                    });
+                }
+                
+
+
+            }
+            else if (InputValue.length !== 0) {
+                if (value === "Not Approved") {
+                    $(this).removeClass("btn btn-danger").addClass("btn btn-success");
+                    $(this).off('click');
+                    $(this).text("Approved");
+                    $(this).closest("tr").find('td:eq(7)').find("#Tb").attr("readonly", "true");
+                    var TableName = $(this).closest("tr").find('td:eq(7)').find("#Tb").val();
+
+                    var url = "/Manager/Home/OrderApprovedWithoutTable";
+                    console.log("Passed Id " + Id);
+                    console.log("Passed Seat " + TableName);
+                    $.getJSON(url, { id: Id, Seat: TableName }, function (data) {
+                        console.log(data);
+                    });
+                }
+                
+                
+                   
+            }
+            if (value === "Make Payment" && InputValue.length !== 0
+                && ButtonValue === "Approved")
+            {
+               var OrderId = $(this).closest("tr").find('button').data("id");
+                console.log("Order ID " + OrderId);
+                $(this).text("Paid");
+                $(this).removeClass("btn btn-warning").addClass("btn btn-success");
+                $(this).off('click');
+
+                window.location.href = '/Manager/Home/Receipt?id=' + OrderId;
+            }
+            else if (Seat === "---" 
+                        && ButtonValue==="Approved")
+            {
+                $(this).text("Paid");
+                $(this).removeClass("btn btn-warning").addClass("btn btn-success");
+                $(this).off('click');
+                 var OrderId = $(this).closest("tr").find('button').data("id");
+                console.log("Order ID " + OrderId);
+                window.location.href = '/Manager/Home/Receipt?id=' + OrderId;
+            }
+            //else {
+
+            //    var url = "/Manager/Home/OrderApproved";
+            //        console.log(Id);
+            //        $.getJSON(url, { id: Id }, function (data) {
+            //            console.log(data);
+            //        });
+            //}
+            //console.log(value);
+            //console.log(TableName);
+
+
+
+        });
+
+
+
+    </script>
+}
+
+
