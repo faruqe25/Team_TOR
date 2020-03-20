@@ -38,8 +38,7 @@ namespace RestaurantManagementSystem.Areas.StockManager.Controllers
         {
             var stck = _context.StockDetails.AsNoTracking().Where(s => s.IngredientId == stockdetailsvm.IngredientId).LastOrDefault();
             if (stck != null)
-            {
-                
+            {                
                 stockdetailsvm.AvailableStock = stockdetailsvm.Quantity * 1000 + stck.AvailableStock;
             }
             else
@@ -61,6 +60,7 @@ namespace RestaurantManagementSystem.Areas.StockManager.Controllers
             _context.StockDetails.Add(stockdetails);
             _context.SaveChanges();
             ModelState.Clear();
+            ViewBag.Success = "You have succesfully added.";
             return View();
         }
         public IActionResult StockDetails(int Page = 1)
@@ -123,3 +123,4 @@ namespace RestaurantManagementSystem.Areas.StockManager.Controllers
         }
     }
 }
+

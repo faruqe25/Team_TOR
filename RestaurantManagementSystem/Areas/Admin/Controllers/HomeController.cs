@@ -91,18 +91,18 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 Where(t => t.MealHourTitle == mealHourVm.MealHourTitle).FirstOrDefault();
             if (valid != null)
             {
-                ViewBag.Validation = "You have already added " + mealHourVm.MealHourTitle + ".";
+                ViewBag.Validation = "You have already added.";
                 return View();
             }
             MealHour m = new MealHour()
             {
                 MealHourId = mealHourVm.MealHourId,
                 MealHourTitle = mealHourVm.MealHourTitle
-
             };
             _context.MealHour.Update(m);
-            _context.SaveChanges();
+            _context.SaveChanges();          
             ModelState.Clear();
+            ViewBag.Success = "You have succesfully updated.";
             return RedirectToAction("MealHourInfo");
         }
         public IActionResult DeleteMealHour(int id)
@@ -127,7 +127,10 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             if (valid != null)
             {
                 ViewBag.Validation = "You have already added " + a.FoodName + ".";
+                ViewBag.MealHour = new SelectList(_context.MealHour.AsNoTracking().
+                   ToList(), "MealHourId", "MealHourTitle");
                 return View();
+                //RedirectToAction("AddFoodItem");
             }
             FoodItem p = new FoodItem()
             {
@@ -310,7 +313,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         {
             var raw = _context.FoodItems.AsNoTracking().ToList();
             ViewBag.RawItem = new SelectList(raw, "FoodItemId", "FoodName");
-
+            
             //var tem = _context.RequiredMaterial.AsNoTracking().ToList();
             //var valid = false;
 
@@ -584,21 +587,21 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         public IActionResult AddNewTable(TableVm tablevm)
         {
             var valid = _context.Table.AsNoTracking().
-               Where(t => t.TableNumber == "Table-" + tablevm.TableNumber).FirstOrDefault();
+               Where(t => t.TableNumber ==  tablevm.TableNumber).FirstOrDefault();
             if (valid != null)
             {
-                ViewBag.Validation = "You have already added Table-" + tablevm.TableNumber + ".";
+                ViewBag.Validation = "You have already added " + tablevm.TableNumber + ".";
                 return View();
             }
             Table table = new Table
             {
-                TableNumber="Table-" + tablevm.TableNumber,
+                TableNumber=tablevm.TableNumber,
                 TableCapacity=tablevm.TableCapacity,
                 BookingPrice=tablevm.BookingPrice
             };
             _context.Table.Add(table);
             _context.SaveChanges();
-            ViewBag.Success = "You have succesfully added Table-"+tablevm.TableNumber + ".";
+            ViewBag.Success = "You have succesfully added "+tablevm.TableNumber + ".";
             ModelState.Clear();
             return View();
         }

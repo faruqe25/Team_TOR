@@ -25,18 +25,7 @@
 <form class="row mt-5" asp-area="Admin" asp-controller="Home"
       asp-action="AddNewOffer" method="post">
     <div class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8" id="formdiv">
-        @if (ViewBag.Validation != null)
-        {
-            <div id="mytoastr" class="alert alert-danger toast" role="alert">
-                @ViewBag.Validation
-            </div>
-        }
-        @if (ViewBag.Success != null)
-        {
-            <div id="mytoastr" class="alert alert-success toast" role="alert">
-                @ViewBag.Success
-            </div>
-        }
+       
         <h1>Add New Food Offer</h1>
         <div class="row">
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -79,9 +68,31 @@
 @section Scripts{
 
     <script type="text/javascript">
+        var a = null;
+        var b = null;
          $(document).ready(function () {
-                    $('#mytoastr').toast({ delay: 2000 });
-                    $('#mytoastr').toast('show');
-                });
+                  
+             a ="@ViewBag.Validation"
+             b ="@ViewBag.Success"
+             console.log(a);
+             if (a.length !== 0) {
+                 Swal.fire({
+                     position: 'top-center',
+                     icon: 'warning',
+                     title: a,
+                     showConfirmButton: false,
+                     timer: 2000
+                 })
+             }
+             else if (b.length !== 0) {
+                  Swal.fire({
+                     position: 'top-center',
+                     icon: 'success',
+                     title: b,
+                     showConfirmButton: false,
+                     timer: 2000
+                 })
+             }
+         });
     </script>
 }
