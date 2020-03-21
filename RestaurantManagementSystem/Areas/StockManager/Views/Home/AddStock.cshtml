@@ -29,7 +29,7 @@
         <h1>Insert New Stock </h1>
         <div class="form-group">
             <label>Select Raw Ingredient</label>
-            <select asp-for="IngredientId"asp-items="@(new SelectList(ViewBag.IngredientList,"IngredientId","IngredientName"))"
+            <select asp-for="IngredientId" asp-items="@(new SelectList(ViewBag.IngredientList,"IngredientId","IngredientName"))"
                     class="form-control"></select>
         </div>
         <div class="form-group">
@@ -41,3 +41,22 @@
 </form>
 
 
+@section Scripts{
+
+    <script type="text/javascript">             
+        var b = null;
+         $(document).ready(function () {
+            
+             b ="@ViewBag.Success"           
+             if (b.length !== 0) {
+                  Swal.fire({
+                     position: 'top-center',
+                     icon: 'success',
+                     title: b,
+                     showConfirmButton: false,
+                     timer: 2000
+                 })
+             }
+         });
+    </script>
+}

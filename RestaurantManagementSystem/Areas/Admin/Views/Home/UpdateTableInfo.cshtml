@@ -52,3 +52,26 @@
         <button class="btn btn-dark">Update</button>
     </div>
 </form>
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+        
+        var a = null;
+         $(document).ready(function () {
+
+             a ="@ViewBag.Validation"
+             console.log(a);
+             if (a.length !== 0) {
+                 Swal.fire({
+                     position: 'top-center',
+                     icon: 'warning',
+                     title: a,
+                     showConfirmButton: false,
+                     timer: 2000
+                 })
+             }
+         });
+    </script>
+}
