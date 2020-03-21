@@ -102,7 +102,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             _context.MealHour.Update(m);
             _context.SaveChanges();          
             ModelState.Clear();
-            ViewBag.Success = "You have succesfully updated.";
+            //ViewBag.Success = "You have succesfully updated.";
             return RedirectToAction("MealHourInfo");
         }
         public IActionResult DeleteMealHour(int id)
@@ -190,6 +190,17 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateFoodItem(FoodItemVm a)
         {
+            var valid = _context.FoodItems.AsNoTracking().
+                Where(t => t.FoodName == a.FoodName).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added " + a.FoodName + ".";
+                ViewBag.MealHour = new SelectList(_context.MealHour.AsNoTracking().
+                   ToList(), "MealHourId", "MealHourTitle");
+                return View();
+               
+            }
+           
             FoodItem p = new FoodItem()
             {
                 FoodName = a.FoodName,
@@ -202,8 +213,10 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             };
             _context.FoodItems.Update(p);
             _context.SaveChanges();
+            ViewBag.Success = "You have succesfully added.";
             ModelState.Clear();
-            return RedirectToAction("FoodItemList");
+            return RedirectToAction("FoodItemList");           
+
         }
         public IActionResult DeleteFoodItem(int id)
         {
@@ -275,7 +288,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateIngredient(IngredientVm st)
         {
-
+            var valid = _context.Ingredient.AsNoTracking().
+                Where(t => t.IngredientName == st.IngredientName).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added " + st.IngredientName;
+                return View();
+            }
             Ingredient s = new Ingredient()
             {
                 IngredientId = st.IngredientId,
@@ -494,7 +513,6 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         //    return View();
         //}
 
-
         public IActionResult AddNewOffer()
         {
             return View();
@@ -559,6 +577,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateFoodOffer(OfferVm offervm)
         {
+            var valid = _context.Offer.AsNoTracking().
+               Where(t => t.Coupon == offervm.Coupon).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added Coupon " + offervm.Coupon + ".";
+                return View();
+            }
             Offer offer = new Offer()
             {
                 OfferId=offervm.OfferId,
@@ -640,6 +665,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateTableInfo(TableVm tablevm)
         {
+            var valid = _context.Table.AsNoTracking().
+               Where(t => t.TableNumber == tablevm.TableNumber).FirstOrDefault();
+            if (valid != null)
+            {
+                ViewBag.Validation = "You have already added " + tablevm.TableNumber + ".";
+                return View();
+            }
             Table table = new Table()
             {
                 TableId=tablevm.TableId,
