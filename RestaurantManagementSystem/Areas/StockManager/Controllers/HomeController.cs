@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,8 +23,99 @@ namespace RestaurantManagementSystem.Areas.StockManager.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<JsonResult> LoadChartData(int id)
         {
+            var StockItemQuantity = from stock in await _context.StockDetails.
+                                    Where(s => s.IngredientId == id)
+                                     .ToListAsync()
+                                    group stock by
+                                    stock.StockInDate.Month into p
+                                    let temp = (
+                                          from val in p
+                                          select new
+                                          {
+                                              Total = p.Sum(s => s.Quantity),
+                                              Month = val.StockInDate.Month
+                                          }
+                                            )
+                                    select temp;
+            List<int> Quantity = new List<int>();
+            int Month = 1;
+            for (int i = 0; i < 12; i++)
+            {
+                try
+                {
+                    var Total = StockItemQuantity.ElementAt(0).ElementAt(0).Total;
+                    var Months = StockItemQuantity.ElementAt(0).ElementAt(0).Month;
+                    if (Months != Month)
+                    {
+                        Quantity.Add(0);
+                    }
+                    else
+                    {
+                        Quantity.Add(Total);
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                    Quantity.Add(0);
+                }
+                Month++;
+
+            }
+            
+
+            return Json(Quantity);
+        }
+        public async Task<IActionResult> Index()
+        {
+            ViewBag.InredientList = await _context.Ingredient.AsNoTracking().ToListAsync();
+            var StockItemQuantity = from stock in await _context.StockDetails.
+                                    Where(s => s.IngredientId == 1)
+                                     .ToListAsync()
+                                    group stock by
+                                    stock.StockInDate.Month into p
+                                    let temp = (
+                                          from val in p
+                                          select new
+                                          {
+                                              Total = p.Sum(s => s.Quantity),
+                                              Month = val.StockInDate.Month
+                                          }
+                                            )
+                                    select temp;
+            List<int> Quantity = new List<int>();
+            int Month = 1;
+            for (int i = 0; i < 12; i++)
+            {
+                try
+                {
+                    var Total = StockItemQuantity.ElementAt(0).ElementAt(0).Total;
+                    var Months = StockItemQuantity.ElementAt(0).ElementAt(0).Month;
+                    if (Months != Month)
+                    {
+                        Quantity.Add(0);
+                    }
+                    else
+                    {
+                        Quantity.Add(Total);
+                    }
+                    
+                }
+                catch (Exception)
+                {
+
+                    Quantity.Add(0);
+                }
+                Month++;
+
+            }
+
+            ViewBag.TotalQueantity = Quantity;
+           
+
             return View();
         }
         public IActionResult AddStock()

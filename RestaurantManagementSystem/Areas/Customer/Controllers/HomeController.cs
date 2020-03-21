@@ -76,8 +76,9 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             {
                 CustomerOrderedTable abc = new CustomerOrderedTable()
                 {
+
                     CustomerOrderedTableId = 0,
-                    CustomersId = CustomerDetails.CustomersId,
+                    CustomersId = CustomerDetails.CustomersId
                 };
                 abc.BookTimeFrom = ReservedTable.BookTimeFrom;
                 abc.BookTimeTo = ReservedTable.BookTimeTo;
@@ -102,7 +103,7 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
                             FoodItemId = item.FoodItemId,
                             Quantity = countfood,
                             DiscountId = 0,
-                            OnlineStatus = true,
+                            PaymentStatus = false,
                             CustomerOrderedTableId = abc.CustomerOrderedTableId,
                         };
                         await _context.CustomerOrderDetails.AddAsync(ab);
@@ -112,13 +113,12 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             }
             else
             {
-                CustomerOrderedTable tbs = new CustomerOrderedTable()
-                {
+                CustomerOrderedTable tabless = new CustomerOrderedTable() {
                     CustomerOrderedTableId = 0,
                     CustomersId = CustomerDetails.CustomersId,
                     TableId = 1
-                };
-                await _context.CustomerOrderedTable.AddAsync(tbs);
+                 };
+                await _context.CustomerOrderedTable.AddAsync(tabless);
                 await _context.SaveChangesAsync();
 
 
@@ -134,8 +134,8 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
                             FoodItemId = item.FoodItemId,
                             Quantity = item.Quantity,
                             DiscountId = 0,
-                            OnlineStatus = true,
-                            CustomerOrderedTableId = tbs.CustomerOrderedTableId
+                            PaymentStatus = false,
+                            CustomerOrderedTableId = tabless.CustomerOrderedTableId
 
                         };
                         await _context.CustomerOrderDetails.AddAsync(ab);
@@ -182,6 +182,11 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             HttpContext.Session.Remove("Table");
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Chart()
+        {
+            return View();
         }
     }
 }
