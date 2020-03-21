@@ -209,11 +209,9 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 FoodItemId = a.FoodItemId,
                 MealHourId = a.MealHourId,
 
-
             };
             _context.FoodItems.Update(p);
-            _context.SaveChanges();
-            ViewBag.Success = "You have succesfully added.";
+            _context.SaveChanges();          
             ModelState.Clear();
             return RedirectToAction("FoodItemList");           
 
@@ -228,7 +226,6 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         }
         public IActionResult AddIngredient()
         {
-
 
             return View();
         }
