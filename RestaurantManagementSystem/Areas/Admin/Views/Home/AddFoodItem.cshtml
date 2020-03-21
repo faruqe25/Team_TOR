@@ -26,18 +26,7 @@
 <form class="row mt-5" asp-area="Admin" asp-controller="Home"
       asp-action="AddFoodItem" method="post">
     <div class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8" id="formdiv">
-        @*@if (ViewBag.Validation != null)
-        {
-            <div id="mytoastr" class="alert alert-danger toast" role="alert">
-                @ViewBag.Validation
-            </div>
-        }
-        @if (ViewBag.Success != null)
-        {
-            <div id="mytoastr" class="alert alert-success toast" role="alert">
-                @ViewBag.Success
-            </div>
-        }*@
+       
         <h1>Add Food Item</h1>
         <div class="form-group">
             <label>Enter Food Name</label>
@@ -64,11 +53,7 @@
 
 @section Scripts{
 
-    <script type="text/javascript">
-         //$(document).ready(function () {
-         //           $('#mytoastr').toast({ delay: 2000 });
-         //           $('#mytoastr').toast('show');
-         //       });
+    <script type="text/javascript">        
         var a = null;
         var b = null;
          $(document).ready(function () {
