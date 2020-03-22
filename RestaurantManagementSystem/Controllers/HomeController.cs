@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +36,7 @@ namespace RestaurantManagementSystem.Controllers
             this.roleManager = roleManager;
 
         }
-        
+
         public IActionResult Index()
         {
             var fooditem = _context.FoodItems.AsNoTracking().Include(q => q.MealHour).ToList();
@@ -93,7 +92,6 @@ namespace RestaurantManagementSystem.Controllers
             return View();
         }
         [HttpPost]
-        
         public async Task<IActionResult> CreateAccount(CustomerAccount ca)
         {
             var rolelist = await roleManager.RoleExistsAsync("Customer");
@@ -112,11 +110,14 @@ namespace RestaurantManagementSystem.Controllers
                 {
                     UserName = ca.Email,
                     Email = ca.Email,
-                    PhoneNumber=ca.MobileNumber
+                    PhoneNumber = ca.MobileNumber
+
                 };
                 var result = await userManager.CreateAsync(user, ca.Password);
                 if (result.Succeeded)
                 {
+
+
                     Customers cs = new Customers
                     {
                         CustomersId = 0,
@@ -209,7 +210,7 @@ namespace RestaurantManagementSystem.Controllers
             List.Add(food);
 
             HttpContext.Session.Set("FoodS", List);
-            var total =List.Sum(s => s.FoodPrice * s.Quantity);
+            var total = List.Sum(s => s.FoodPrice * s.Quantity);
 
             return Json(total);
         }
@@ -220,7 +221,7 @@ namespace RestaurantManagementSystem.Controllers
             var up = List.Where(s => s.FoodItemId == id).FirstOrDefault();
             List.Remove(up);
             HttpContext.Session.Set("FoodS", List);
-            if (List !=null)
+            if (List != null)
             {
                 var total = List.Sum(s => s.FoodPrice * s.Quantity);
 
@@ -229,7 +230,7 @@ namespace RestaurantManagementSystem.Controllers
             }
             return Json(0);
         }
-        public JsonResult GetCartValueTotal() 
+        public JsonResult GetCartValueTotal()
         {
             var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
             var count = 0;
@@ -241,20 +242,20 @@ namespace RestaurantManagementSystem.Controllers
             {
                 count = List.Count();
             }
-           
+
             return Json(count);
         }
 
-        public async Task< IActionResult> Cart()
+        public async Task<IActionResult> Cart()
         {
             var Exists = HttpContext.Session.Get<List<TableResevationCart>>("AvailableTable");
-            if (Exists!=null)
+            if (Exists != null)
             {
                 HttpContext.Session.Remove("AvailableTable");
             }
-            var TableAvailableList = await _context.Table.AsNoTracking().ToListAsync();
-           
-            if (TableAvailableList.Count()!=0)
+            var TableAvailableList = await _context.Table.AsNoTracking().Where(a => a.TableId != 1).ToListAsync();
+
+            if (TableAvailableList.Count() != 0)
             {
                 var Tables = new List<TableResevationCart>();
                 foreach (var item in TableAvailableList)
@@ -263,14 +264,14 @@ namespace RestaurantManagementSystem.Controllers
                     {
                         TableId = item.TableId,
                         BookedStatus = item.BookedStatus,
-                        TableName=item.TableNumber
+                        TableName = item.TableNumber
                     };
                     Tables.Add(tableResevationCart);
                 }
                 HttpContext.Session.Set("AvailableTable", Tables);
             }
 
-          
+
 
             return View();
         }

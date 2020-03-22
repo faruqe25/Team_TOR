@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+@model RestaurantManagementSystem.Areas.Admin.ViewModels.MealHourVm
+@{
+    ViewData["Title"] = "SetMealHour";
+}
+<style>
+    #formdiv {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+        padding: 4%;
+        
+    }
+
+        #formdiv h1 {
+            text-align: center;
+            padding: 4%;
+        }
+
+      
+</style>
+<form class="row mt-5 form-inline" asp-area="Admin" asp-controller="Home"
+      asp-action="SetMealHour" method="post">
+    <div class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8" id="formdiv">
+        <h1>Set Meal Hour</h1>
+        <div class="form-group">
+            <label>Enter Meal Hour Title</label>
+            <input class="form-control" placeholder="Meal Hour" asp-for="MealHourTitle" />
+            <span asp-validation-for="MealHourTitle" class="text-danger"></span>
+            <button class="btn btn-dark">Add</button>
+        </div>
+
+        
+    </div>
+</form>
+
+

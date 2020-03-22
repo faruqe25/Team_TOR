@@ -15,11 +15,8 @@
         <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="~/Assets/css/all.css">
         <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/SweetAlert/sweetalert2.min.css" />
     </environment>
     <style>
-
-
         body {
             margin: 0;
             padding: 0;
@@ -106,8 +103,8 @@
                         </table>
                     </div>
                     <div class="card-footer d-flex justify-content-end">
-                        <form id="OrderConfirm" asp-area="Customer" asp-action="Order" asp-controller="Home" method="post">
-                            <button type="submit" class="btn btn-dark" onclick="OrderConfirmMessage()">
+                        <form asp-area="Customer" asp-action="Order" method="post" asp-controller="Home">
+                            <button type="submit" class="btn btn-dark">
                                 Confirm Order
                             </button>
                         </form>
@@ -148,8 +145,12 @@
                         }
                         else
                         {
-                            <div>
-                                <b>No Table Is Added to Database</b>
+                            <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
+                                <img src="~/images/table (3).svg" class="img-fluid" />
+                            </div>
+
+                            <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
+                                <img src="~/images/table (4).svg" class="img-fluid" />
                             </div>
                         }
                     </div>
@@ -198,33 +199,11 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/TableReservation.js" asp-append-version="true"></script>
     <script src="~/js/FoodCartControll.js" asp-append-version="true"></script>
-    <script src="~/SweetAlert/sweetalert2.all.min.js" asp-append-version="true"></script>
 
-    <script type="text/javascript">
 
-        function OrderConfirmMessage() {
-            event.preventDefault();
-
-           Swal.fire({
-                  title: 'Please,click okay to confrim order',
-                  showClass: {
-                    popup: 'animated fadeInDown faster'
-                  },
-                  hideClass: {
-                    popup: 'animated fadeOutUp faster'
-                  }
-           }).then((result) => {
-               if (result.value) {
-                   $("#OrderConfirm").submit();
-                
-                }
-            })
-        }
-    </script>
 
 
 
 </body>
 </html>
-
 

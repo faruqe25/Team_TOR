@@ -1,5 +1,5 @@
 
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 
@@ -13,21 +13,21 @@ using RestaurantManagementSystem.Areas.StockManager.Models;
 
 namespace RestaurantManagementSystem.Database
 {
-    public class DatabaseContext :IdentityDbContext
+    public class DatabaseContext : IdentityDbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext>options)
-            :base(options){}
+        public DatabaseContext(DbContextOptions<DatabaseContext> options)
+            : base(options) { }
         public DbSet<Customers> Customers { get; set; }
         public DbSet<FoodItem> FoodItems { get; set; }
         public DbSet<Ingredient> Ingredient { get; set; }
         public DbSet<MealHour> MealHour { get; set; }
-        public DbSet<Offer> Offer { get; set; }         
-        public DbSet<RequiredMaterial> RequiredMaterial { get; set; }         
-        public DbSet<Table> Table { get; set; }         
-        public DbSet<StockDetails> StockDetails { get; set; }        
-        public DbSet<CustomerOrderDetails> CustomerOrderDetails { get; set; }   
+        public DbSet<Offer> Offer { get; set; }
+        public DbSet<RequiredMaterial> RequiredMaterial { get; set; }
+        public DbSet<Table> Table { get; set; }
+        public DbSet<StockDetails> StockDetails { get; set; }
+        public DbSet<CustomerOrderDetails> CustomerOrderDetails { get; set; }
         public DbSet<CustomerOrderedTable> CustomerOrderedTable { get; set; }
-       
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -40,7 +40,7 @@ namespace RestaurantManagementSystem.Database
                 Id = ROLE_ID,
                 Name = "admin",
                 NormalizedName = "ADMIN",
-                
+
             });
 
             var hasher = new PasswordHasher<IdentityUser>();
@@ -53,7 +53,7 @@ namespace RestaurantManagementSystem.Database
                 NormalizedEmail = "ADMIN@gmail.com",
                 EmailConfirmed = false,
                 PasswordHash = hasher.HashPassword(null, "admin"),
-                AccessFailedCount=0
+                AccessFailedCount = 0
             });
 
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
@@ -63,12 +63,11 @@ namespace RestaurantManagementSystem.Database
             });
             builder.Entity<Table>().HasData(new Table
             {
-                TableId=1,
-                TableCapacity=0,
-                TableNumber="Special Table",
-                BookedStatus=false,
-                BookingPrice=0
-
+                TableId = 1,
+                TableCapacity = 0,
+                TableNumber = "Special Table",
+                BookedStatus = true,
+                BookingPrice = 0
             });
         }
     }
