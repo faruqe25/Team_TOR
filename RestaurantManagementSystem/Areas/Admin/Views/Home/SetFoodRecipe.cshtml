@@ -21,7 +21,7 @@
     }
 </style>
 <div class="row mt-3 table-responsive">
-    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="cols">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="cols">       
         <h1>Food Recipe Details</h1>
         <form asp-controller="Home" asp-action="SetFoodRecipe"
               asp-area="Admin" method="post">
@@ -56,7 +56,7 @@
 
 
                         <td>
-                            <input asp-for="MaterialVms[0].QuantityInGram" class="form-control"placeholder="Quantity(Gm)" />
+                            <input asp-for="MaterialVms[0].QuantityInGram" class="form-control" placeholder="Quantity(Gm)" />
                             <span asp-validation-for="MaterialVms[0].QuantityInGram" class="text-danger"></span>
                         </td>
 
@@ -82,10 +82,30 @@
 @section Scripts{
 
     <script type="text/javascript">
-    $(document).ready(function () {
-         var counter = 1;
-         var con = 1;
-
+        var a = null;
+        var b = null;
+        $(document).ready(function () {
+            a ="@ViewBag.Validation"
+             b ="@ViewBag.Success"
+             console.log(a);
+             if (a.length !== 0) {
+                 Swal.fire({
+                     position: 'top-center',
+                     icon: 'warning',
+                     title: a,
+                     showConfirmButton: false,
+                     timer: 2000
+                 })
+             }
+             else if (b.length !== 0) {
+                  Swal.fire({
+                     position: 'top-center',
+                     icon: 'success',
+                     title: b,
+                     showConfirmButton: false,
+                     timer: 2000
+                 })
+             }
 
          var url = "/Admin/Home/GetIngredients";
         $.getJSON(url, function (data) {
