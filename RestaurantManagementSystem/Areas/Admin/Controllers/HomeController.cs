@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagementSystem.Areas.Admin.Models;
 using RestaurantManagementSystem.Areas.Admin.ViewModels;
+using RestaurantManagementSystem.Areas.Manager.ViewModels;
 using RestaurantManagementSystem.Database;
 using X.PagedList;
 
@@ -22,8 +23,62 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
+
+            var SellSRecord = from sells in await _context.CustomerOrderDetails.AsNoTracking()
+                                    .Include(s => s.CustomerOrderedTable).Include(s => s.FoodItem)
+                                    .Where(s => s.PaymentStatus == true)
+                                    .ToListAsync()
+                              group sells by
+                              sells.CustomerOrderedTable.Date.Day into p
+                              let temp = (
+                                    from val in p
+                                    select new
+                                    {
+                                        Total = p.Sum(s => s.Quantity * s.FoodItem.Price),
+                                        Day = p.Key
+                                    }
+                                     )
+                              select temp;
+            List<float> TotalSells = new List<float>();
+            List<string> Day = new List<string>();
+            var s = new List<TempSell>();
+
+            foreach (var item in SellSRecord)
+            {
+
+                foreach (var t in item)
+                {
+                    var p = new TempSell()
+                    {
+                        Day = t.Day,
+                        Total = t.Total
+                    };
+                    s.Add(p);
+                    break;
+                }
+            }
+            var data = s.OrderBy(s => s.Day);
+            for (int i = 0; i < 31; i++)
+            {
+                TotalSells.Add(0);
+            }
+            foreach (var item in data)
+            {
+                var index = item.Day - 1;
+                var total = item.Total;
+                TotalSells[index] = total;
+            }
+
+
+            ViewBag.TotalFoodSells = TotalSells;
+
+
+
+
+
             return View();
         }
         public IActionResult SetMealHour()
@@ -48,7 +103,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             _context.MealHour.Add(m);
             _context.SaveChanges();
             ViewBag.Success = "You have succesfully added " + mealHourVm.MealHourTitle + ".";
-            ModelState.Clear();           
+            ModelState.Clear();
             return View();
         }
         public IActionResult MealHourInfo()
@@ -73,7 +128,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         }
         public IActionResult UpdateMealHour(int id)
         {
-            
+
             var mealhourVm = _context.MealHour.AsNoTracking()
                  .Where(t => t.MealHourId == id).FirstOrDefault();
             MealHourVm m = new MealHourVm()
@@ -100,7 +155,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 MealHourTitle = mealHourVm.MealHourTitle
             };
             _context.MealHour.Update(m);
-            _context.SaveChanges();          
+            _context.SaveChanges();
             ModelState.Clear();
             //ViewBag.Success = "You have succesfully updated.";
             return RedirectToAction("MealHourInfo");
@@ -198,9 +253,9 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 ViewBag.MealHour = new SelectList(_context.MealHour.AsNoTracking().
                    ToList(), "MealHourId", "MealHourTitle");
                 return View();
-               
+
             }
-           
+
             FoodItem p = new FoodItem()
             {
                 FoodName = a.FoodName,
@@ -211,9 +266,9 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
 
             };
             _context.FoodItems.Update(p);
-            _context.SaveChanges();          
+            _context.SaveChanges();
             ModelState.Clear();
-            return RedirectToAction("FoodItemList");           
+            return RedirectToAction("FoodItemList");
 
         }
         public IActionResult DeleteFoodItem(int id)
@@ -236,7 +291,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 Where(t => t.IngredientName == a.IngredientName).FirstOrDefault();
             if (valid != null)
             {
-                ViewBag.Validation = "You have already added "+a.IngredientName;
+                ViewBag.Validation = "You have already added " + a.IngredientName;
                 return View();
             }
             Ingredient s = new Ingredient()
@@ -329,18 +384,18 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         {
             var raw = _context.FoodItems.AsNoTracking().ToList();
             ViewBag.RawItem = new SelectList(raw, "FoodItemId", "FoodName");
-            
+
             //var tem = _context.RequiredMaterial.AsNoTracking().ToList();
             //var valid = false;
 
             foreach (var item in Rl.MaterialVms)
-            {                 
+            {
                 RequiredMaterial a = new RequiredMaterial();
                 a.RequiredMaterialId = Rl.RequiredMaterialId;
                 a.FoodItemId = Rl.FoodItemId;
                 a.IngredientId = item.IngredientId;
                 a.QuantityInGram = item.QuantityInGram;
-                _context.RequiredMaterial.Add(a);                
+                _context.RequiredMaterial.Add(a);
                 _context.SaveChanges();
             }
             ViewBag.Success = "You have succesfully added food recipe.";
@@ -526,10 +581,10 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             }
             Offer offer = new Offer()
             {
-                Coupon=offervm.Coupon,
-                Discount=offervm.Discount,
-                ValidatyStart=offervm.ValidatyStart,
-                ValidatyTo=offervm.ValidatyTo
+                Coupon = offervm.Coupon,
+                Discount = offervm.Discount,
+                ValidatyStart = offervm.ValidatyStart,
+                ValidatyTo = offervm.ValidatyTo
             };
             _context.Offer.Add(offer);
             _context.SaveChanges();
@@ -547,11 +602,11 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 OfferVm offervm = new OfferVm()
                 {
                     Serial = count,
-                    OfferId=item.OfferId,
-                    Coupon=item.Coupon,
-                    Discount=item.Discount,
-                    ValidatyStart_=item.ValidatyStart.ToShortDateString(),
-                    ValidatyTo_=item.ValidatyTo.ToShortDateString()
+                    OfferId = item.OfferId,
+                    Coupon = item.Coupon,
+                    Discount = item.Discount,
+                    ValidatyStart_ = item.ValidatyStart.ToShortDateString(),
+                    ValidatyTo_ = item.ValidatyTo.ToShortDateString()
                 };
                 offerdetailslist.Add(offervm);
                 count++;
@@ -563,11 +618,11 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             var offer = _context.Offer.AsNoTracking().Where(q => q.OfferId == id).FirstOrDefault();
             OfferVm offervm = new OfferVm()
             {
-                OfferId=offer.OfferId,
-                Coupon=offer.Coupon,
-                Discount=offer.Discount,
-                ValidatyStart=offer.ValidatyStart,
-                ValidatyTo=offer.ValidatyTo
+                OfferId = offer.OfferId,
+                Coupon = offer.Coupon,
+                Discount = offer.Discount,
+                ValidatyStart = offer.ValidatyStart,
+                ValidatyTo = offer.ValidatyTo
             };
             return View(offervm);
         }
@@ -583,8 +638,8 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             }
             Offer offer = new Offer()
             {
-                OfferId=offervm.OfferId,
-                Coupon=offervm.Coupon,
+                OfferId = offervm.OfferId,
+                Coupon = offervm.Coupon,
                 Discount = offervm.Discount,
                 ValidatyStart = offervm.ValidatyStart,
                 ValidatyTo = offervm.ValidatyTo
@@ -603,13 +658,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         }
         public IActionResult AddNewTable()
         {
-            return View ();
+            return View();
         }
         [HttpPost]
         public IActionResult AddNewTable(TableVm tablevm)
         {
             var valid = _context.Table.AsNoTracking().
-               Where(t => t.TableNumber ==  tablevm.TableNumber).FirstOrDefault();
+               Where(t => t.TableNumber == tablevm.TableNumber).FirstOrDefault();
             if (valid != null)
             {
                 ViewBag.Validation = "You have already added " + tablevm.TableNumber + ".";
@@ -617,13 +672,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             }
             Table table = new Table
             {
-                TableNumber=tablevm.TableNumber,
-                TableCapacity=tablevm.TableCapacity,
-                BookingPrice=tablevm.BookingPrice
+                TableNumber = tablevm.TableNumber,
+                TableCapacity = tablevm.TableCapacity,
+                BookingPrice = tablevm.BookingPrice
             };
             _context.Table.Add(table);
             _context.SaveChanges();
-            ViewBag.Success = "You have succesfully added "+tablevm.TableNumber + ".";
+            ViewBag.Success = "You have succesfully added " + tablevm.TableNumber + ".";
             ModelState.Clear();
             return View();
         }
@@ -631,13 +686,13 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         {
             var tablelist = _context.Table.AsNoTracking().ToList();
             var tablelistvm = new List<TableVm>();
-            int count =1;
+            int count = 1;
             foreach (var item in tablelist)
             {
                 TableVm tablevm = new TableVm()
                 {
-                    Serial=count,
-                    TableId=item.TableId,
+                    Serial = count,
+                    TableId = item.TableId,
                     TableNumber = item.TableNumber,
                     TableCapacity = item.TableCapacity,
                     BookingPrice = item.BookingPrice
@@ -671,7 +726,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             }
             Table table = new Table()
             {
-                TableId=tablevm.TableId,
+                TableId = tablevm.TableId,
                 TableNumber = tablevm.TableNumber,
                 TableCapacity = tablevm.TableCapacity,
                 BookingPrice = tablevm.BookingPrice
@@ -687,7 +742,58 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             _context.SaveChanges();
             return RedirectToAction("TableList");
         }
+        public async Task<IActionResult>TotalSells(int Page=1)
+        {
+
+
+            var SellSRecord = from sells in await _context.CustomerOrderDetails.AsNoTracking()
+                                    .Include(s => s.CustomerOrderedTable).Include(s => s.FoodItem)
+                                    .Where(s => s.PaymentStatus == true)
+                                    .ToListAsync()
+                              group sells by
+                              sells.CustomerOrderedTable.Date.Day into ps
+                              let temp = (
+                                    from val in ps
+                                    select new
+                                    {
+                                        Total = ps.Sum(s => s.Quantity * s.FoodItem.Price),
+                                        Day = ps.Key,
+                                        Quantity= ps.Sum(s => s.Quantity),
+                                        Data=val.CustomerOrderedTable.Date
+
+                                    }
+                                     )
+                              select temp;
+           
+            var s = new List<TempSell>();
+
+            foreach (var item in SellSRecord)
+            {
+
+                foreach (var t in item)
+                {
+                    var pa = new TempSell()
+                    {
+                        Day = t.Day,
+                        Total = t.Total,
+                        Quantity=t.Quantity,
+                        Date=t.Data
+                    };
+                    s.Add(pa);
+                    break;
+                }
+            }
+
+
+            var p = s.OrderByDescending(s => s.Day);
+            var list1 = p.ToPagedList(Page, 5);
+            return View(list1);
+           
+
+
+        }
     }
+    
 }
         
 

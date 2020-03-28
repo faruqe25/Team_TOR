@@ -1,0 +1,68 @@
+﻿@model List<RestaurantManagementSystem.Areas.StockManager.ViewModels.StockDetailsVm>
+@{
+    ViewData["Title"] = "StockStatus";
+}
+
+
+<style>
+    #cols {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+    }
+
+        #cols h1 {
+            text-align: center;
+            padding: 4%;
+        }
+
+    table {
+        text-align: center;
+    }
+</style>
+<div class="row mt-5">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1" id="cols">
+        <h1>Ingredient Stock Details</h1>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Serial</th>
+                    <th>Ingredient Name</th>
+                    <th>Last Stock In Date</th>
+                    <th>Quantity</th>
+                    <th>Available Stock</th>
+                    <th>Available Stock</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @{ var c = 1;}
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>@c</td>
+                        <td>@item.IngredientName</td>
+                        <td>@item.StockInDate</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.AvailableStock</td>
+                        @if(item.AvailableStock>0 && item.AvailableStock <= 1000)
+                        {
+                            <td>
+                            <a class="btn btn-dark" asp-action="AddStock" asp-controller="Home" asp-area="StockManager">Add Stock</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="bg-success">No Action Is Required</td>
+                        }
+
+                    </tr>
+                    c++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

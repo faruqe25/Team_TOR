@@ -13,5 +13,7 @@ namespace RestaurantManagementSystem.Areas.Manager.ViewModels
         public int  Discount { get; set; }  
         public string  Coupone   { get; set; }   
         public float  Total   { get; set; }  
+        public float  TablePrice   { get; set; }   
+
     }
 }

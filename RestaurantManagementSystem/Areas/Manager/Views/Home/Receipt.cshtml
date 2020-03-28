@@ -7,6 +7,8 @@
         border: 1px solid #000;
     }
 </style>
+<br />
+<br />
 <div class="container d-flex justify-content-center">
     <div class="row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-9 offset-lg-1 col-xl-9 offset-xl-1 p-4" id="receipt">
@@ -24,7 +26,7 @@
                 </div>
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <p class="text-right"><strong>Receipt no.: </strong>0125</p>
-                    <p class="text-right"><strong>Date & Time: </strong>05-03-2020 08.00.00PM</p>
+                    <p class="text-right"><strong>Date & Time: </strong>@DateTime.Now.ToShortDateString()</p>
                 </div>
             </div>
 
@@ -57,7 +59,14 @@
                                 </tr>
                             }
 
+                            <tr>
+                                <td></td>
+                                <td></td>
 
+
+                                <td colspan="3" class="text-right"><h6>Table Reservation Cost: </h6></td>
+                                <td class="text-right"><h4><strong>@Model[0].TablePrice  <span>tk</span></strong></h4></td>
+                            </tr>
 
                             <tr>
                                 <td></td>
@@ -65,17 +74,57 @@
                                 <td></td>
                                 <td></td>
                                 <td class="text-right"><h4><strong>Total: </strong></h4></td>
-                                <td class="text-right"><h4><strong>@Model.Sum(s=>s.Total)  <span>(BDT)</span></strong></h4></td>
+                                <td class="text-right"><h4><strong>@Model.Sum(s => s.Total)  <span>tk</span></strong></h4></td>
                             </tr>
                         </tbody>
                     </table>
-                        <button type="button" class="btn btn-lg btn-block btn-dark">
-                            Print   
-                        </button>
+                    
                 </div>
             </div>
         </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-9 offset-lg-1 col-xl-9 offset-xl-1 p-4" >
+
+            <button id="print" type="button" class="btn btn-lg btn-block btn-dark">
+                Print   
+            </button>
+        </div>
+
+        </div>
     </div>
-</div>
+
+@section Scripts{
+<script type="text/javascript">
 
 
+        $(document).ready(function () {
+
+
+            $("#print").click(function () {
+
+
+                var element = document.getElementById('receipt');
+
+        // Generate the PDF.
+                const options = {
+                    filename: 'Test.pdf',
+                    image: { type: 'jpeg' },
+                    html2canvas: { scale: 1},
+                    margin:[.55,0,0,-1.2],
+                    jsPDF: {
+                        orientation: 'Portrait',
+                        unit: 'in', format: 'A4',
+                       
+                        compressPDF: true,
+                       
+                        
+                    }
+
+                };
+                html2pdf().from(element).set(options).save();
+            });
+
+        });
+
+
+    </script>
+}

@@ -15,6 +15,6 @@ namespace RestaurantManagementSystem.Areas.StockManager.ViewModels
         public double AvailableStock { get; set; }
         public int IngredientId { get; set; }
         public string IngredientName { get; set; }
-        public Ingredient Ingredient { get; set; }
+     
     }
 }

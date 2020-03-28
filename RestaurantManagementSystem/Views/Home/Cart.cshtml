@@ -5,6 +5,11 @@
 
     Layout = null;
 }
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,7 +77,7 @@
                                                 <h5>Total Price</h5>
                                                 <hr />
                                                 @{ var ab = item.Quantity * item.FoodPrice;}
-                                               <p id="totalprice">@ab tk</p>
+                                                <p id="totalprice">@ab tk</p>
 
                                             </td>
                                             <td>
@@ -80,36 +85,48 @@
                                             </td>
                                             <td class="text-hide">@item.FoodItemId</td>
                                         </tr>
-                                                    }
+                                    }
                                     <tr>
                                         <td colspan="3" class="text-right">
                                             Total :
                                         </td>
                                         <td id="FinalTotal">@a.Sum(s => s.FoodPrice * s.Quantity) tk</td>
                                     </tr>
-                                                    }
-                                                    else
-                                                    {
-                              <tr>
-                                <td>No Food
-                                    
-                                </td>
-                              
-                              </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            No Food
 
-                                    }
+                                        </td>
+
+                                    </tr>
+
+                                }
 
                             </tbody>
-                           
+
                         </table>
                     </div>
                     <div class="card-footer d-flex justify-content-end">
                         <form asp-area="Customer" asp-action="Order" method="post" asp-controller="Home">
-                            <button type="submit" class="btn btn-dark">
-                                Confirm Order
-                            </button>
+
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <button type="submit" class="btn btn-dark">
+                                    Confirm Order
+                                </button>
+                            }
+                            else
+                            {
+                                <a  class="btn btn-dark" asp-area="" asp-controller="Home" asp-action="Login">
+                                    Confirm Order
+                                </a>
+                            }
+
                         </form>
-                       
+
                     </div>
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-3 ml-lg-3 col-xl-3 ml-xl-3"
@@ -118,7 +135,7 @@
                         Reserve a Table
                     </h4>
                     <hr />
-                    
+
                     <div class="row d-flex justify-content-center" id="TablesImage">
                         @{var T = Context.Session.Get<List<TableResevationCart>>("AvailableTable");}
                         @if (T != null)
@@ -130,15 +147,15 @@
                                 @if (T[i].BookedStatus == false)
                                 {
                                     <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
-                                        <img data-poss="true" data-conf="false" src="~/images/table (5).svg" class="img-fluid" alt="@T[i].TableId"  />
-                                          @T[i].TableName  
+                                        <img data-poss="true" data-conf="false" src="~/images/table (5).svg" class="img-fluid" alt="@T[i].TableId" />
+                                        @T[i].TableName
                                     </div>
                                 }
                                 else
                                 {
                                     <div class="col-2 col-sm-2 col-md-1 col-lg-3 col-xl-3">
-                                        <img data-poss="false" data-conf="true" src="~/images/table (4).svg" class="img-fluid" alt="@T[i].TableId"  />
-                                           @T[i].TableName 
+                                        <img data-poss="false" data-conf="true" src="~/images/table (4).svg" class="img-fluid" alt="@T[i].TableId" />
+                                        @T[i].TableName
                                     </div>
 
                                 }
@@ -200,9 +217,9 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/TableReservation.js" asp-append-version="true"></script>
     <script src="~/js/FoodCartControll.js" asp-append-version="true"></script>
-   
 
-   
+
+
 
 
 </body>
