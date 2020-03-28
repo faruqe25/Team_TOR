@@ -5,6 +5,11 @@
 
     Layout = null;
 }
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,11 +96,19 @@
                                     <tr>
                                         <td>
                                             No Food
+<<<<<<< HEAD
 
                                         </td>
 
                                     </tr>
 
+=======
+
+                                        </td>
+
+                                    </tr>
+
+>>>>>>> master
                                 }
 
                             </tbody>
@@ -104,9 +117,20 @@
                     </div>
                     <div class="card-footer d-flex justify-content-end">
                         <form asp-area="Customer" asp-action="Order" method="post" asp-controller="Home">
-                            <button type="submit" class="btn btn-dark">
-                                Confirm Order
-                            </button>
+
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <button type="submit" class="btn btn-dark">
+                                    Confirm Order
+                                </button>
+                            }
+                            else
+                            {
+                                <a  class="btn btn-dark" asp-area="" asp-controller="Home" asp-action="Login">
+                                    Confirm Order
+                                </a>
+                            }
+
                         </form>
 
                     </div>

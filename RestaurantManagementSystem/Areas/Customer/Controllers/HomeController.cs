@@ -44,7 +44,7 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             {
                 BookTimeFrom = From,
                 BookTimeTo = To,
-                Date = DateTime.Today,
+                Date = DateTime.Now,
                 TableId = TableId
             };
             HttpContext.Session.Set("Table", table);
@@ -118,8 +118,10 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
                     CustomerOrderedTableId = 0,
                     CustomersId = CustomerDetails.CustomersId,
                     TableId = 1,
-                    Date = DateTime.Today
-                };
+
+                    Date=DateTime.Now
+                 };
+
                 await _context.CustomerOrderedTable.AddAsync(tabless);
                 await _context.SaveChangesAsync();
 

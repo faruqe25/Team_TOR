@@ -75,9 +75,17 @@ namespace RestaurantManagementSystem.Controllers
                 {
                     return RedirectToAction("Index", "Home", new { area = "Admin" });
                 }
+                else if (await userManager.IsInRoleAsync(user, "Manager") == true)
+                {
+                    return RedirectToAction("Index", "Home", new { area = "Manager" });
+                }
                 else if (await userManager.IsInRoleAsync(user, "Customer") == true)
                 {
                     return RedirectToAction("Index");
+                }
+                else if (await userManager.IsInRoleAsync(user, "StockManager") == true)
+                {
+                    return RedirectToAction("Index", "Home", new { area = "StockManager" });
                 }
 
             }

@@ -213,6 +213,29 @@ namespace RestaurantManagementSystem.Areas.StockManager.Controllers
             _context.SaveChanges();
             return RedirectToAction("StockDetails");
         }
+        public async Task<IActionResult> StockStatus()
+        {
+            var stc = await _context.StockDetails.
+                        AsNoTracking().Include(a => a.Ingredient).
+                        ToListAsync();
+            var data = stc.GroupBy(x => x.IngredientId).
+                     Select(x => x.OrderByDescending(x => x.StockDetailsId).First());
+
+            var sent = new List<StockDetailsVm>();
+            foreach (var item in data)
+            {
+                StockDetailsVm p = new StockDetailsVm()
+                {
+                    StockInDate=item.StockInDate,
+                    Quantity=item.Quantity,
+                    AvailableStock=item.AvailableStock,
+                    IngredientName=item.Ingredient.IngredientName,
+
+                };
+                sent.Add(p);
+            }           
+            return View(sent);
+        }
     }
 }
 
