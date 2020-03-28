@@ -82,7 +82,8 @@ namespace RestaurantManagementSystem.Database
                 NormalizedEmail = "CUSTOMER@gmail.com",
                 EmailConfirmed = false,
                 PasswordHash = hasher.HashPassword(null, "customer"),
-                AccessFailedCount = 0
+                AccessFailedCount = 0,
+                PhoneNumber = "015867158",
             });
 
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
@@ -107,7 +108,7 @@ namespace RestaurantManagementSystem.Database
                 EmailConfirmed = false,
                 PasswordHash = hasher.HashPassword(null, "manager"),
                 AccessFailedCount = 0,
-                PhoneNumber = "015867158",
+               
             });
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
             {
