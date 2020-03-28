@@ -1,0 +1,98 @@
+﻿@model X.PagedList.IPagedList<RestaurantManagementSystem.Areas.Manager.ViewModels.TempSell>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+@{
+    ViewData["Title"] = "Sells";
+}
+<style>
+    #cols {
+        background-color: ghostwhite;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.2),0 5px 6px 0 rgba(0,0,0,0.4);
+    }
+
+        #cols h1 {
+            text-align: center;
+            padding: 4%;
+        }
+
+    table {
+        text-align: center;
+    }
+</style>
+<div class="row mt-5">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1" id="cols">
+        <h1>Ingredient List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Serial</th>
+                    <th>Customer Name</th>
+                    <th>FoodName</th>
+                    <th>Food Proce</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ var c = 1;}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@c</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.FoodName</td>
+                        <td>@item.FoodPrice</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Total</td>
+                        <td>@item.Date.ToShortDateString()
+                        @item.Date.ToShortTimeString()</td>
+                       
+                    </tr>
+                    c++;
+                }
+            </tbody>
+        </table>
+
+        @Html.PagedListPager((IPagedList)Model, c => Href("~/Manager/Home/Sells?page=" + c),
+                new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+                {
+                    PageClasses = new string[] { "page-link" },
+                    UlElementClasses = new string[] { "pagination" },
+                    LiElementClasses = new string[] { "page-item" },
+
+                })
+    </div>
+</div>
+@section Scripts{
+
+
+    <script type="text/javascript">
+
+        function MyDeleteConfirm() {
+            event.preventDefault();
+            var anchor = event.target.closest("a");     // Find closest Anchor (or self)
+             console.log( anchor.getAttribute('href'));
+             Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!',
+
+            }).then((result) => {
+                if (result.value) {
+                   window.location.href = anchor.getAttribute('href');
+                    //Swal.fire(
+                    //  'Deleted!',
+                    //  'Your file has been deleted.',
+                    //  'success'
+                    //  )
+              }
+              })
+        }
+    </script>
+}

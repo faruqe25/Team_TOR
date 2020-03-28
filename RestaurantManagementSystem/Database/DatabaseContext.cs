@@ -53,7 +53,7 @@ namespace RestaurantManagementSystem.Database
             builder.Entity<IdentityUser>().HasData(new IdentityUser
             {
                 Id = ADMIN_ID,
-                UserName = "Admin",
+                UserName = "admin@gmail.com",
                 NormalizedUserName = "admin",
                 Email = "admin@gmail.com",
                 NormalizedEmail = "ADMIN@gmail.com",
@@ -76,7 +76,7 @@ namespace RestaurantManagementSystem.Database
             builder.Entity<IdentityUser>().HasData(new IdentityUser
             {
                 Id = Customer_ID,
-                UserName = "Customer",
+                UserName = "customer@gmail.com",
                 NormalizedUserName = "customer",
                 Email = "customer@gmail.com",
                 NormalizedEmail = "CUSTOMER@gmail.com",
@@ -100,13 +100,14 @@ namespace RestaurantManagementSystem.Database
             builder.Entity<IdentityUser>().HasData(new IdentityUser
             {
                 Id = Manager_ID,
-                UserName = "Manager",
+                UserName = "manager@gmail.com",
                 NormalizedUserName = "manager",
                 Email = "manager@gmail.com",
                 NormalizedEmail = "MANAGER@gmail.com",
                 EmailConfirmed = false,
                 PasswordHash = hasher.HashPassword(null, "manager"),
-                AccessFailedCount = 0
+                AccessFailedCount = 0,
+                PhoneNumber = "015867158",
             });
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
             {
@@ -123,7 +124,7 @@ namespace RestaurantManagementSystem.Database
             builder.Entity<IdentityUser>().HasData(new IdentityUser
             {
                 Id = StockManager_ID,
-                UserName = "StockManager",
+                UserName = "stockmanager@gmail.com",
                 NormalizedUserName = "StockManager",
                 Email = "stockmanager@gmail.com",
                 NormalizedEmail = "STOCKMANAGER@gmail.com",
@@ -143,6 +144,14 @@ namespace RestaurantManagementSystem.Database
                 TableNumber="Special Table",
                 BookedStatus=true,
                 BookingPrice=0
+            });
+            builder.Entity<Customers>().HasData(new Customers
+            {
+                CustomersId = 1,
+                CustomersName = "Customer",
+                MobileNumber = "015867158",
+                PaymentMobileNumber = "0",
+                
             });
         }
     }
