@@ -84,6 +84,8 @@
     <script type="text/javascript">
         var a = null;
         var b = null;
+        var con = 0;
+        var counter = 0;
         $(document).ready(function () {
             a ="@ViewBag.Validation"
              b ="@ViewBag.Success"
@@ -121,6 +123,7 @@
 
         $("#addrow").on("click", function () {
             con++;
+            counter++;
     var newRow = $("<tr>");
     var cols = "";
 
@@ -145,18 +148,15 @@
 
 
 
-            counter++;
-            $('#RowCount').attr('rowspan', counter);
-            $('#RowCount').html(counter);
+           
+            
 
 
     });
 
     $("table.table-sm").on("click", ".ibtnDel", function (event) {
         $(this).closest("tr").remove();
-        counter--;
-        $('#RowCount').attr('rowspan', counter);
-        $('#RowCount').html(counter);
+        
 
     });
     });
