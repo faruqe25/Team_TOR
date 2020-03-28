@@ -117,7 +117,8 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
                 {
                     CustomerOrderedTableId = 0,
                     CustomersId = CustomerDetails.CustomersId,
-                    TableId = 1
+                    TableId = 1,
+                    Date = DateTime.Today
                 };
                 await _context.CustomerOrderedTable.AddAsync(tabless);
                 await _context.SaveChangesAsync();

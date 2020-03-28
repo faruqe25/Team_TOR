@@ -51,12 +51,15 @@
             </tbody>
         </table>
     </div>
-</div>
-   @section Scripts{
 
-    
+</div>
+ 
+
+
+   @section Scripts{
+   
     <script type="text/javascript">
-       
+      
         function MyDeleteConfirm() {
             event.preventDefault();
             var anchor = event.target.closest("a");     // Find closest Anchor (or self)
@@ -72,20 +75,14 @@
                   
             }).then((result) => {
                 if (result.value) {
-                    window.location.href = anchor.getAttribute('href');
-                    Swal.fire(
-                      'Deleted!',
-                      'Your file has been deleted.',
-                      'success'
-                      )
-                      
-                     
-                  
+                   window.location.href = anchor.getAttribute('href');
+                    //Swal.fire(
+                    //  'Deleted!',
+                    //  'Your file has been deleted.',
+                    //  'success'
+                    //  )                                      
               }
-              })
-
-
-            
+              })           
         }
     </script>
 }

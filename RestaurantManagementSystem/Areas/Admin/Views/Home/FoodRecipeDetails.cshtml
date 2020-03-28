@@ -65,12 +65,11 @@
                         <td>
 
                             @*<a asp-action="UpdateFoodRecipe" asp-controller="Home" asp-area="Admin"
-                               asp-route-id="@Model[i].FoodItemId">
-                                <i class="fas fa-pencil-alt"
-                                   style="color:forestgreen"></i>
-                            </a> &nbsp;&nbsp;&nbsp;*@
-                            <a asp-action="DeleteFoodRecipe" asp-controller="Home"
-
+                                   asp-route-id="@Model[i].FoodItemId">
+                                    <i class="fas fa-pencil-alt"
+                                       style="color:forestgreen"></i>
+                                </a> &nbsp;&nbsp;&nbsp;*@
+                            <a onclick="MyDeleteConfirm()" asp-action="DeleteFoodRecipe" asp-controller="Home"
                                asp-area="Admin" asp-route-id="@Model[i].FoodItemId"><i class="fas fa-trash" style="color:red"></i></a>
 
                         </td>
@@ -78,9 +77,40 @@
                 }
 
 
-                
+
         </table>
     </div>
 
 </div>
 
+@section Scripts{
+
+
+    <script type="text/javascript">
+
+        function MyDeleteConfirm() {
+            event.preventDefault();
+            var anchor = event.target.closest("a");     // Find closest Anchor (or self)
+             console.log( anchor.getAttribute('href'));
+             Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!',
+
+            }).then((result) => {
+                if (result.value) {
+                   window.location.href = anchor.getAttribute('href');
+                    //Swal.fire(
+                    //  'Deleted!',
+                    //  'Your file has been deleted.',
+                    //  'success'
+                    //  )
+              }
+              })
+        }
+    </script>
+}

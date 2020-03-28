@@ -32,22 +32,28 @@ namespace RestaurantManagementSystem.Database
         {
             base.OnModelCreating(builder);
             // any guid
-            const string ADMIN_ID = "a18be9c0-aa65-4af8-bd17-00bd9344e575";
+            const string ADMIN_ID = "a18be9c0-ax65-4af8-bd17-00bd9344e575";
+            const string Customer_ID = "arttS5-ab65-4sfpx-bd17-00bd8744e575";
+            const string Manager_ID = "darva-aa68-4af8-bd17-aggfdsgfgrtgg";
+            const string StockManager_ID = "8544ra-aa75-4af8-bd17-00rwrd9344e575";
             // any guid, but nothing is against to use the same one
-            const string ROLE_ID = ADMIN_ID;
+            const string Admin_ROLE_ID = ADMIN_ID;
+            const string Manager_ROLE_ID = Manager_ID;
+            const string Customer_ROLE_ID = Customer_ID;
+            const string StockManager_ROLE_ID = StockManager_ID;
+            var hasher = new PasswordHasher<IdentityUser>();
             builder.Entity<IdentityRole>().HasData(new IdentityRole
             {
-                Id = ROLE_ID,
-                Name = "admin",
+                Id = Admin_ROLE_ID,
+                Name = "Admin",
                 NormalizedName = "ADMIN",
 
             });
 
-            var hasher = new PasswordHasher<IdentityUser>();
             builder.Entity<IdentityUser>().HasData(new IdentityUser
             {
                 Id = ADMIN_ID,
-                UserName = "admin",
+                UserName = "Admin",
                 NormalizedUserName = "admin",
                 Email = "admin@gmail.com",
                 NormalizedEmail = "ADMIN@gmail.com",
@@ -55,11 +61,80 @@ namespace RestaurantManagementSystem.Database
                 PasswordHash = hasher.HashPassword(null, "admin"),
                 AccessFailedCount = 0
             });
+            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = Admin_ROLE_ID,
+                UserId = ADMIN_ID
+            });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Id = Customer_ROLE_ID,
+                Name = "Customer",
+                NormalizedName = "CUSTOMER",
+
+            });
+            builder.Entity<IdentityUser>().HasData(new IdentityUser
+            {
+                Id = Customer_ID,
+                UserName = "Customer",
+                NormalizedUserName = "customer",
+                Email = "customer@gmail.com",
+                NormalizedEmail = "CUSTOMER@gmail.com",
+                EmailConfirmed = false,
+                PasswordHash = hasher.HashPassword(null, "customer"),
+                AccessFailedCount = 0
+            });
 
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
             {
-                RoleId = ROLE_ID,
-                UserId = ADMIN_ID
+                RoleId = Customer_ROLE_ID,
+                UserId = Customer_ID
+            });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Id = Manager_ROLE_ID,
+                Name = "Manager",
+                NormalizedName = "MANAGER",
+
+            });
+            builder.Entity<IdentityUser>().HasData(new IdentityUser
+            {
+                Id = Manager_ID,
+                UserName = "Manager",
+                NormalizedUserName = "manager",
+                Email = "manager@gmail.com",
+                NormalizedEmail = "MANAGER@gmail.com",
+                EmailConfirmed = false,
+                PasswordHash = hasher.HashPassword(null, "manager"),
+                AccessFailedCount = 0
+            });
+            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = Manager_ROLE_ID,
+                UserId = Manager_ID
+            });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Id = StockManager_ROLE_ID,
+                Name = "StockManager",
+                NormalizedName = "STOCKMANAGER",
+
+            });
+            builder.Entity<IdentityUser>().HasData(new IdentityUser
+            {
+                Id = StockManager_ID,
+                UserName = "StockManager",
+                NormalizedUserName = "StockManager",
+                Email = "stockmanager@gmail.com",
+                NormalizedEmail = "STOCKMANAGER@gmail.com",
+                EmailConfirmed = false,
+                PasswordHash = hasher.HashPassword(null, "stockmanager"),
+                AccessFailedCount = 0
+            });
+            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = StockManager_ROLE_ID,
+                UserId = StockManager_ID
             });
             builder.Entity<Table>().HasData(new Table
             {

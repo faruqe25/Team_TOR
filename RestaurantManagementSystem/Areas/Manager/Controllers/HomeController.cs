@@ -23,8 +23,60 @@ namespace RestaurantManagementSystem.Areas.Manager.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            
+            var SellSRecord = from sells in await _context.CustomerOrderDetails.AsNoTracking()
+                                    .Include(s=>s.CustomerOrderedTable).Include(s=>s.FoodItem)
+                                    .Where(s => s.PaymentStatus == true)
+                                    .ToListAsync()
+                                    group sells by
+                                    sells.CustomerOrderedTable.Date.Day into p
+                                    let temp = (
+                                          from val in p
+                                          select new
+                                          {
+                                               Total = p.Sum(s => s.Quantity*s.FoodItem.Price),
+                                               Day=p.Key
+                                          }
+                                           )
+                                    select temp;
+            List<float> TotalSells = new List<float>();
+            List<string> Day = new List<string>();
+            var s = new List<TempSell>();
+
+            foreach (var item in SellSRecord)
+            {
+
+                foreach (var t in item)
+                {
+                    var p = new TempSell()
+                    {
+                        Day = t.Day,
+                        Total = t.Total
+                    };
+                    s.Add(p);
+                    break;
+                }
+            }
+            var data = s.OrderBy(s => s.Day);
+            for (int i = 0; i < 31; i++)
+            {
+                TotalSells.Add(0);
+            }
+            foreach (var item in data)
+            {
+                var index = item.Day - 1;
+                var total = item.Total;
+                TotalSells[index] = total;
+            }
+            
+
+            ViewBag.TotalFoodSells = TotalSells;
+
+
+
+
             return View();
         }
         public async Task<JsonResult> OrderApproved(int id)
