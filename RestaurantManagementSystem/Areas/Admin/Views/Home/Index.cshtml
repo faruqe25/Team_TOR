@@ -2,6 +2,70 @@
 @{
     ViewData["Title"] = "Index";
 }
+@{
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.TotalFoodSells);
 
-<h1>Index</h1>
+}
+
+
+
+<div style="height:650px;width:95% ">
+    <h1 class="text-center">Sells Chart</h1>
+    <canvas id="myChart"></canvas>
+</div>
+@section Scripts{
+
+
+
+
+    <script type="text/javascript">
+        var day = ['1st','2nd','3rd'];
+        $(document).ready(function () {
+            for (var i = 4; i <=31; i++) {
+                day.push(i+"th")
+            }
+        console.log(day);
+        console.log(@XLabels);
+        MyChartBar(@XLabels);
+    });
+    function MyChartBar(Passedata) {
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        var testdata = Passedata;
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels:day,
+                datasets: [{
+                    label: 'Sells In Taka',
+                    backgroundColor: 'rgb(255, 15, 85)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: @XLabels,
+
+                }]
+            },
+
+            // Configuration options go here
+
+           options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+               }
+               ,
+               legend: {
+          display: false
+        }
+    }
+});
+      }
+    </script>
+}
 

@@ -187,7 +187,7 @@ namespace RestaurantManagementSystem.Areas.Manager.Controllers
                 .Where(s => s.CustomerOrderDetailsId == id).FirstOrDefaultAsync();
             var FinalOrderList = await _context.CustomerOrderDetails.AsNoTracking().
                 Where(a => a.CustomerOrderedTableId == OrderDetails.CustomerOrderedTableId).
-                Include(p=>p.FoodItem).Include(s=>s.Offer).ToListAsync();
+                Include(p=>p.FoodItem).Include(s=>s.Offer).Include(s=>s.CustomerOrderedTable).ToListAsync();
             var up =await FinalOrderList.Select(s => { s.PaymentStatus = true; return s; }).ToListAsync();
             _context.CustomerOrderDetails.UpdateRange(up);
             await _context.SaveChangesAsync();
@@ -209,26 +209,48 @@ namespace RestaurantManagementSystem.Areas.Manager.Controllers
                     FoodName = item.FoodItem.FoodName,
                     Quantity = item.Quantity,
                     Price = item.FoodItem.Price,
-                    Total = item.Quantity * item.FoodItem.Price
+                    Total = item.Quantity * item.FoodItem.Price,
+                    TablePrice=item.CustomerOrderedTable.Table.BookingPrice,
                 };
                 if (String.IsNullOrEmpty(item.DiscountId.ToString()))
                 {
                     a.Discount = 0;
                     a.Coupone = " ";
                 }
+               
                 sent.Add(a);
             }
 
-            
-               
-                
-           
-
-
-
-
-
             return View(sent);
+        }
+        public async Task< IActionResult> Sells(int Page=1)
+        {
+            var se =await  _context.CustomerOrderDetails.AsNoTracking()
+                .Include(s => s.CustomerOrderedTable).
+                ThenInclude(s => s.Customers).
+                Include(s => s.FoodItem).Where(s=>s.PaymentStatus==true).ToListAsync();
+            var sent = new List<TempSell>();
+            foreach (var item in se.OrderByDescending(aa=>aa.CustomerOrderDetailsId))
+            {
+                var a = new TempSell()
+                {
+                    Date=item.CustomerOrderedTable.Date,
+                    Total=item.FoodItem.Price*item.Quantity,
+                    FoodName=item.FoodItem.FoodName,
+                    Quantity=item.Quantity,
+                    FoodPrice=item.FoodItem.Price,
+                    CustomerName=item.CustomerOrderedTable.Customers.CustomersName
+                
+                
+                };
+                sent.Add(a);
+
+
+
+            }
+            var list = sent.ToPagedList(Page, 5);
+            return View(list);
+            
         }
     }
 }
