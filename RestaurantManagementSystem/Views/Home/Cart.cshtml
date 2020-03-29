@@ -86,11 +86,26 @@
                                             <td class="text-hide">@item.FoodItemId</td>
                                         </tr>
                                     }
+
                                     <tr>
                                         <td colspan="3" class="text-right">
                                             Total :
                                         </td>
                                         <td id="FinalTotal">@a.Sum(s => s.FoodPrice * s.Quantity) tk</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" class="text-right">
+                                            Discount :
+                                        </td>
+                                        <td id="DiscountBasedOnCoupon">0 %</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" class="text-right">
+                                            Total Payable :
+                                        </td>
+                                        <td id="DiscountWiseFinalTotal">@a.Sum(s => s.FoodPrice * s.Quantity) tk</td>
+
                                     </tr>
                                 }
                                 else
@@ -111,7 +126,44 @@
                     </div>
                     <div class="card-footer d-flex justify-content-end">
                         <form id="FoodOrderConfirmForm" asp-area="Customer" asp-action="Order" method="post" asp-controller="Home">
+                            <a class="btn btn-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                                Add More Food
+                            </a>
+                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#CouponModalCenter">
+                                Apply Coupon
+                            </button>
+                            <div class="modal fade" id="CouponModalCenter" tabindex="-1" role="dialog" aria-labelledby="CouponModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="text-center" id="exampleModalLongTitle">Apply Coupon to get Discount</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
 
+                                            <div class="form-inline text-center">
+                                                <div class="form-group">
+                                                    <label>Coupon Code</label>
+                                                    <input id="CouponCode" style="width:150px;margin-right:20px" class="form-control" type="text" placeholder="Coupon Code" />
+                            
+                                                    <div class="form-group ml-auto">
+                                                        <span id="ErrorCoupon" class="text-danger"></span>
+                                                        <span id="SuccessCoupon" class="text-success"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                            <button id="CouponApplyButton" type="button" class="btn btn-dark" data-dismiss="modal">Apply</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             @if (SignInManager.IsSignedIn(User))
                             {
                                 <button type="submit" class="btn btn-dark" id="BtnConfirmOrder">
@@ -120,7 +172,7 @@
                             }
                             else
                             {
-                                <a  class="btn btn-dark" asp-area="" asp-controller="Account" asp-action="Login">
+                                <a class="btn btn-dark" asp-area="" asp-controller="Account" asp-action="Login">
                                     Confirm Order
                                 </a>
                             }
@@ -207,6 +259,8 @@
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -236,6 +290,79 @@
                 }
             })
         });
+
+
+    </script>
+    <script type="text/javascript">
+
+        $("#CouponApplyButton").click(function () {
+
+            var Coupon = $("#CouponCode").val();
+           
+            if (Coupon.length !== 0) {
+
+                var url = "/Home/CouponCheck";
+               
+                var DiscountPercentage = 0.0;
+                var DiscountWiseFinalTotal = 0.0;
+                var url3 = "/Home/CartCurrentStatus";
+                
+                $.getJSON(url, { Coupon: Coupon }, function (data) {
+                    if (data == true) {
+                        var url2 = "/Home/GetDiscountByCoupon";
+                        $.getJSON(url2, function (data) {
+                            DiscountPercentage = data;
+                            $.getJSON(url3, function (data) {
+                                var a = data;
+                                DiscountWiseFinalTotal = (Number(a) - (Number(a) * Number(DiscountPercentage) / 100));
+                                $("#DiscountWiseFinalTotal").html(DiscountWiseFinalTotal + " tk");
+
+                            });
+                            $("#DiscountBasedOnCoupon").html(data + " %");
+                            
+                        });
+                        $("#SuccessCoupon").html("Success");//Coupone Status
+                        $("#ErrorCoupon").html(" ");//Coupone Status
+                        
+
+                    }
+                    else {
+                        $("#ErrorCoupon").html("Invalid");//Coupone Status
+                        $("#SuccessCoupon").html(" ")
+                    }
+              });
+
+            }
+            
+           
+        });
+
+
+    </script>
+    <script type="text/javascript">
+        var DiscountWiseFinalTotal = 0.0;
+        var DiscountPercentage = 0.0;
+            var url = "/Home/GetDiscountByCoupon";
+        $.getJSON(url, function (data) { 
+            DiscountPercentage = data;
+            $("#DiscountBasedOnCoupon").html(data + " %");
+            var url2 = "/Home/CartCurrentStatus";
+            $.getJSON(url2, function (data) {
+                var a = data;
+
+                DiscountWiseFinalTotal = (Number(a) - (Number(a) * Number(DiscountPercentage) / 100));
+
+                $("#DiscountWiseFinalTotal").html(DiscountWiseFinalTotal + " tk");
+
+            });
+        });
+            
+        
+            
+
+
+
+
 
 
     </script>

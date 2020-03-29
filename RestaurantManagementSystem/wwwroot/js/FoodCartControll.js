@@ -11,9 +11,29 @@ $(document).ready(function () {
 $("table").on("click", "#DeleteMe", function (event) {
     var FoodId = $(this).closest("tr").find('td:eq(5)').text();
     var url = "/Home/DeleteCart";
-     $.getJSON(url, {id: FoodId }, function (data) {
-       var FinalCost = data;
-       $("#FinalTotal").html(FinalCost+" tk");
+    $.getJSON(url, { id: FoodId }, function (data) {
+        if (data == 0) {
+            window.location = "/Home/Index";
+        }
+        else {
+            var FinalCost = data;
+            var DiscountPercentage = 0.0;
+            var DiscountWiseFinalTotal = 0.0;
+            //Discount
+            var url2 = "/Home/GetDiscountByCoupon";
+            $.getJSON(url2, function (data) {
+                DiscountPercentage = data;
+
+                console.log("Food cart From" + DiscountPercentage);
+                DiscountWiseFinalTotal = (Number(FinalCost) - (Number(FinalCost) * Number(DiscountPercentage) / 100));
+
+
+                $("#DiscountWiseFinalTotal").html(DiscountWiseFinalTotal + " tk");
+                $("#FinalTotal").html(FinalCost + " tk");
+                $("#DiscountBasedOnCoupon").html(data + " %");
+            });
+        }
+             ///
      });
     $(this).closest("tr").remove();
 });
@@ -31,8 +51,26 @@ $("button").click(function () {
        var FoodId = $(this).closest("tr").find('td:eq(5)').text();
         var url = "/Home/SetCartValueUpdated";
          $.getJSON(url, {id: FoodId, Quantity: TotalQuantity }, function (data) {
-              var FinalCost = data;
-            $("#FinalTotal").html(FinalCost+" tk");
+             var FinalCost = data;
+             var DiscountPercentage = 0.0;
+             var DiscountWiseFinalTotal = 0.0;
+             //Discount
+             var url2 = "/Home/GetDiscountByCoupon";
+             $.getJSON(url2, function (data) {
+                 DiscountPercentage = data;
+                 console.log("Food cart From" + DiscountPercentage);
+                 DiscountWiseFinalTotal = (Number(FinalCost) - (Number(FinalCost) * Number(DiscountPercentage) / 100));
+
+
+                 $("#DiscountWiseFinalTotal").html(DiscountWiseFinalTotal + " tk");
+                 $("#FinalTotal").html(FinalCost + " tk");
+                 $("#DiscountBasedOnCoupon").html(data + " %");
+             });
+             ///
+
+
+
+            
          });
         var FoodPrice = $(this).closest("tr").find("#Ta").val();
         var CalculatedTotalPrice = Number(FoodPrice) * Number(TotalQuantity)
@@ -54,8 +92,22 @@ $("button").click(function () {
 
         var url = "/Home/SetCartValueUpdated";
          $.getJSON(url, {id: FoodId, Quantity: TotalQuantity }, function (data) {
-           var FinalCost = data;
-            $("#FinalTotal").html(FinalCost+" tk");
+             var FinalCost = data;
+             var DiscountPercentage = 0.0;
+             var DiscountWiseFinalTotal = 0.0;
+             //Discount
+             var url2 = "/Home/GetDiscountByCoupon";
+             $.getJSON(url2, function (data) {
+                 DiscountPercentage = data;
+                 console.log("Food cart From" + DiscountPercentage);
+                 DiscountWiseFinalTotal = (Number(FinalCost) - (Number(FinalCost) * Number(DiscountPercentage) / 100));
+
+
+                 $("#DiscountWiseFinalTotal").html(DiscountWiseFinalTotal + " tk");
+                 $("#FinalTotal").html(FinalCost + " tk");
+                 $("#DiscountBasedOnCoupon").html(data + " %");
+             });
+             ///
 
           });
      }

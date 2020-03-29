@@ -37,6 +37,7 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             this.roleManager = roleManager;
 
         }
+        [AllowAnonymous]
         public JsonResult TableReservationSet(DateTime From, DateTime To, int TableId)
         {
             HttpContext.Session.Remove("Table");
@@ -50,6 +51,7 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             HttpContext.Session.Set("Table", table);
             return Json(true);
         }
+        [AllowAnonymous]
         public async Task<JsonResult> GetTableName(int TableId)
         {
             var tb = await _context.Table.AsNoTracking().Where(a => a.TableId == TableId).FirstOrDefaultAsync();
@@ -62,6 +64,7 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Order()
         {
+            var Discount = HttpContext.Session.GetString("Discount");
             var CustomerDetails = new Customers();
             var user = await userManager.GetUserAsync(User);
             var user1 = await userManager.FindByEmailAsync(User.Identity.Name);
@@ -102,10 +105,14 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
                             CustomerOrderDetailsId = 0,
                             FoodItemId = item.FoodItemId,
                             Quantity = countfood,
-                            DiscountId = 0,
+                            
                             PaymentStatus = false,
                             CustomerOrderedTableId = abc.CustomerOrderedTableId,
                         };
+                        if(Discount!=null)
+                        {
+                            ab.OfferId = Convert.ToInt32(Discount);
+                        }
                         await _context.CustomerOrderDetails.AddAsync(ab);
                         await _context.SaveChangesAsync();
                     }
@@ -134,11 +141,15 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
                             CustomerOrderDetailsId = 0,
                             FoodItemId = item.FoodItemId,
                             Quantity = item.Quantity,
-                            DiscountId = 0,
+                            
                             PaymentStatus = false,
                             CustomerOrderedTableId = tabless.CustomerOrderedTableId
 
                         };
+                        if (Discount != null)
+                        {
+                            ab.OfferId = Convert.ToInt32(Discount);
+                        }
                         await _context.CustomerOrderDetails.AddAsync(ab);
                         await _context.SaveChangesAsync();
                     }
@@ -181,6 +192,7 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
 
             HttpContext.Session.Remove("FoodS");
             HttpContext.Session.Remove("Table");
+            HttpContext.Session.Remove("Discount");
 
             return RedirectToAction("Index", "Home");
         }
