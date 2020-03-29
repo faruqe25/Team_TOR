@@ -15,7 +15,7 @@ namespace RestaurantManagementSystem.Areas.Manager.Models
         public Boolean PaymentStatus { get; set; } 
         public int FoodItemId { get; set; } 
         public FoodItem FoodItem { get; set; }
-        public int DiscountId { get; set; }
+        public int? OfferId { get; set; }
         public Offer Offer { get; set; }
         public int? CustomerOrderedTableId { get; set; }
         public CustomerOrderedTable CustomerOrderedTable { get; set; } 
