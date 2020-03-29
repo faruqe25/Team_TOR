@@ -120,12 +120,15 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             }
             else
             {
-                CustomerOrderedTable tabless = new CustomerOrderedTable() {
+                CustomerOrderedTable tabless = new CustomerOrderedTable()
+                {
                     CustomerOrderedTableId = 0,
                     CustomersId = CustomerDetails.CustomersId,
                     TableId = 1,
+
                     Date=DateTime.Now
                  };
+
                 await _context.CustomerOrderedTable.AddAsync(tabless);
                 await _context.SaveChangesAsync();
 

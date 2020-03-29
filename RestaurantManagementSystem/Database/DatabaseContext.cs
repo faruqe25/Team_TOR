@@ -1,5 +1,5 @@
 
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagementSystem.Areas.Admin.Models;
@@ -10,21 +10,21 @@ using RestaurantManagementSystem.Areas.StockManager.Models;
 
 namespace RestaurantManagementSystem.Database
 {
-    public class DatabaseContext :IdentityDbContext
+    public class DatabaseContext : IdentityDbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext>options)
-            :base(options){}
+        public DatabaseContext(DbContextOptions<DatabaseContext> options)
+            : base(options) { }
         public DbSet<Customers> Customers { get; set; }
         public DbSet<FoodItem> FoodItems { get; set; }
         public DbSet<Ingredient> Ingredient { get; set; }
         public DbSet<MealHour> MealHour { get; set; }
-        public DbSet<Offer> Offer { get; set; }         
-        public DbSet<RequiredMaterial> RequiredMaterial { get; set; }         
-        public DbSet<Table> Table { get; set; }         
-        public DbSet<StockDetails> StockDetails { get; set; }        
-        public DbSet<CustomerOrderDetails> CustomerOrderDetails { get; set; }   
+        public DbSet<Offer> Offer { get; set; }
+        public DbSet<RequiredMaterial> RequiredMaterial { get; set; }
+        public DbSet<Table> Table { get; set; }
+        public DbSet<StockDetails> StockDetails { get; set; }
+        public DbSet<CustomerOrderDetails> CustomerOrderDetails { get; set; }
         public DbSet<CustomerOrderedTable> CustomerOrderedTable { get; set; }
-       
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -44,9 +44,9 @@ namespace RestaurantManagementSystem.Database
                 Id = Admin_ROLE_ID,
                 Name = "Admin",
                 NormalizedName = "ADMIN",
-                
-            } );
-          
+
+            });
+
             builder.Entity<IdentityUser>().HasData(new IdentityUser
             {
                 Id = ADMIN_ID,
@@ -118,7 +118,7 @@ namespace RestaurantManagementSystem.Database
                 Name = "StockManager",
                 NormalizedName = "STOCKMANAGER",
 
-            }); 
+            });
             builder.Entity<IdentityUser>().HasData(new IdentityUser
             {
                 Id = StockManager_ID,
@@ -139,9 +139,9 @@ namespace RestaurantManagementSystem.Database
             {
                 TableId = 1,
                 TableCapacity = 0,
-                TableNumber="Special Table",
-                BookedStatus=true,
-                BookingPrice=0
+                TableNumber = "Special Table",
+                BookedStatus = true,
+                BookingPrice = 0
             });
             builder.Entity<Customers>().HasData(new Customers
             {

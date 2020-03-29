@@ -17,7 +17,7 @@ namespace RestaurantManagementSystem.Areas.Manager.Models
         public FoodItem FoodItem { get; set; }
         public int? OfferId { get; set; }
         public Offer Offer { get; set; }
-        public int CustomerOrderedTableId { get; set; }
+        public int? CustomerOrderedTableId { get; set; }
         public CustomerOrderedTable CustomerOrderedTable { get; set; } 
     }
 }

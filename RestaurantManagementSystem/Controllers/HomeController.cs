@@ -174,7 +174,7 @@ namespace RestaurantManagementSystem.Controllers
             List.Add(food);
 
             HttpContext.Session.Set("FoodS", List);
-            var total =List.Sum(s => s.FoodPrice * s.Quantity);
+            var total = List.Sum(s => s.FoodPrice * s.Quantity);
 
             return Json(total);
         }
@@ -185,7 +185,7 @@ namespace RestaurantManagementSystem.Controllers
             var up = List.Where(s => s.FoodItemId == id).FirstOrDefault();
             List.Remove(up);
             HttpContext.Session.Set("FoodS", List);
-            if (List !=null)
+            if (List != null)
             {
                 var total = List.Sum(s => s.FoodPrice * s.Quantity);
 
@@ -194,7 +194,7 @@ namespace RestaurantManagementSystem.Controllers
             }
             return Json(0);
         }
-        public JsonResult GetCartValueTotal() 
+        public JsonResult GetCartValueTotal()
         {
             var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
             var count = 0;
@@ -206,7 +206,7 @@ namespace RestaurantManagementSystem.Controllers
             {
                 count = List.Count();
             }
-           
+
             return Json(count);
         }
         [Authorize]
@@ -236,7 +236,7 @@ namespace RestaurantManagementSystem.Controllers
             }
 
             var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
-            if (List==null )
+            if (List == null)
             {
                 return RedirectToAction("Index", "Home");
             }
