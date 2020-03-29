@@ -1,9 +1,6 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
-
-
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagementSystem.Areas.Admin.Models;
 using RestaurantManagementSystem.Areas.Customer.Models;

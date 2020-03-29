@@ -111,17 +111,17 @@
                         </table>
                     </div>
                     <div class="card-footer d-flex justify-content-end">
-                        <form asp-area="Customer" asp-action="Order" method="post" asp-controller="Home">
+                        <form id="FoodOrderConfirmForm" asp-area="Customer" asp-action="Order" method="post" asp-controller="Home">
 
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                <button type="submit" class="btn btn-dark">
+                                <button type="submit" class="btn btn-dark" id="BtnConfirmOrder">
                                     Confirm Order
                                 </button>
                             }
                             else
                             {
-                                <a  class="btn btn-dark" asp-area="" asp-controller="Home" asp-action="Login">
+                                <a  class="btn btn-dark" asp-area="" asp-controller="Account" asp-action="Login">
                                     Confirm Order
                                 </a>
                             }
@@ -218,6 +218,28 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/TableReservation.js" asp-append-version="true"></script>
     <script src="~/js/FoodCartControll.js" asp-append-version="true"></script>
+    <script src="~/SweetAlert/sweetalert2.all.min.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+
+        $("#BtnConfirmOrder").click(function () {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You are going to order food",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Order'
+            }).then((result) => {
+                if (result.value) {
+                    $("#FoodOrderConfirmForm").submit();
+                }
+            })
+        });
+
+
+    </script>
 
 
 

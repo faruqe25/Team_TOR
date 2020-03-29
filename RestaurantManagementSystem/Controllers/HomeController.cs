@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,102 +57,6 @@ namespace RestaurantManagementSystem.Controllers
             }
             return View(fooditemvmlist);
         }
-        public IActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-
-        public async Task<IActionResult> Login(CustomerAccount ct)
-        {
-
-            var user = await userManager.FindByEmailAsync(ct.Email);
-            var result = await signInManager.PasswordSignInAsync(user, ct.Password, true, true);
-
-            if (result.Succeeded)
-            {
-
-                if (await userManager.IsInRoleAsync(user, "Admin") == true)
-                {
-                    return RedirectToAction("Index", "Home", new { area = "Admin" });
-                }
-                else if (await userManager.IsInRoleAsync(user, "Manager") == true)
-                {
-                    return RedirectToAction("Index", "Home", new { area = "Manager" });
-                }
-                else if (await userManager.IsInRoleAsync(user, "Customer") == true)
-                {
-                    return RedirectToAction("Index");
-                }
-                else if (await userManager.IsInRoleAsync(user, "StockManager") == true)
-                {
-                    return RedirectToAction("Index", "Home", new { area = "StockManager" });
-                }
-
-            }
-
-            return RedirectToAction("Login");
-
-
-
-        }
-        public IActionResult CreateAccount()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> CreateAccount(CustomerAccount ca)
-        {
-            var rolelist = await roleManager.RoleExistsAsync("Customer");
-            if (rolelist == false)
-            {
-                IdentityRole role = new IdentityRole
-                {
-                    Name = "Customer"
-
-                };
-                await roleManager.CreateAsync(role);
-            }
-            if (ModelState.IsValid)
-            {
-                var user = new IdentityUser
-                {
-                    UserName = ca.Email,
-                    Email = ca.Email,
-                    PhoneNumber = ca.MobileNumber
-
-                };
-                var result = await userManager.CreateAsync(user, ca.Password);
-                if (result.Succeeded)
-                {
-
-
-                    Customers cs = new Customers
-                    {
-                        CustomersId = 0,
-                        MobileNumber = ca.MobileNumber,
-                        PaymentMobileNumber = ca.PaymentMobileNumber,
-                        CustomersName = ca.CustomersName
-                    };
-
-                    await _context.Customers.AddAsync(cs);
-                    await _context.SaveChangesAsync();
-                    await userManager.AddToRoleAsync(user, "Customer");
-                    await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index");
-                }
-
-            }
-
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            await signInManager.SignOutAsync();
-            return RedirectToAction("Index");
-        }
-
         [HttpGet]
         [HttpPost]
         public JsonResult SetCartValue(int id)
@@ -253,7 +158,7 @@ namespace RestaurantManagementSystem.Controllers
 
             return Json(count);
         }
-
+        [Authorize]
         public async Task<IActionResult> Cart()
         {
             var Exists = HttpContext.Session.Get<List<TableResevationCart>>("AvailableTable");
@@ -279,7 +184,11 @@ namespace RestaurantManagementSystem.Controllers
                 HttpContext.Session.Set("AvailableTable", Tables);
             }
 
-
+            var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
+            if (List == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             return View();
         }

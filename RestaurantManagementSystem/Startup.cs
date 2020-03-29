@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,19 @@ namespace RestaurantManagementSystem
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/Account/AccessDenied");
+                
+
+            });
+           
+
+           
+
+                
+
+
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
@@ -45,6 +59,9 @@ namespace RestaurantManagementSystem
             Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<IdentityUser, IdentityRole>()
             .AddEntityFrameworkStores<DatabaseContext>();
+
+           
+
 
             services.Configure<IdentityOptions>(options =>
             {

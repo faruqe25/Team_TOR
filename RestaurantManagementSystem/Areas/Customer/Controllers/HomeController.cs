@@ -188,9 +188,6 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Chart()
-        {
-            return View();
-        }
+        
     }
 }

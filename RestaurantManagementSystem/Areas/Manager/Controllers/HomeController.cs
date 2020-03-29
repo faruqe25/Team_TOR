@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace RestaurantManagementSystem.Areas.Manager.Controllers
 {
     [Area("Manager")]
     [Route("Manager/[controller]/[action]")]
+    [Authorize(Roles = "Manager")]
     public class HomeController : Controller
     {
         private readonly DatabaseContext _context;
@@ -212,7 +214,7 @@ namespace RestaurantManagementSystem.Areas.Manager.Controllers
                     FoodName = item.FoodItem.FoodName,
                     Quantity = item.Quantity,
                     Price = item.FoodItem.Price,
-                    Total = item.Quantity * item.FoodItem.Price,
+                    Total = (item.Quantity * item.FoodItem.Price) + item.CustomerOrderedTable.Table.BookingPrice,
                     TablePrice=item.CustomerOrderedTable.Table.BookingPrice,
                 };
                 if (String.IsNullOrEmpty(item.DiscountId.ToString()))
