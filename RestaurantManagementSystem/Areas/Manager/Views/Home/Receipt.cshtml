@@ -67,15 +67,33 @@
                                 <td colspan="3" class="text-right"><h6>Table Reservation Cost: </h6></td>
                                 <td class="text-right"><h4><strong>@Model[0].TablePrice  <span>tk</span></strong></h4></td>
                             </tr>
-
                             <tr>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                               
+                                
+                                <td colspan="3" class="text-right"><h6><strong>Total : </strong></h6></td>
                                 <td class="text-right"><h4><strong>@Model.Sum(s => s.Total)  <span>tk</span></strong></h4></td>
                             </tr>
+                            @if (Model[0].Discount > 0)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+
+
+                                    <td colspan="3" class="text-right"><h6>Discount : </h6></td>
+                                    <td class="text-right"><h6><strong>@Model[0].Discount  <span>%</span></strong></h6></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    
+                                    <td  colspan="3" class="text-right"><h6><strong>Total (Payable): </strong></h6></td>
+                                    <td class="text-right"><h4><strong>@Model.Sum(s => s.Total)  <span>tk</span></strong></h4></td>
+                                </tr>
+                            }
+
                         </tbody>
                     </table>
                     
@@ -109,7 +127,7 @@
                     filename: 'Test.pdf',
                     image: { type: 'jpeg' },
                     html2canvas: { scale: 1},
-                    margin:[.55,0,0,-1.2],
+                    margin:[.60,-.2,0,-1.2],
                     jsPDF: {
                         orientation: 'Portrait',
                         unit: 'in', format: 'A4',
