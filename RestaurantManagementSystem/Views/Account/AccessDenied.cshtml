@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "AccessDenied";
 }
 @{
@@ -7,6 +6,7 @@
     ViewData["Title"] = "Login";
 }
 @model RestaurantManagementSystem.Areas.Customer.ViewModels.CustomerAccount
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,21 +14,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Access Denied</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-   
+    <link rel="stylesheet"type="text/css"href="~/css/AccessDeniedStyle.css" />
+    <link rel="stylesheet"type="text/css"href="~/css/wickedcss.min.css" />
 </head>
 <body>
-
-
-    <div class="text-center">
-        <h1 class="text-danger">Access Denied</h1>
-        <h6 class="text-danger">
-            You do not have persmission to view this resource
-        </h6>
-        <img src="~/images/index.jpg" style="height:300px; width:300px" />
+    <div class="container-fluid mt-sm-5 mt-md-5 mt-lg-5 mt-xl-5">
+        <div class="row mt-sm-4 mt-md-4 mt-lg-4 mt-xl-4">
+            <div class="col-12 col-sm-6 col-md-5 col-lg-5 col-xl-5 offset-xl-1">
+                <img src="~/images/password.svg" class="img-fluid pulse" style="width:450px;height:450px;" />
+            </div>
+            <div class="col-12 col-sm-6 col-md-7 col-lg-7 col-xl-5"id="info">
+                <div class="mt-sm-5 mt-md-5 mt-lg-5 mt-xl-5">
+                    <h1 class="text-center"><strong>Ooops</strong> <i>!!!</i></h1>
+                    <h3 class="text-center">Something went wrong...</h3>
+                    <hr />
+                    <div >
+                        <div >
+                            <p class="text-center">You need to login first! <button class="btn btn-sm btn-outline-warning"
+                                asp-area=""asp-controller="Account"asp-action="Login">
+                                <strong>Login</strong></button></p>
+                        </div>
+                        <div>
+                            <p class="text-center">Don't have any account? <button class="btn btn-sm btn-outline-warning"
+                                asp-area=""asp-controller="Account"asp-action="CreateAccount">
+                                <strong>Sign up</strong></button></p>
+                        </div>
+                        <div>
+                            <p class="text-center">
+                                <a asp-area=""asp-controller="Home"asp-action="Index">Go to Home</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
 

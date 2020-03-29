@@ -1,0 +1,25 @@
+﻿body {
+    background-color: #222;
+    color:#ffa;
+}
+h1{
+    font-family:'Lucida Calligraphy';
+    font-size:60px;
+}
+h3 {
+    font-family: 'Lucida Calligraphy';
+    margin-bottom:2em;
+}
+hr{
+    border-bottom:1px dashed #ffa;
+}
+p {
+    font-family: monospace;
+}
+a {
+    color: #ffa500;
+}
+a:hover{
+    color:#ffa500;
+    text-decoration:underline;
+}
