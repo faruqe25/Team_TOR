@@ -14,8 +14,8 @@
 </head>
 <body>
     <div id="holder">
-        
-        <form asp-action="Login" asp-area="" asp-controller="Home" method="post" class="col-10 offset-1 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-5 offset-lg-6 col-xl-5 offset-xl-6">
+
+        <form asp-action="Login" asp-area="" asp-controller="Account" method="post" class="col-10 offset-1 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-5 offset-lg-6 col-xl-5 offset-xl-6">
             <h2>Login Here</h2>
             <hr />
             <div class="form-group col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
@@ -40,15 +40,15 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/SweetAlert/sweetalert2.all.min.js" asp-append-version="true"></script>
     <script type="text/javascript">
-         
+
          var a = null;
-      
+
          $(document).ready(function () {
 
              a ="@ViewBag.Message"
-            
+
              if (a.length !== 0) {
-                
+
                  Swal.fire({
                      icon: 'error',
                      title: 'Oops...',
@@ -59,7 +59,7 @@
                  })
 
              }
-             
+
          });
     </script>
 </body>

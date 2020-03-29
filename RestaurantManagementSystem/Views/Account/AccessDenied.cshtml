@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewData["Title"] = "AccessDenied";
+}
+@{
+    Layout = null;
+    ViewData["Title"] = "Login";
+}
+@model RestaurantManagementSystem.Areas.Customer.ViewModels.CustomerAccount
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Access Denied</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+   
+</head>
+<body>
+
+
+    <div class="text-center">
+        <h1 class="text-danger">Access Denied</h1>
+        <h6 class="text-danger">
+            You do not have persmission to view this resource
+        </h6>
+        <img src="~/images/index.jpg" style="height:300px; width:300px" />
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
