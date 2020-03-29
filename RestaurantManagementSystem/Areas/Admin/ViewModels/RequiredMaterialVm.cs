@@ -16,7 +16,7 @@ namespace RestaurantManagementSystem.Areas.Admin.ViewModels
         public int FoodItemId { get; set; }
        
         public string FoodItemNames { get; set; }
-
+        
         public float Price { get; set; }
 
         [Required]

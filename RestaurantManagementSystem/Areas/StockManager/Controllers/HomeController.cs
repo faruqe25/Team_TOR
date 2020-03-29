@@ -123,7 +123,6 @@ namespace RestaurantManagementSystem.Areas.StockManager.Controllers
         public IActionResult AddStock()
         {
             var ingredientlist = _context.Ingredient.ToList();
-            ingredientlist.Insert(0, new Ingredient { IngredientId = 0, IngredientName = "Select Raw Ingredient" });
             ViewBag.IngredientList = ingredientlist;
             return View();
         }
