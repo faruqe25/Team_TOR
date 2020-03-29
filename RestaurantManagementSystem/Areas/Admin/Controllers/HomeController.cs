@@ -1,7 +1,8 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,18 +16,16 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("Admin/[controller]/[action]")]
+    [Authorize(Roles ="Admin")]
     public class HomeController : Controller
     {
         private readonly DatabaseContext _context;
-
         public HomeController(DatabaseContext context)
         {
             _context = context;
         }
         public async Task<IActionResult> Index()
         {
-
-
             var SellSRecord = from sells in await _context.CustomerOrderDetails.AsNoTracking()
                                     .Include(s => s.CustomerOrderedTable).Include(s => s.FoodItem)
                                     .Where(s => s.PaymentStatus == true)
@@ -71,14 +70,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 var total = item.Total;
                 TotalSells[index] = total;
             }
-
-
             ViewBag.TotalFoodSells = TotalSells;
-
-
-
-
-
             return View();
         }
         public IActionResult SetMealHour()
@@ -464,107 +456,6 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             return RedirectToAction("FoodRecipeDetails");
 
         }
-        //public IActionResult UpdateFoodRecipe(int id)
-        //{
-        //    var ls = _context.RequiredMaterial.AsNoTracking().
-        //                Include(s => s.Ingredient).Include(s => s.FoodItem).
-        //                Where(s => s.FoodItemId == id).ToList();
-
-
-
-        //    var sent = new List<RequiredMaterialVm>();
-
-        //    List<MaterialVm> prt = new List<MaterialVm>();
-        //    int c = 1;
-        //    foreach (var item in ls)
-        //    {
-        //        var ass = new RequiredMaterialVm();
-
-
-        //        ass.Price = item.FoodItem.Price;
-        //        ass.FoodItemId = item.FoodItemId;
-        //        ass.FoodItemNames = item.FoodItem.FoodName;
-        //        ass.RequiredMaterialId = item.RequiredMaterialId;
-        //        MaterialVm t = new MaterialVm()
-        //        {
-        //            QuantityInGram = item.QuantityInGram,
-        //            IngredientName = item.Ingredient.IngredientName
-        //        };
-        //        ass.MaterialVms.Add(t);
-        //        ass.Serial = c;
-        //        sent.Add(ass);
-        //        c++;
-
-
-        //    }
-
-
-
-        //    return View(sent);
-
-
-        //}
-        //public IActionResult UpdateFoodRecipe(int id)
-        //{
-        //    var res = from ls in _context.RequiredMaterial
-        //         .AsNoTracking().Include(s => s.FoodItem).
-        //         Include(s => s.Ingredient).Where(s => s.FoodItemId == id)
-        //              group ls by ls.FoodItemId into p
-        //              let temp = (
-        //                     from val in p
-        //                     select new
-        //                     {
-        //                         Price = val.FoodItem.Price,
-        //                         FoodItemId = val.FoodItem.FoodItemId,
-        //                         FoodName = val.FoodItem.FoodName,
-        //                         IngredientName = val.Ingredient.IngredientName,
-        //                         Quantity = val.QuantityInGram,
-        //                         IngredientId = val.IngredientId,
-        //                         RequiredMaterialId = val.RequiredMaterialId
-
-        //                     }
-        //                     )
-        //              select temp;
-
-        //    var sent = new List<RequiredMaterialVm>();
-
-        //    List<MaterialVm> prt = new List<MaterialVm>();
-        //    int c = 1;
-        //    foreach (var item in res)
-        //    {
-        //        var ass = new RequiredMaterialVm();
-        //        foreach (var it in item)
-        //        {
-
-        //            ass.Price = it.Price;
-        //            ass.RequiredMaterialId = it.RequiredMaterialId;
-        //            ass.FoodItemId = it.FoodItemId;
-        //            ass.FoodItemNames = it.FoodName;
-        //            MaterialVm t = new MaterialVm()
-        //            {
-        //                QuantityInGram = it.Quantity,
-        //                IngredientName = it.IngredientName,
-        //                IngredientId = it.IngredientId
-        //            };
-        //            ass.MaterialVms.Add(t);
-        //            ass.Serial = c;
-        //        }
-        //        sent.Add(ass);
-        //        c++;
-
-
-        //    }
-
-        //    var raw = _context.Ingredient.AsNoTracking().ToList();
-        //    ViewBag.RawItem = new SelectList(raw, "IngredientId", "IngredientName");
-        //    return View(sent);
-        //}
-        //[HttpPost]
-        //public IActionResult UpdateFoodRecipe(List<RequiredMaterialVm> ps)
-        //{
-        //    return View();
-        //}
-
         public IActionResult AddNewOffer()
         {
             return View();

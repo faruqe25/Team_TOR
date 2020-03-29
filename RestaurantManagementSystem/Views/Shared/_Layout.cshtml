@@ -58,7 +58,7 @@
                                     <i class="fas fa-cog"></i> Settings
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <form asp-area="" asp-controller="Home" asp-action="Logout" method="post">
+                                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
                                     <button type="submit"  class="dropdown-item has-icon text-danger" >
                                         <i class="fas fa-sign-out-alt" style="padding-top:10px"></i> Logout
                                     </button>
@@ -175,6 +175,9 @@
                                         <li>
                                             <a class="nav-link" asp-area="Admin" asp-action="TotalSells" asp-controller="Home">Monitor Sales</a>
                                         </li>
+                                        <li>
+                                            <a class="nav-link" asp-area="Admin" asp-action="Index" asp-controller="Home">Sales Graph</a>
+                                        </li>
 
                                     </ul>
                                 </li>
@@ -220,6 +223,10 @@
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a class="nav-link" asp-area="Stockmanager" asp-controller="Home"
+                                               asp-action="Index">Stock Status Graph </a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" asp-area="Stockmanager" asp-controller="Home"
                                                asp-action="StockStatus">Stock Status </a>
                                         </li>
 
@@ -254,10 +261,8 @@
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a class="nav-link" asp-area="Manager" asp-controller="Home"
-                                               asp-action="Index">Sells Graph</a>
+                                             asp-action="Index">Sells Graph</a>
                                         </li>
-
-
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
