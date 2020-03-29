@@ -214,10 +214,15 @@ namespace RestaurantManagementSystem.Areas.Manager.Controllers
                     Total = (item.Quantity * item.FoodItem.Price) + item.CustomerOrderedTable.Table.BookingPrice,
                     TablePrice=item.CustomerOrderedTable.Table.BookingPrice,
                 };
-                if (String.IsNullOrEmpty(item.DiscountId.ToString()))
+                if (String.IsNullOrEmpty(item.OfferId.ToString()))
                 {
                     a.Discount = 0;
                     a.Coupone = " ";
+                }
+                else
+                {
+                    a.Discount = item.Offer.Discount;
+                    a.Coupone = item.Offer.Coupon;
                 }
                
                 sent.Add(a);

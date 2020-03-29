@@ -58,22 +58,24 @@
                                     <td class="col-md-1 text-center">@item.Total</td>
                                 </tr>
                             }
-
+                            @if (Model[0].TablePrice>0)
+                            {
                             <tr>
                                 <td></td>
                                 <td></td>
 
 
                                 <td colspan="3" class="text-right"><h6>Table Reservation Cost: </h6></td>
-                                <td class="text-right"><h4><strong>@Model[0].TablePrice  <span>tk</span></strong></h4></td>
+                                <td class="text-right"><h4><strong>@Model[0].TablePrice</strong></h4></td>
                             </tr>
+                            }
                             <tr>
                                 <td></td>
                                 <td></td>
                                
                                 
                                 <td colspan="3" class="text-right"><h6><strong>Total : </strong></h6></td>
-                                <td class="text-right"><h4><strong>@Model.Sum(s => s.Total)  <span>tk</span></strong></h4></td>
+                                <td class="text-right"><h4><strong>@Model.Sum(s => s.Total)  </strong></h4></td>
                             </tr>
                             @if (Model[0].Discount > 0)
                             {
@@ -90,7 +92,8 @@
                                     <td></td>
                                     
                                     <td  colspan="3" class="text-right"><h6><strong>Total (Payable): </strong></h6></td>
-                                    <td class="text-right"><h4><strong>@Model.Sum(s => s.Total)  <span>tk</span></strong></h4></td>
+                                    @{ var a = Model.Sum(s => s.Total) - (Model[0].Discount * Model.Sum(s => s.Total) / 100);}
+                                    <td class="text-right"><h4><strong>@a  </strong></h4></td>
                                 </tr>
                             }
 

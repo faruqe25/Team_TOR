@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,56 @@ namespace RestaurantManagementSystem.Controllers
             }
             return View(fooditemvmlist);
         }
+        [HttpGet]
+        [HttpPost]
+        public JsonResult CouponCheck(string Coupon)
+        {
+            HttpContext.Session.Remove("Discount");
+            var Offr = _context.Offer.
+              AsNoTracking().Where(s => s.Coupon == Coupon).FirstOrDefault();
+            if(Offr!=null)
+            {
+                if(DateTime.Now.Date >= Offr.ValidatyStart.Date && DateTime.Now.Date <= Offr.ValidatyTo.Date)
+                {
+                   
+                    HttpContext.Session.SetString("Discount", Offr.OfferId.ToString());
+                    return Json(true);
+                }
+            }
+            return Json(false);
+        }
+        [HttpGet]
+        [HttpPost]
+        public async Task<JsonResult> GetDiscountByCoupon()
+        {
+            var a = HttpContext.Session.GetString("Discount");
+            var Dis =await  _context.Offer.AsNoTracking().Where(s => s.OfferId == Convert.ToInt32(a)).FirstOrDefaultAsync();
+            if(Dis==null)
+            {
+                return Json(0);
+            }
+            else
+            {
+                return Json(Dis.Discount);
+            }
+            
+        }
+
+        public JsonResult CartCurrentStatus()
+        {
+            float total = 0;
+            var List = HttpContext.Session.Get<List<FoodCart>>("FoodS");
+            if(List!=null)
+            {
+                 total = List.Sum(s => s.FoodPrice * s.Quantity);
+            }
+            else
+            {
+                 total = 0;
+            }
+            return Json(total);
+        }
+
         [HttpGet]
         [HttpPost]
         public JsonResult SetCartValue(int id)
