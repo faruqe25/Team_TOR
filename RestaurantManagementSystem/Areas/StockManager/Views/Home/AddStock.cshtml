@@ -30,11 +30,17 @@
         <div class="form-group">
             <label>Select Raw Ingredient</label>
             <select asp-for="IngredientId" asp-items="@(new SelectList(ViewBag.IngredientList,"IngredientId","IngredientName"))"
-                    class="form-control"></select>
+                    class="form-control">
+                <option disabled selected hidden>Please Select Ingredient</option>
+            </select>
+            <span asp-validation-for="IngredientId" class="text-danger"></span>
+            
         </div>
         <div class="form-group">
             <label>Enter Quantity (Kg)</label>
             <input class="form-control" placeholder="Quantity" asp-for="Quantity" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        
         </div>
         <button class="btn btn-dark">Add</button>
     </div>
