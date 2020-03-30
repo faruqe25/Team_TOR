@@ -195,7 +195,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
               ToList(), "MealHourId", "MealHourTitle");
             return View();
         }
-        public IActionResult FoodItemList()
+        public IActionResult FoodItemList(int Page=1)
         {
             var a = _context.FoodItems.AsNoTracking().Include(s => s.MealHour).ToList();
             var s = new List<FoodItemVm>();
@@ -215,7 +215,9 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 s.Add(ab);
                 c++;
             }
-            return View(s);
+            var list = s.ToPagedList(Page, 5);
+            return View(list);
+            
         }
         public IActionResult UpdateFoodItem(int id)
         {
@@ -237,16 +239,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateFoodItem(FoodItemVm a)
         {
-            var valid = _context.FoodItems.AsNoTracking().
-                Where(t => t.FoodName == a.FoodName).FirstOrDefault();
-            if (valid != null)
-            {
-                ViewBag.Validation = "You have already added " + a.FoodName + ".";
-                ViewBag.MealHour = new SelectList(_context.MealHour.AsNoTracking().
-                   ToList(), "MealHourId", "MealHourTitle");
-                return View();
-
-            }
+            
 
             FoodItem p = new FoodItem()
             {
@@ -377,8 +370,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             var raw = _context.FoodItems.AsNoTracking().ToList();
             ViewBag.RawItem = new SelectList(raw, "FoodItemId", "FoodName");
 
-            //var tem = _context.RequiredMaterial.AsNoTracking().ToList();
-            //var valid = false;
+           
 
             foreach (var item in Rl.MaterialVms)
             {
@@ -483,7 +475,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             ModelState.Clear();
             return View();
         }
-        public IActionResult OfferDetails()
+        public IActionResult OfferDetails(int Page=1)
         {
             var offerdetails = _context.Offer.AsNoTracking().ToList();
             var offerdetailslist = new List<OfferVm>();
@@ -502,7 +494,8 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 offerdetailslist.Add(offervm);
                 count++;
             }
-            return View(offerdetailslist);
+            var sent = offerdetailslist.ToPagedList(Page, 5);
+            return View(sent);
         }
         public IActionResult UpdateFoodOffer(int id)
         {
@@ -520,13 +513,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateFoodOffer(OfferVm offervm)
         {
-            var valid = _context.Offer.AsNoTracking().
-               Where(t => t.Coupon == offervm.Coupon).FirstOrDefault();
-            if (valid != null)
-            {
-                ViewBag.Validation = "You have already added Coupon " + offervm.Coupon + ".";
-                return View();
-            }
+           
             Offer offer = new Offer()
             {
                 OfferId = offervm.OfferId,
@@ -573,9 +560,9 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             ModelState.Clear();
             return View();
         }
-        public IActionResult TableList()
+        public IActionResult TableList(int Page=1)
         {
-            var tablelist = _context.Table.AsNoTracking().ToList();
+            var tablelist = _context.Table.AsNoTracking().Where(s=>s.TableId!=1).ToList();
             var tablelistvm = new List<TableVm>();
             int count = 1;
             foreach (var item in tablelist)
@@ -591,7 +578,8 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
                 count++;
                 tablelistvm.Add(tablevm);
             }
-            return View(tablelistvm);
+            var sent = tablelistvm.ToPagedList(Page, 5);
+            return View(sent);
         }
         public IActionResult UpdateTableInfo(int id)
         {
@@ -608,13 +596,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateTableInfo(TableVm tablevm)
         {
-            var valid = _context.Table.AsNoTracking().
-               Where(t => t.TableNumber == tablevm.TableNumber).FirstOrDefault();
-            if (valid != null)
-            {
-                ViewBag.Validation = "You have already added " + tablevm.TableNumber + ".";
-                return View();
-            }
+            
             Table table = new Table()
             {
                 TableId = tablevm.TableId,

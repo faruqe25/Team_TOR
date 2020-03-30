@@ -1,4 +1,38 @@
-﻿var Id = 0;
+﻿////This method is to get the ToolTip Value from Database
+function LoadData() {
+    var result = " ";
+    $.ajax('/Home/GetTableIfnoToolTip', {
+        type: 'GET',  // http method
+        data: { TableId: $(this).attr('alt') },  // data to submit
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            var AllowtoBook = "";
+            if (data.bookedStatus == false) {
+                AllowtoBook = "Table is free."
+            }
+            else {
+                AllowtoBook = "This is already booked";
+            }
+            result = "<b>Table Name </b> : " + data.tableNumber + " <br><b>Capacity</b> : " + data.tableCapacity + " person <br><b>Reserve fee</b> : " + data.bookingPrice + " tk <br><b>Table Status</b> : " + AllowtoBook + " <br>";
+        },
+
+    });
+    return result;
+}
+$("img").tooltip({
+    placement: 'top',
+    html: true,
+    title: LoadData,
+
+
+});
+
+/// Done Method
+
+
+
+var Id = 0;
 $(document).ready(function () {
     $("#TablesImage img").each(function () {
         var status = $(this).data("poss");
@@ -10,7 +44,9 @@ $(document).ready(function () {
     $("#ReserveButton").attr("disabled", true);
 });
 $('#TablesImage img').click(function () {
-   Id = $(this).attr('alt');
+    Id = $(this).attr('alt');
+
+    
     if ($(this).attr('src') == "/images/table (3).svg")
     {
         $(this).attr('src', "/images/table (5).svg");
@@ -27,13 +63,15 @@ $('#TablesImage img').click(function () {
                $(this).attr('src') == "/images/table (3).svg"
            )
            {
-            $(this).attr('src', "/images/table (5).svg");
+               $(this).attr('src', "/images/table (5).svg");
             }
        });
      }
 
     if ($(this).attr('src') == "/images/table (3).svg")
     {
+        
+
      $("#ReserveButton").removeAttr("disabled");
     }
 });

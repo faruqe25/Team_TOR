@@ -78,6 +78,13 @@ namespace RestaurantManagementSystem.Controllers
         }
         [HttpGet]
         [HttpPost]
+        public async Task<JsonResult> GetTableIfnoToolTip( int TableId)
+        {
+            var a = await _context.Table.AsNoTracking().
+                Where(s => s.TableId == TableId).FirstOrDefaultAsync();
+            return Json(a);
+
+        }
         public async Task<JsonResult> GetDiscountByCoupon()
         {
             var a = HttpContext.Session.GetString("Discount");
@@ -243,7 +250,7 @@ namespace RestaurantManagementSystem.Controllers
 
             return View();
         }
-
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
