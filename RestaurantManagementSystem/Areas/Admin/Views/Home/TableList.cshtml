@@ -1,6 +1,9 @@
-﻿@model List<RestaurantManagementSystem.Areas.Admin.ViewModels.TableVm>
-@{
-    ViewData["Title"] = "TableList";
+﻿
+@model X.PagedList.IPagedList<RestaurantManagementSystem.Areas.Admin.ViewModels.TableVm>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+@{ 
+ViewData["Title"] = "TableList";
 }
 <style>
     #cols {
@@ -54,6 +57,15 @@
                 }
             </tbody>
         </table>
+
+        @Html.PagedListPager((IPagedList)Model, c => Href("~/Admin/Home/TableList?page=" + c),
+                new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+                {
+                    PageClasses = new string[] { "page-link" },
+                    UlElementClasses = new string[] { "pagination" },
+                    LiElementClasses = new string[] { "page-item" },
+
+                })
     </div>
 </div>
 @section Scripts{
@@ -63,26 +75,26 @@
         function MyDeleteConfirm() {
             event.preventDefault();
             var anchor = event.target.closest("a");     // Find closest Anchor (or self)
-             console.log( anchor.getAttribute('href'));
-             Swal.fire({
-                  title: 'Are you sure?',
-                  text: "You won't be able to revert this!",
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Yes, delete it!',
+            console.log(anchor.getAttribute('href'));
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
 
             }).then((result) => {
-                if (result.value) {                   
+                if (result.value) {
                     //Swal.fire(
                     //  'Deleted!',
                     //  'Your file has been deleted.',
                     //  'success'
                     //  )
                     window.location.href = anchor.getAttribute('href');
-              }
-              })
+                }
+            })
         }
     </script>
 }
