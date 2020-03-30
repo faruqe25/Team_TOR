@@ -20,7 +20,7 @@ function LoadData() {
     });
     return result;
 }
-$("img").tooltip({
+$("#TablesImage img").tooltip({
     placement: 'top',
     html: true,
     title: LoadData,
