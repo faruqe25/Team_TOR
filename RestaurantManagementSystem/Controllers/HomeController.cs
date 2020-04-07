@@ -41,7 +41,21 @@ namespace RestaurantManagementSystem.Controllers
 
         public IActionResult Index()
         {
-            var fooditem = _context.FoodItems.AsNoTracking().Include(q => q.MealHour).ToList();
+            var fooditemList = _context.FoodItems.
+                AsNoTracking().Include(q => q.MealHour).ToList();
+            var ReuiredMaterialAvailable = _context.RequiredMaterial.
+                AsNoTracking().ToList();
+            var fooditem = (from a in fooditemList
+                           join b in ReuiredMaterialAvailable
+                           on a.FoodItemId equals b.FoodItemId
+                           select new
+                           {
+                               FoodName = a.FoodName,
+                               MealHourName = a.MealHour.MealHourTitle,
+                               Description = a.Description,
+                               Price = a.Price,
+                               FoodItemId = a.FoodItemId,
+                           }).Distinct();
             var fooditemvmlist = new List<FoodItemVm>();
             foreach (var item in fooditem)
             {
@@ -49,7 +63,7 @@ namespace RestaurantManagementSystem.Controllers
                 FoodItemVm fooditemvm = new FoodItemVm()
                 {
                     FoodName = item.FoodName,
-                    MealHourName = item.MealHour.MealHourTitle,
+                    MealHourName = item.MealHourName,
                     Description = item.Description,
                     Price = item.Price,
                     FoodItemId = item.FoodItemId,
