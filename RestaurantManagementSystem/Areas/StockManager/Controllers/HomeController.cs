@@ -28,7 +28,9 @@ namespace RestaurantManagementSystem.Areas.StockManager.Controllers
         public async Task<JsonResult> LoadChartData(int id)
         {
             var StockItemQuantity = from stock in await _context.StockDetails.
-                                    Where(s => s.IngredientId == id)
+                                    Where(s => s.IngredientId == id).
+                                     Where(a =>a.StockInDate.Month == DateTime.Now.Month)
+
                                      .ToListAsync()
                                     group stock by
                                     stock.StockInDate.Month into p
@@ -76,6 +78,8 @@ namespace RestaurantManagementSystem.Areas.StockManager.Controllers
             ViewBag.InredientList = await _context.Ingredient.AsNoTracking().ToListAsync();
             var StockItemQuantity = from stock in await _context.StockDetails.
                                     Where(s => s.IngredientId == 1)
+                                    .Where(a => a.StockInDate.Month == DateTime.Now.Month)
+
                                      .ToListAsync()
                                     group stock by
                                     stock.StockInDate.Month into p
