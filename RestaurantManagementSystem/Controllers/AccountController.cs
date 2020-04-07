@@ -135,7 +135,7 @@ namespace RestaurantManagementSystem.Controllers
                     await _context.SaveChangesAsync();
                     await userManager.AddToRoleAsync(user, "Customer");
                     await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index","Home");
                 }
 
             }
