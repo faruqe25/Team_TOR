@@ -30,7 +30,8 @@ namespace RestaurantManagementSystem.Areas.Manager.Controllers
             
             var SellSRecord = from sells in await _context.CustomerOrderDetails.AsNoTracking()
                                     .Include(s=>s.CustomerOrderedTable).Include(s=>s.FoodItem)
-                                    .Where(s => s.PaymentStatus == true)
+                                    .Where(s => s.PaymentStatus == true).
+                                    Where(a=>a.CustomerOrderedTable.Date.Month==DateTime.Now.Month)
                                     .ToListAsync()
                                     group sells by
                                     sells.CustomerOrderedTable.Date.Day into p
