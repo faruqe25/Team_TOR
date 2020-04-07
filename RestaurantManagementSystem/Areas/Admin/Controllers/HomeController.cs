@@ -29,6 +29,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             var SellSRecord = from sells in await _context.CustomerOrderDetails.AsNoTracking()
                                     .Include(s => s.CustomerOrderedTable).Include(s => s.FoodItem)
                                     .Where(s => s.PaymentStatus == true)
+                                    .Where(a => a.CustomerOrderedTable.Date.Month == DateTime.Now.Month)
                                     .ToListAsync()
                               group sells by
                               sells.CustomerOrderedTable.Date.Day into p
@@ -658,7 +659,7 @@ namespace RestaurantManagementSystem.Areas.Admin.Controllers
             }
 
 
-            var p = s.OrderByDescending(s => s.Day);
+            var p = s.OrderByDescending(s => s.Date);
             var list1 = p.ToPagedList(Page, 5);
             return View(list1);
            
