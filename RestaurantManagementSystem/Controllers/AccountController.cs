@@ -127,7 +127,7 @@ namespace RestaurantManagementSystem.Controllers
                     {
                         CustomersId = 0,
                         MobileNumber = ca.MobileNumber,
-                        PaymentMobileNumber = ca.PaymentMobileNumber,
+                       
                         CustomersName = ca.CustomersName
                     };
 

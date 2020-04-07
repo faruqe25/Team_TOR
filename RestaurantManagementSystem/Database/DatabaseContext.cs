@@ -148,7 +148,7 @@ namespace RestaurantManagementSystem.Database
                 CustomersId = 1,
                 CustomersName = "Customer",
                 MobileNumber = "015867158",
-                PaymentMobileNumber = "0",
+              
                 
             });
         }

@@ -19,7 +19,7 @@ namespace RestaurantManagementSystem.Areas.Customer.Models
         public int CustomersId { get; set; }
         public string CustomersName { get; set; }
         public string MobileNumber { get; set; }
-        public string PaymentMobileNumber { get; set; }
+        
         public virtual ICollection<CustomerOrderedTable> CustomerOrderedTables { get; set; }
 
     }
