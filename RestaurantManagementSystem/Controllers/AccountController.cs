@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RestaurantManagementSystem.Areas.Customer.Models;
 using RestaurantManagementSystem.Areas.Customer.ViewModels;
 using RestaurantManagementSystem.Database;
@@ -30,13 +31,41 @@ namespace RestaurantManagementSystem.Controllers
             this.roleManager = roleManager;
 
         }
+        [AcceptVerbs("Get", "Post")]
+        public async Task<JsonResult> IsEmailInUse(string email)
+        {
+            var user =await userManager.FindByEmailAsync(email);
+            if (user!=null){
+                return Json($"Email {email} already in use");
+            }
+            else
+            {
+                return Json(true);
+
+            }
+        }
+        [AcceptVerbs("Get","Post")]
+        public async Task<JsonResult> IsNumberInUse(string MobileNumber) 
+        {
+            var user = await _context.Users.AsNoTracking()
+                .Where(s => s.PhoneNumber == MobileNumber).FirstOrDefaultAsync();
+            if (user != null)
+            {
+                return Json($"Number {MobileNumber} already in use");
+            }
+            else
+            {
+                return Json(true);
+
+            }
+        }
         public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
 
-        public async Task<IActionResult> Login(CustomerAccount ct)
+        public async Task<IActionResult> Login(Login ct)
         {
 
             var user = await userManager.FindByEmailAsync(ct.Email);
