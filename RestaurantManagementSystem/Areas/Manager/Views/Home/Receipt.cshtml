@@ -75,7 +75,9 @@
                                
                                 
                                 <td colspan="3" class="text-right"><h6><strong>Total : </strong></h6></td>
-                                <td class="text-right"><h4><strong>@Model.Sum(s => s.Total)  </strong></h4></td>
+                                @{ var pe = Model.Sum(s => s.Total) + Model[0].TablePrice;}
+                                <td class="text-right"><h4><strong>
+                                    @pe  </strong></h4></td>
                             </tr>
                             @if (Model[0].Discount > 0)
                             {
@@ -92,7 +94,7 @@
                                     <td></td>
                                     
                                     <td  colspan="3" class="text-right"><h6><strong>Total (Payable): </strong></h6></td>
-                                    @{ var a = Model.Sum(s => s.Total) - (Model[0].Discount * Model.Sum(s => s.Total) / 100);}
+                                    @{ var a = pe - (Model[0].Discount * Model.Sum(s => s.Total) / 100);}
                                     <td class="text-right"><h4><strong>@a  </strong></h4></td>
                                 </tr>
                             }

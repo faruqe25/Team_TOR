@@ -215,7 +215,7 @@ namespace RestaurantManagementSystem.Areas.Manager.Controllers
                     FoodName = item.FoodItem.FoodName,
                     Quantity = item.Quantity,
                     Price = item.FoodItem.Price,
-                    Total = (item.Quantity * item.FoodItem.Price) + item.CustomerOrderedTable.Table.BookingPrice,
+                    Total = (item.Quantity * item.FoodItem.Price),
                     TablePrice=item.CustomerOrderedTable.Table.BookingPrice,
                 };
                 if (String.IsNullOrEmpty(item.OfferId.ToString()))
