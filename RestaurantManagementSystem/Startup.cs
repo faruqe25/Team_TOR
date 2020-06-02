@@ -37,13 +37,6 @@ namespace RestaurantManagementSystem
                 
 
             });
-           
-
-           
-
-                
-
-
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
@@ -60,9 +53,7 @@ namespace RestaurantManagementSystem
             services.AddIdentity<IdentityUser, IdentityRole>()
             .AddEntityFrameworkStores<DatabaseContext>();
 
-           
-
-
+        
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
