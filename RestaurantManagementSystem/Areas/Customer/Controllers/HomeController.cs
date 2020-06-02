@@ -99,12 +99,11 @@ namespace RestaurantManagementSystem.Areas.Customer.Controllers
                 {
                     foreach (var item in orderlist)
                     {
-                        var countfood = orderlist.Where(s => s.FoodItemId == item.FoodItemId).Count();
                         CustomerOrderDetails ab = new CustomerOrderDetails()
                         {
                             CustomerOrderDetailsId = 0,
                             FoodItemId = item.FoodItemId,
-                            Quantity = countfood,
+                            Quantity = item.Quantity,
                             
                             PaymentStatus = false,
                             CustomerOrderedTableId = abc.CustomerOrderedTableId,

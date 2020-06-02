@@ -188,10 +188,9 @@ namespace RestaurantManagementSystem.Areas.Manager.Controllers
             }
             HttpContext.Session.Set("TempTableSeat", List);
             var OrderDetails = await _context.CustomerOrderDetails.AsNoTracking()
-                .Where(s => s.CustomerOrderDetailsId == id).FirstOrDefaultAsync();
+                .Where(s => s.CustomerOrderDetailsId == id).LastOrDefaultAsync();
             var FinalOrderList = await _context.CustomerOrderDetails.AsNoTracking().
                 Where(a => a.CustomerOrderedTableId == OrderDetails.CustomerOrderedTableId).
-
                 Include(p=>p.FoodItem).Include(s=>s.Offer).Include(s=>s.CustomerOrderedTable).ToListAsync();
             var up =await FinalOrderList.Select(s => { s.PaymentStatus = true; return s; }).ToListAsync();
 
